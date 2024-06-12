@@ -5,6 +5,7 @@ pipeline {
             steps {
                 echo 'Building..' 
                 sh "ls -al"
+                echo 'ls' 
             }
         }
         stage('Test') {
