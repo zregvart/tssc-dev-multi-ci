@@ -1,8 +1,19 @@
-pipeline { 
+pipeline {
+    agent any 
     stages {
-        stage('build') {
+        stage('Build') {
             steps {
-                sh 'ls -al'
+                echo 'Building..'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing..'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying....'
             }
         }
     }
