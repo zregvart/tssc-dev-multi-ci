@@ -17,7 +17,7 @@ function convert_task(task) {
     out ("")
     out ("# Parameters ")
     for(  p of params) {
-        exp= "PARAM_" + p.name.toUpperCase().replace("-", "_").replace(".", "_")
+        exp= "PARAM_" + p.name.toUpperCase().replaceAll ("-", "_").replaceAll(".", "_")
         out ("export " + exp + "=") 
     }
     out ("")

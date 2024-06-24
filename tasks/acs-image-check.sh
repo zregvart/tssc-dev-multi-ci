@@ -1,9 +1,9 @@
 # acs-image-check
 
 # Parameters 
-export PARAM_ROX_SECRET-NAME=
+export PARAM_ROX_SECRET_NAME=
 export PARAM_IMAGE=
-export PARAM_INSECURE_SKIP-TLS-VERIFY=
+export PARAM_INSECURE_SKIP_TLS_VERIFY=
 export PARAM_IMAGE_DIGEST=
 
 

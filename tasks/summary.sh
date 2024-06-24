@@ -4,7 +4,7 @@
 export PARAM_PIPELINERUN_NAME=
 export PARAM_GIT_URL=
 export PARAM_IMAGE_URL=
-export PARAM_BUILD_TASK-STATUS=
+export PARAM_BUILD_TASK_STATUS=
 
 
 function appstudio-summary() {
