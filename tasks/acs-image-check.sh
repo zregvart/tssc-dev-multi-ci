@@ -1,3 +1,4 @@
+#!/bin/bash
 # acs-image-check
 
 # Top level parameters 

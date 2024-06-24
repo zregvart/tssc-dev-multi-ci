@@ -1,3 +1,4 @@
+#!/bin/bash
 # acs-deploy-check
 
 # Top level parameters 

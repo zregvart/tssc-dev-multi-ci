@@ -13,7 +13,7 @@ log ( process.argv[2])
 
 function convert_task(task) { 
     const task_name= task.metadata.name
-
+    out ("#!/bin/bash")
     out ("# " + task_name)
     params=task.spec.params
     out ("")

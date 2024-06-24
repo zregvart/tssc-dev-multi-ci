@@ -6,3 +6,5 @@ do
     scriptname=$(basename $i .json)
     node $SCRIPTDIR/convert.js $i > $SHELL_SCRIPTS/$scriptname.sh 
 done
+
+chmod +x tasks/*.sh

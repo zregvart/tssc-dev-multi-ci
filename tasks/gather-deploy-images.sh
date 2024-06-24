@@ -1,3 +1,4 @@
+#!/bin/bash
 # gather-deploy-images
 
 # Top level parameters 

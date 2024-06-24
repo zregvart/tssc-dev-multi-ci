@@ -1,3 +1,4 @@
+#!/bin/bash
 # init
 
 # Top level parameters 

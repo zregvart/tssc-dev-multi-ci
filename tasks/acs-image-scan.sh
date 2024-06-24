@@ -1,3 +1,4 @@
+#!/bin/bash
 # acs-image-scan
 
 # Top level parameters 

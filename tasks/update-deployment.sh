@@ -1,3 +1,4 @@
+#!/bin/bash
 # update-deployment
 
 # Top level parameters 

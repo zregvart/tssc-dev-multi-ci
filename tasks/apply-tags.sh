@@ -1,3 +1,4 @@
+#!/bin/bash
 # apply-tags
 
 # Top level parameters 

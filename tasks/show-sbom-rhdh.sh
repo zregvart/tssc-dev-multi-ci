@@ -1,3 +1,4 @@
+#!/bin/bash
 # show-sbom-rhdh
 
 # Top level parameters 

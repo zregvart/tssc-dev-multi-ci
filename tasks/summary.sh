@@ -1,3 +1,4 @@
+#!/bin/bash
 # summary
 
 # Top level parameters 

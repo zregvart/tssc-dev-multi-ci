@@ -1,3 +1,4 @@
+#!/bin/bash
 # verify-enterprise-contract
 
 # Top level parameters 

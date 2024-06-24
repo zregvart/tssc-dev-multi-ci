@@ -1,3 +1,4 @@
+#!/bin/bash
 # buildah-rhtap
 
 # Top level parameters 
