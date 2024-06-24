@@ -17,4 +17,65 @@ export VERIFY_ENTERPRISE_CONTRACT_PARAM_EFFECTIVE_TIME=
 
 function version() {
 	echo "Running  version"
-Error parsing scriptfile.json: TypeError: Cannot read properties of undefined (reading 'split')
+	ec
+}
+
+function initialize-tuf() {
+	echo "Running  initialize-tuf"
+	set -euo pipefail
+	
+	if [[ -z "${TUF_MIRROR:-}" ]]; then
+	    echo 'TUF_MIRROR not set. Skipping TUF root initialization.'
+	    exit
+	fi
+	
+	echo 'Initializing TUF root...'
+	cosign initialize --mirror "${TUF_MIRROR}" --root "${TUF_MIRROR}/root.json"
+	echo 'Done!'
+}
+
+function validate() {
+	echo "Running  validate"
+	ec
+}
+
+function report() {
+	echo "Running  report"
+	cat
+}
+
+function report-json() {
+	echo "Running  report-json"
+	cat
+}
+
+function summary() {
+	echo "Running  summary"
+	jq
+}
+
+function assert() {
+	echo "Running  assert"
+	jq
+}
+
+function annotate-task() {
+	echo "Running  annotate-task"
+	#!/usr/bin/env bash
+	echo "verify-enterprise-contract $(context.taskRun.name)"
+	oc annotate taskrun $(context.taskRun.name) task.results.format=application/json
+	oc annotate taskrun $(context.taskRun.name) task.results.type=ec
+	oc annotate taskrun $(context.taskRun.name) task.results.container=step-report-json
+	oc annotate taskrun $(context.taskRun.name) task.output.location=logs
+	
+}
+
+# Task Steps 
+version
+initialize-tuf
+validate
+report
+report-json
+summary
+assert
+annotate-task

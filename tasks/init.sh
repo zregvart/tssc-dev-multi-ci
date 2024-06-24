@@ -17,9 +17,9 @@ function init() {
 	# Build the image when rebuild is set to true or image does not exist
 	# The image check comes last to avoid unnecessary, slow API calls
 	if [ "$REBUILD" == "true" ] || [ "$SKIP_CHECKS" == "false" ] || ! oc image info $IMAGE_URL &>/dev/null; then
-	  echo -n "true" > $(results.build.path)
+	  echo -n "true" > ./results/build
 	else
-	  echo -n "false" > $(results.build.path)
+	  echo -n "false" > ./results/build
 	fi
 	
 }

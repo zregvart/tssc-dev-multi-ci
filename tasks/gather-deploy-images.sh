@@ -30,7 +30,7 @@ function get-images-per-env() {
 	
 	if [ ! -s /tmp/all-images.txt ]; then
 	  echo "No images to verify"
-	  touch $(results.IMAGES_TO_VERIFY.path)
+	  touch ./results/IMAGES_TO_VERIFY
 	  exit 0
 	fi
 	
@@ -46,7 +46,7 @@ function get-images-per-env() {
 	  {
 	    "components": map({"containerImage": .})
 	  }
-	' | tee $(results.IMAGES_TO_VERIFY.path)
+	' | tee ./results/IMAGES_TO_VERIFY
 	
 }
 

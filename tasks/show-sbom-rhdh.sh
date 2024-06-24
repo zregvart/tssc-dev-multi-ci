@@ -39,7 +39,7 @@ function show-sbom() {
 	
 	# This result will be ignored by RHDH, but having it set is actually necessary for the task to be properly
 	# identified. For now, we're adding the image URL to the result so it won't be empty.
-	echo -n "$IMAGE_URL" > $(results.LINK_TO_SBOM.path)
+	echo -n "$IMAGE_URL" > ./results/LINK_TO_SBOM
 	
 }
 

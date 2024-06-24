@@ -47,9 +47,9 @@ function build() {
 	  docker://$IMAGE
 	
 	# Set task results
-	buildah images --format '{{ .Name }}:{{ .Tag }}@{{ .Digest }}' | grep -v $IMAGE > $(results.BASE_IMAGES_DIGESTS.path)
-	cat /tmp/files/image-digest | tee $(results.IMAGE_DIGEST.path)
-	echo -n "$IMAGE" | tee $(results.IMAGE_URL.path)
+	buildah images --format '{{ .Name }}:{{ .Tag }}@{{ .Digest }}' | grep -v $IMAGE > ./results/BASE_IMAGES_DIGESTS
+	cat /tmp/files/image-digest | tee ./results/IMAGE_DIGEST
+	echo -n "$IMAGE" | tee ./results/IMAGE_URL
 	
 	# Save the image so it can be used in the generate-sbom step
 	buildah push "$IMAGE" oci:/tmp/files/image
@@ -127,4 +127,11 @@ function merge-sboms() {
 
 function upload-sbom() {
 	echo "Running  upload-sbom"
-Error parsing scriptfile.json: TypeError: Cannot read properties of undefined (reading 'split')
+	cosign
+}
+
+# Task Steps 
+build
+generate-sboms
+merge-sboms
+upload-sbom

@@ -106,8 +106,8 @@ function clone() {
 	if [ "${EXIT_CODE}" != 0 ] ; then
 	  exit "${EXIT_CODE}"
 	fi
-	printf "%s" "${RESULT_SHA}" > "$(results.commit.path)"
-	printf "%s" "${PARAM_URL}" > "$(results.url.path)"
+	printf "%s" "${RESULT_SHA}" > "./results/commit"
+	printf "%s" "${PARAM_URL}" > "./results/url"
 	
 	if [ "${PARAM_FETCH_TAGS}" = "true" ] ; then
 	  echo "Fetching tags"

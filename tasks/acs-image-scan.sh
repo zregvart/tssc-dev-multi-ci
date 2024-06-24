@@ -33,7 +33,7 @@ function rox-image-scan() {
 	  local failures=${4:-0}
 	  local warnings=${5:-0}
 	  echo "{\"result\":\"${result}\",\"timestamp\":\"${date}\",\"note\":\"${note}\",\"namespace\":\"default\",\"successes\":\"${successes}\",\"failures\":\"${failures}\",\"warnings\":\"${warnings}\"}" \
-	    | tee $(results.TEST_OUTPUT.path)
+	    | tee ./results/TEST_OUTPUT
 	}
 	
 	# Check if rox API enpoint is configured
@@ -97,7 +97,7 @@ function rox-image-scan() {
 	high=$(cat roxctl_image_scan_output.json | grep -oP '(?<="IMPORTANT": )\d+')
 	medium=$(cat roxctl_image_scan_output.json | grep -oP '(?<="MODERATE": )\d+')
 	low=$(cat roxctl_image_scan_output.json | grep -oP '(?<="LOW": )\d+')
-	echo "{\"vulnerabilities\":{\"critical\":${critical},\"high\":${high},\"medium\":${medium},\"low\":${low}}}" | tee $(results.SCAN_OUTPUT.path)
+	echo "{\"vulnerabilities\":{\"critical\":${critical},\"high\":${high},\"medium\":${medium},\"low\":${low}}}" | tee ./results/SCAN_OUTPUT
 	
 	# Set TEST_OUTPUT result
 	if [[ -n "$critical" && "$critical" -eq 0 && "$high" -eq 0 && "$medium" -eq 0 && "$low" -eq 0 ]]; then
