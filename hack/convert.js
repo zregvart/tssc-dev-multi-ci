@@ -17,40 +17,46 @@ function convert_task(task) {
     out ("")
     out ("# Parameters ")
     for(  p of params) {
-        out ("export " + p.name + "=") 
+        exp= "PARAM_" + p.name.toUpperCase().replace("-", "_").replace(".", "_")
+        out ("export " + exp + "=") 
     }
     out ("")
     steps=task.spec.steps
     idx=0
     for(p of steps) {
         out ("")
-        out ("function " + p.name + "() {")
-        out (steps[idx].name) 
-        out ("")
-        out (steps[idx].script) 
+        out ("function " + p.name + "() {")  
+        
+        out ('\techo "Running  ' + p.name  + '"')
+        const lines = steps[idx].script.split('\n'); 
+        for (const line of lines) {
+            out ("\t" + line)
+        } 
         out ("}")
         idx++
     }
 
     out ("")
     out ("# Task Steps ")
-    steps=task.spec.steps
-    for(p of steps) {
-        out (p.name  )
-    } 
+    steps = task.spec.steps
+    if (steps) {
+        for (p of steps) {
+            out(p.name)
+        }
+    }
 }
 
 fs.readFile(process.argv[2], function(err, data) {
-    var settings = {};
+    var scriptfile = {};
     if (err) {
-        console.log('No settings.json found ('+err+'). Using default settings');
+        console.log('No scriptfile.json found ('+err+'). Using default scriptfile');
     } else {
         try {
-            settings = JSON.parse(data.toString('utf8',0,data.length));
+            scriptfile = JSON.parse(data.toString('utf8',0,data.length));
 
-            convert_task (settings)
+            convert_task (scriptfile)
         } catch (e) {
-            console.log('Error parsing settings.json: '+e);
+            console.log('Error parsing scriptfile.json: '+e);
             process.exit(1);
         }
     } 

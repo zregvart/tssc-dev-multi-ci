@@ -1,30 +1,29 @@
 # summary
 
 # Parameters 
-export pipelinerun-name=
-export git-url=
-export image-url=
-export build-task-status=
+export PARAM_PIPELINERUN_NAME=
+export PARAM_GIT_URL=
+export PARAM_IMAGE_URL=
+export PARAM_BUILD_TASK-STATUS=
 
 
 function appstudio-summary() {
-appstudio-summary
-
-#!/usr/bin/env bash
-echo
-echo "Build Summary:"
-echo
-echo "Build repository: $GIT_URL"
-if [ "$BUILD_TASK_STATUS" == "Succeeded" ]; then
-  echo "Generated Image is in : $IMAGE_URL"
-fi
-if [ -e "$SOURCE_BUILD_RESULT_FILE" ]; then
-  url=$(jq -r ".image_url" <"$SOURCE_BUILD_RESULT_FILE")
-  echo "Generated Source Image is in : $url"
-fi
-echo
-echo End Summary
-
+	echo "Running  appstudio-summary"
+	#!/usr/bin/env bash
+	echo
+	echo "Build Summary:"
+	echo
+	echo "Build repository: $GIT_URL"
+	if [ "$BUILD_TASK_STATUS" == "Succeeded" ]; then
+	  echo "Generated Image is in : $IMAGE_URL"
+	fi
+	if [ -e "$SOURCE_BUILD_RESULT_FILE" ]; then
+	  url=$(jq -r ".image_url" <"$SOURCE_BUILD_RESULT_FILE")
+	  echo "Generated Source Image is in : $url"
+	fi
+	echo
+	echo End Summary
+	
 }
 
 # Task Steps 
