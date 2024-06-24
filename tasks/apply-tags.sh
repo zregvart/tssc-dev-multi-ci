@@ -1,8 +1,8 @@
 # apply-tags
 
-# Parameters 
-export PARAM_IMAGE=
-export PARAM_ADDITIONAL_TAGS=
+# Top level parameters 
+export APPLY_TAGS_PARAM_IMAGE=
+export APPLY_TAGS_PARAM_ADDITIONAL_TAGS=
 
 
 function apply-additional-tags-from-parameter() {

@@ -1,10 +1,10 @@
 # acs-image-check
 
-# Parameters 
-export PARAM_ROX_SECRET_NAME=
-export PARAM_IMAGE=
-export PARAM_INSECURE_SKIP_TLS_VERIFY=
-export PARAM_IMAGE_DIGEST=
+# Top level parameters 
+export ACS_IMAGE_CHECK_PARAM_ROX_SECRET_NAME=
+export ACS_IMAGE_CHECK_PARAM_IMAGE=
+export ACS_IMAGE_CHECK_PARAM_INSECURE_SKIP_TLS_VERIFY=
+export ACS_IMAGE_CHECK_PARAM_IMAGE_DIGEST=
 
 
 function annotate-task() {

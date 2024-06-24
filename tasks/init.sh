@@ -1,9 +1,9 @@
 # init
 
-# Parameters 
-export PARAM_IMAGE_URL=
-export PARAM_REBUILD=
-export PARAM_SKIP_CHECKS=
+# Top level parameters 
+export INIT_PARAM_IMAGE_URL=
+export INIT_PARAM_REBUILD=
+export INIT_PARAM_SKIP_CHECKS=
 
 
 function init() {

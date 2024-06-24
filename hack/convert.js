@@ -12,12 +12,14 @@ var log = function (d) {
 log ( process.argv[2]) 
 
 function convert_task(task) { 
-    out ("# " + task.metadata.name)
+    const task_name= task.metadata.name
+
+    out ("# " + task_name)
     params=task.spec.params
     out ("")
-    out ("# Parameters ")
+    out ("# Top level parameters ")
     for(  p of params) {
-        exp= "PARAM_" + p.name.toUpperCase().replaceAll ("-", "_").replaceAll(".", "_")
+        exp= (task_name+"_PARAM_" + p.name).toUpperCase().replaceAll ("-", "_").replaceAll(".", "_")
         out ("export " + exp + "=") 
     }
     out ("")

@@ -1,10 +1,10 @@
 # summary
 
-# Parameters 
-export PARAM_PIPELINERUN_NAME=
-export PARAM_GIT_URL=
-export PARAM_IMAGE_URL=
-export PARAM_BUILD_TASK_STATUS=
+# Top level parameters 
+export SUMMARY_PARAM_PIPELINERUN_NAME=
+export SUMMARY_PARAM_GIT_URL=
+export SUMMARY_PARAM_IMAGE_URL=
+export SUMMARY_PARAM_BUILD_TASK_STATUS=
 
 
 function appstudio-summary() {

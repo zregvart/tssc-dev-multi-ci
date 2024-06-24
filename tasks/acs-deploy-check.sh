@@ -1,10 +1,10 @@
 # acs-deploy-check
 
-# Parameters 
-export PARAM_ROX_SECRET_NAME=
-export PARAM_GITOPS_REPO_URL=
-export PARAM_VERBOSE=
-export PARAM_INSECURE_SKIP_TLS_VERIFY=
+# Top level parameters 
+export ACS_DEPLOY_CHECK_PARAM_ROX_SECRET_NAME=
+export ACS_DEPLOY_CHECK_PARAM_GITOPS_REPO_URL=
+export ACS_DEPLOY_CHECK_PARAM_VERBOSE=
+export ACS_DEPLOY_CHECK_PARAM_INSECURE_SKIP_TLS_VERIFY=
 
 
 function annotate-task() {

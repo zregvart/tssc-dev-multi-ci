@@ -1,7 +1,7 @@
 # gather-deploy-images
 
-# Parameters 
-export PARAM_TARGET_BRANCH=
+# Top level parameters 
+export GATHER_DEPLOY_IMAGES_PARAM_TARGET_BRANCH=
 
 
 function get-images-per-env() {

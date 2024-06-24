@@ -1,7 +1,7 @@
 # show-sbom-rhdh
 
-# Parameters 
-export PARAM_IMAGE_URL=
+# Top level parameters 
+export SHOW_SBOM_RHDH_PARAM_IMAGE_URL=
 
 
 function annotate-task() {

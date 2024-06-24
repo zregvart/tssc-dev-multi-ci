@@ -3,14 +3,16 @@ pipeline {
     stages {
         stage('init') {
             steps {
-                echo 'Init..'
+                echo 'Init..' 
+                sh "ls -al"  
                 sh "tasks/init.sh"  
             }
         }  
         stage('clone-repository') {
             steps {
-                sh "tasks/git-clone.sh"  
                 echo '..'  
+                sh "ls -al"  
+                sh "tasks/git-clone.sh"  
             }
         } 
         stage('build-container') {

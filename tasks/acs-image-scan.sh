@@ -1,10 +1,10 @@
 # acs-image-scan
 
-# Parameters 
-export PARAM_ROX_SECRET_NAME=
-export PARAM_IMAGE=
-export PARAM_IMAGE_DIGEST=
-export PARAM_INSECURE_SKIP_TLS_VERIFY=
+# Top level parameters 
+export ACS_IMAGE_SCAN_PARAM_ROX_SECRET_NAME=
+export ACS_IMAGE_SCAN_PARAM_IMAGE=
+export ACS_IMAGE_SCAN_PARAM_IMAGE_DIGEST=
+export ACS_IMAGE_SCAN_PARAM_INSECURE_SKIP_TLS_VERIFY=
 
 
 function annotate-task() {

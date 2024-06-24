@@ -1,9 +1,9 @@
 # update-deployment
 
-# Parameters 
-export PARAM_GITOPS_REPO_URL=
-export PARAM_IMAGE=
-export PARAM_GITOPS_AUTH_SECRET_NAME=
+# Top level parameters 
+export UPDATE_DEPLOYMENT_PARAM_GITOPS_REPO_URL=
+export UPDATE_DEPLOYMENT_PARAM_IMAGE=
+export UPDATE_DEPLOYMENT_PARAM_GITOPS_AUTH_SECRET_NAME=
 
 
 function patch-gitops() {
