@@ -1,5 +1,6 @@
 #!/bin/bash
 # gather-deploy-images
+mkdir -p ./results
 
 # Top level parameters 
 export GATHER_DEPLOY_IMAGES_PARAM_TARGET_BRANCH=

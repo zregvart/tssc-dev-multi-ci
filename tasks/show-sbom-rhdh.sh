@@ -1,5 +1,6 @@
 #!/bin/bash
 # show-sbom-rhdh
+mkdir -p ./results
 
 # Top level parameters 
 export SHOW_SBOM_RHDH_PARAM_IMAGE_URL=

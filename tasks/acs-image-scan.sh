@@ -1,5 +1,6 @@
 #!/bin/bash
 # acs-image-scan
+mkdir -p ./results
 
 # Top level parameters 
 export ACS_IMAGE_SCAN_PARAM_ROX_SECRET_NAME=

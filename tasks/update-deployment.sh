@@ -1,5 +1,6 @@
 #!/bin/bash
 # update-deployment
+mkdir -p ./results
 
 # Top level parameters 
 export UPDATE_DEPLOYMENT_PARAM_GITOPS_REPO_URL=

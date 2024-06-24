@@ -11,6 +11,7 @@ var log = function (d) {
  
 log ( process.argv[2]) 
 
+
 function expandStep(steps, replacements) {
     var lines = steps.script
     if (lines) {
@@ -42,6 +43,7 @@ function convert_task(task) {
     }
     out ("#!/bin/bash")
     out ("# " + task_name)
+    out ("mkdir -p ./results")
     out ("")
     out ("# Top level parameters ")
     for(  p of params) {

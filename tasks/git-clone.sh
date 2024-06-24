@@ -1,5 +1,6 @@
 #!/bin/bash
 # git-clone
+mkdir -p ./results
 
 # Top level parameters 
 export GIT_CLONE_PARAM_URL=

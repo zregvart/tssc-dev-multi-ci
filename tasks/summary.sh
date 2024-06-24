@@ -1,5 +1,6 @@
 #!/bin/bash
 # summary
+mkdir -p ./results
 
 # Top level parameters 
 export SUMMARY_PARAM_PIPELINERUN_NAME=

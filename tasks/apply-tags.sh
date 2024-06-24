@@ -1,5 +1,6 @@
 #!/bin/bash
 # apply-tags
+mkdir -p ./results
 
 # Top level parameters 
 export APPLY_TAGS_PARAM_IMAGE=

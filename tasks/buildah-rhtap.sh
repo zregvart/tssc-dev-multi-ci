@@ -1,5 +1,6 @@
 #!/bin/bash
 # buildah-rhtap
+mkdir -p ./results
 
 # Top level parameters 
 export BUILDAH_RHTAP_PARAM_IMAGE=

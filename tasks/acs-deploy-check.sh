@@ -1,5 +1,6 @@
 #!/bin/bash
 # acs-deploy-check
+mkdir -p ./results
 
 # Top level parameters 
 export ACS_DEPLOY_CHECK_PARAM_ROX_SECRET_NAME=

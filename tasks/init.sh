@@ -1,5 +1,6 @@
 #!/bin/bash
 # init
+mkdir -p ./results
 
 # Top level parameters 
 export INIT_PARAM_IMAGE_URL=

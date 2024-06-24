@@ -1,5 +1,6 @@
 #!/bin/bash
 # acs-image-check
+mkdir -p ./results
 
 # Top level parameters 
 export ACS_IMAGE_CHECK_PARAM_ROX_SECRET_NAME=

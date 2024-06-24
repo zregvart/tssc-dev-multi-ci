@@ -1,5 +1,6 @@
 #!/bin/bash
 # verify-enterprise-contract
+mkdir -p ./results
 
 # Top level parameters 
 export VERIFY_ENTERPRISE_CONTRACT_PARAM_IMAGES=
