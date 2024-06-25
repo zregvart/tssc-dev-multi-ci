@@ -1,32 +1,30 @@
 pipeline { 
     agent { label 'wsl' }
     stages {
-        stage('init') {
-            steps {
-                echo 'Init..' 
-                sh "ls -al"  
-                sh "tasks/init.sh"  
-            }
-        }  
         stage('build') {
             steps {
                 echo 'build-container..' 
-                sh "tasks/buildah-rhtap.sh"  
+                sh "rhtap/buildah-rhtap.sh"  
             }
         }
         stage('scan') {
             steps {
                 echo 'acs-scans' 
-                sh "tasks/acs-deploy-check.sh"  
-                sh "tasks/acs-image-check.sh"  
-                sh "tasks/acs-image-scan.sh"  
-                
+                sh "rhtap/acs-deploy-check.sh"  
+                sh "rhtap/acs-image-check.sh"  
+                sh "rhtap/acs-image-scan.sh"  
             }
         }
         stage('deploy') {
             steps {
-                echo 'build-container..' 
-                sh "tasks/update-deployment.sh"  
+                echo 'deploy' 
+                sh "rhtap/update-deployment.sh"  
+            }
+        }stage('summary') {
+            steps {
+                echo 'summary' 
+                sh "rhtap/summary.sh"  
+                sh "rhtap/show-sbom-rhdh.sh"  
             }
         }
     }
