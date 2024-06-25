@@ -3,44 +3,25 @@
 mkdir -p ./results
 
 # Top level parameters 
-export ACS_DEPLOY_CHECK_PARAM_ROX_SECRET_NAME=
-export ACS_DEPLOY_CHECK_PARAM_GITOPS_REPO_URL=
+export ROX_CENTRAL_ENDPOINT=
+export ROX_API_TOKEN=
 export ACS_DEPLOY_CHECK_PARAM_VERBOSE=
-export ACS_DEPLOY_CHECK_PARAM_INSECURE_SKIP_TLS_VERIFY=
+export PARAM_INSECURE_SKIP_TLS_VERIFY=true
 
-
-function annotate-task() {
-	# echo "Running  annotate-task"
-	# #!/usr/bin/env bash
-	# echo "acs-image-scan $(context.taskRun.name)"
-	# oc annotate taskrun $(context.taskRun.name) task.results.format=application/json
-	# oc annotate taskrun $(context.taskRun.name) task.results.type=roxctl-deployment-check
-	# oc annotate taskrun $(context.taskRun.name) task.results.container=step-report
-	# oc annotate taskrun $(context.taskRun.name) task.output.location=logs
-	
-}
+export PARAM_GITOPS_REPO_URL=
 
 function rox-deploy-check() {
 	echo "Running  rox-deploy-check"
 	#!/usr/bin/env bash
 	set +x
 	
-	# Check if rox API enpoint is configured
-	if test -f /rox-secret/rox-api-endpoint ; then
-	  export ROX_CENTRAL_ENDPOINT=$(</rox-secret/rox-api-endpoint)
-	else
-	  echo "rox API endpoint is not set, demo will exit with success"
-	  echo "TODO: configure the pipeline with your ACS server domain. Set your ACS endpoint under 'rox-api-endpoint' key in the secret specified in rox-secret-name parameter. For example: 'rox.stackrox.io:443'"
-	  exit 0
+	if [ -z "$ROX_API_TOKEN" ]; then
+		echo "ROX_API_TOKEN is not set, demo will exit with success"
+		exit 0
 	fi
-	
-	# Check if rox API token is configured
-	if test -f /rox-secret/rox-api-token ; then
-	  export ROX_API_TOKEN=$(</rox-secret/rox-api-token)
-	else
-	  echo "rox API token is not set, demo will exit with success"
-	  echo "TODO: configure the pipeline to have access to ROXCTL. Set you ACS token under 'rox-api-token' key in the secret specified in rox-secret-name parameter."
-	  exit 0
+	if [ -z "$ROX_CENTRAL_ENDPOINT" ]; then
+		echo "ROX_CENTRAL_ENDPOINT is not set, demo will exit with success"
+		exit 0
 	fi
 	
 	echo "Using rox central endpoint ${ROX_CENTRAL_ENDPOINT}"
@@ -92,7 +73,6 @@ function report() {
 	
 }
 
-# Task Steps 
-annotate-task
+# Task Steps  
 rox-deploy-check
 report

@@ -1,0 +1,49 @@
+SAVE=$SCRIPTDIR
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+
+ENV_VARS_MUST_EXIST=$1
+BINARIES_MUST_EXIST=$2
+ANY_ERRORS=false 
+
+function binary_check () 
+{
+  binary=$1
+  BINARY=$(which $binary)
+  if [ -z $BINARY ]; then
+    echo "Error: $env_var missing binary"
+    ANY_ERRORS=true
+  else  
+    echo "OK: $binary in $BINARY"  
+  fi 
+}
+
+function env_must_be_defined () 
+{
+  env_var="$1" 
+  if [ -z "${!env_var}" ]; then
+    echo "Error: $env_var missing definition."
+    ANY_ERRORS=true
+  else  
+    echo "OK: $env_var"  
+  fi 
+}
+
+echo "ENV vars:"
+for env in $ENV_VARS_MUST_EXIST; do
+  env_must_be_defined $env 
+done 
+
+echo "Binaries:"
+for env in $BINARIES_MUST_EXIST; do
+  binary_check $env 
+done 
+
+if [ "$ANY_ERRORS" == "true" ]; then
+  echo "---------- ERROR -----------------"
+  echo "Errors in configuration above, fix and rerun"
+  echo "----------"
+  exit -1
+fi
+SCRIPTDIR=$SAVE
+echo "Env vars and binaries ok"
+  

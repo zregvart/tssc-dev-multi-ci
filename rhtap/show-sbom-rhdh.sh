@@ -3,20 +3,7 @@
 mkdir -p ./results
 
 # Top level parameters 
-export SHOW_SBOM_RHDH_PARAM_IMAGE_URL=
-
-
-function annotate-task() {
-	echo "Running  annotate-task"
-	#!/usr/bin/env bash
-	
-	# When this task is used in a pipelineRun triggered by Pipelines as Code, the annotations will be cleared,
-	# so we're re-adding them here
-	oc annotate taskrun $(context.taskRun.name) task.results.format=application/text
-	oc annotate taskrun $(context.taskRun.name) task.results.key=LINK_TO_SBOM
-	oc annotate taskrun $(context.taskRun.name) task.output.location=results
-	
-}
+export IMAGE_URL=
 
 function show-sbom() {
 	echo "Running  show-sbom"
@@ -25,6 +12,7 @@ function show-sbom() {
 	max_try=5
 	wait_sec=2
 	for run in $(seq 1 $max_try); do
+      echo -n "."
 	  status=0
 	  cosign download sbom $IMAGE_URL 2>>err
 	  status=$?
@@ -44,6 +32,5 @@ function show-sbom() {
 	
 }
 
-# Task Steps 
-annotate-task
+# Task Steps  
 show-sbom

@@ -3,11 +3,8 @@
 mkdir -p ./results
 
 # Top level parameters 
-export SUMMARY_PARAM_PIPELINERUN_NAME=
-export SUMMARY_PARAM_GIT_URL=
-export SUMMARY_PARAM_IMAGE_URL=
-export SUMMARY_PARAM_BUILD_TASK_STATUS=
-
+export IMAGE_URL=
+export SOURCE_BUILD_RESULT_FILE= 
 
 function appstudio-summary() {
 	echo "Running  appstudio-summary"
