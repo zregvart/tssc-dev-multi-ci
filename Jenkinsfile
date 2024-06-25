@@ -8,7 +8,7 @@ pipeline {
                 sh "tasks/init.sh"  
             }
         }  
-        stage('build) {
+        stage('build') {
             steps {
                 echo 'build-container..' 
                 sh "tasks/buildah-rhtap.sh"  
