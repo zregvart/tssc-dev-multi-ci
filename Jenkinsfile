@@ -20,7 +20,8 @@ pipeline {
                 echo 'deploy' 
                 sh "rhtap/update-deployment.sh"  
             }
-        }stage('summary') {
+        }
+        stage('summary') {
             steps {
                 echo 'summary' 
                 sh "rhtap/summary.sh"  
