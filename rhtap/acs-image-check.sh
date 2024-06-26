@@ -1,6 +1,8 @@
 #!/bin/bash
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+
 # acs-image-check
-mkdir -p ./results
+source $SCRIPTDIR/common.sh
 
 # Top level parameters 
 export ROX_CENTRAL_ENDPOINT=
@@ -11,7 +13,7 @@ export PARAM_INSECURE_SKIP_TLS_VERIFY=true
 export PARAM_GITOPS_REPO_URL=
 
 function rox-image-check() {
-	echo "Running  rox-image-check"
+	echo "Running $TASK_NAME:rox-image-check"
 	#!/usr/bin/env bash
 	set +x
 
@@ -59,13 +61,12 @@ function rox-image-check() {
 }
 
 function report() {
-	echo "Running  report"
+	echo "Running $TASK_NAME:report"
 	#!/usr/bin/env bash
 	cat /steps-shared-folder/acs-image-check.json
 	
 }
 
 # Task Steps 
-annotate-task
 rox-image-check
 report

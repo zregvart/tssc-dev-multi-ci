@@ -1,6 +1,12 @@
 pipeline { 
     agent { label 'wsl' }
     stages {
+        stage('init.sh') {
+            steps {
+                echo 'Initialize and check dependencies' 
+                sh "rhtap/init.sh"  
+            }
+        }
         stage('build') {
             steps {
                 echo 'build-container..' 

@@ -1,13 +1,15 @@
 #!/bin/bash
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+
 # summary
-mkdir -p ./results
+source $SCRIPTDIR/common.sh
 
 # Top level parameters 
 export IMAGE_URL=
 export SOURCE_BUILD_RESULT_FILE= 
 
 function appstudio-summary() {
-	echo "Running  appstudio-summary"
+	echo "Running $TASK_NAME:appstudio-summary"
 	#!/usr/bin/env bash
 	echo
 	echo "Build Summary:"

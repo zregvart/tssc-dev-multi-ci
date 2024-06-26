@@ -1,6 +1,8 @@
 #!/bin/bash
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+
 # acs-image-scan
-mkdir -p ./results
+source $SCRIPTDIR/common.sh
 
 # Top level parameters 
 export ACS_IMAGE_SCAN_PARAM_ROX_SECRET_NAME=
@@ -11,7 +13,7 @@ export ACS_IMAGE_SCAN_PARAM_INSECURE_SKIP_TLS_VERIFY=
 
 
 function rox-image-scan() {
-	echo "Running  rox-image-scan"
+	echo "Running $TASK_NAME:rox-image-scan"
 	#!/usr/bin/env bash
 	set +x
 	
@@ -23,7 +25,7 @@ function rox-image-scan() {
 	  local failures=${4:-0}
 	  local warnings=${5:-0}
 	  echo "{\"result\":\"${result}\",\"timestamp\":\"${date}\",\"note\":\"${note}\",\"namespace\":\"default\",\"successes\":\"${successes}\",\"failures\":\"${failures}\",\"warnings\":\"${warnings}\"}" \
-	    | tee ./results/TEST_OUTPUT
+	    | tee $RESULTS/TEST_OUTPUT
 	}
 	
 	# Check if rox API enpoint is configured
@@ -77,7 +79,7 @@ function rox-image-scan() {
 	high=$(cat roxctl_image_scan_output.json | grep -oP '(?<="IMPORTANT": )\d+')
 	medium=$(cat roxctl_image_scan_output.json | grep -oP '(?<="MODERATE": )\d+')
 	low=$(cat roxctl_image_scan_output.json | grep -oP '(?<="LOW": )\d+')
-	echo "{\"vulnerabilities\":{\"critical\":${critical},\"high\":${high},\"medium\":${medium},\"low\":${low}}}" | tee ./results/SCAN_OUTPUT
+	echo "{\"vulnerabilities\":{\"critical\":${critical},\"high\":${high},\"medium\":${medium},\"low\":${low}}}" | tee $RESULTS/SCAN_OUTPUT
 	
 	# Set TEST_OUTPUT result
 	if [[ -n "$critical" && "$critical" -eq 0 && "$high" -eq 0 && "$medium" -eq 0 && "$low" -eq 0 ]]; then
@@ -90,13 +92,12 @@ function rox-image-scan() {
 }
 
 function report() {
-	echo "Running  report"
+	echo "Running $TASK_NAME:report"
 	#!/usr/bin/env bash
 	cat /steps-shared-folder/acs-image-scan.json
 	
 }
 
 # Task Steps 
-annotate-task
 rox-image-scan
 report

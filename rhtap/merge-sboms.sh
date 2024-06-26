@@ -1,5 +1,5 @@
 
-echo "Running  merge-sboms"
+echo "Running $TASK_NAME:merge-sboms"
 #!/bin/python3
 import hashlib
 import json

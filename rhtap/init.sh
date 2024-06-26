@@ -1,6 +1,11 @@
 #!/bin/bash
-# init
-mkdir -p ./results
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+
+source $SCRIPTDIR/common.sh
+
+REQUIRED_BINARY="git curl cosign jq yq"
+REQUIRED_ENV="" 
+rhtap/verify-deps-exist "$REQUIRED_ENV" "$REQUIRED_BINARY" 
 
 # Top level parameters 
 export INIT_PARAM_IMAGE_URL=
@@ -9,18 +14,16 @@ export INIT_PARAM_SKIP_CHECKS=
 
 
 function init() {
-	echo "Running  init"
+	echo "Running $TASK_NAME:init"
 	#!/bin/bash
-	echo "Build Initialize: $IMAGE_URL"
-	echo
-	
+	echo "Build Initialize: $IMAGE_URL" 	
 	echo "Determine if Image Already Exists"
 	# Build the image when rebuild is set to true or image does not exist
 	# The image check comes last to avoid unnecessary, slow API calls
 	if [ "$REBUILD" == "true" ] || [ "$SKIP_CHECKS" == "false" ] || ! oc image info $IMAGE_URL &>/dev/null; then
-	  echo -n "true" > ./results/build
+	  echo -n "true" > $RESULTS/build
 	else
-	  echo -n "false" > ./results/build
+	  echo -n "false" > $RESULTS/build
 	fi
 	
 }

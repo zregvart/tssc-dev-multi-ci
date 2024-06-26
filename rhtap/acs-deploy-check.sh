@@ -1,6 +1,8 @@
 #!/bin/bash
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+
 # acs-deploy-check
-mkdir -p ./results
+source $SCRIPTDIR/common.sh
 
 # Top level parameters 
 export ROX_CENTRAL_ENDPOINT=
@@ -11,7 +13,7 @@ export PARAM_INSECURE_SKIP_TLS_VERIFY=true
 export PARAM_GITOPS_REPO_URL=
 
 function rox-deploy-check() {
-	echo "Running  rox-deploy-check"
+	echo "Running $TASK_NAME:rox-deploy-check"
 	#!/usr/bin/env bash
 	set +x
 	
@@ -67,7 +69,7 @@ function rox-deploy-check() {
 }
 
 function report() {
-	echo "Running  report"
+	echo "Running $TASK_NAME:report"
 	#!/usr/bin/env bash
 	cat /workspace/repository/acs-deploy-check.json
 	

@@ -1,6 +1,7 @@
 #!/bin/bash
-# update-deployment
-mkdir -p ./results
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+# summary
+source $SCRIPTDIR/common.sh
 
 # Top level parameters 
 export UPDATE_DEPLOYMENT_PARAM_GITOPS_REPO_URL=

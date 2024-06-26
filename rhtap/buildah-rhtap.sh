@@ -3,7 +3,7 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 
 # buildah-rhtap
-mkdir -p ./results
+source $SCRIPTDIR/common.sh
 
 # Top level parameters 
 export IMAGE=
@@ -17,7 +17,7 @@ export BUILD_ARGS_FILE=""
 $SCRIPTDIR/verify-deps-exist 
 
 function build() {
-	echo "Running  build"
+	echo "Running $TASK_NAME:build"
 	# Check if the Dockerfile exists
 	SOURCE_CODE_DIR=source
 	if [ -e "$SOURCE_CODE_DIR/$CONTEXT/$DOCKERFILE" ]; then
@@ -53,9 +53,9 @@ function build() {
 	  docker://$IMAGE
 	
 	# Set task results
-	buildah images --format '{{ .Name }}:{{ .Tag }}@{{ .Digest }}' | grep -v $IMAGE > ./results/BASE_IMAGES_DIGESTS
-	cat /tmp/files/image-digest | tee ./results/IMAGE_DIGEST
-	echo -n "$IMAGE" | tee ./results/IMAGE_URL
+	buildah images --format '{{ .Name }}:{{ .Tag }}@{{ .Digest }}' | grep -v $IMAGE > $RESULTS/BASE_IMAGES_DIGESTS
+	cat /tmp/files/image-digest | tee $RESULTS/IMAGE_DIGEST
+	echo -n "$IMAGE" | tee $RESULTS/IMAGE_URL
 	
 	# Save the image so it can be used in the generate-sbom step
 	buildah push "$IMAGE" oci:/tmp/files/image
@@ -63,14 +63,14 @@ function build() {
 }
 
 function generate-sboms() {
-	echo "Running  generate-sboms"
+	echo "Running $TASK_NAME:generate-sboms"
 	syft dir:$(workspaces.source.path)/source --output cyclonedx-json@1.5=/tmp/files/sbom-source.json
 	syft oci-dir:/tmp/files/image --output cyclonedx-json@1.5=/tmp/files/sbom-image.json
 	
 }
 
 function upload-sbom() {
-	echo "Running  upload-sbom"
+	echo "Running $TASK_NAME:upload-sbom"
 	cosign
 }
 

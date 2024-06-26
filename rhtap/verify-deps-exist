@@ -10,7 +10,7 @@ function binary_check ()
   binary=$1
   BINARY=$(which $binary)
   if [ -z $BINARY ]; then
-    echo "Error: $env_var missing binary"
+    echo "Error: $binary missing binary"
     ANY_ERRORS=true
   else  
     echo "OK: $binary in $BINARY"  

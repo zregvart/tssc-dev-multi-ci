@@ -1,6 +1,6 @@
 #!/bin/bash
 # git-clone
-mkdir -p ./results
+mkdir -p $RESULTS
 
 # Top level parameters 
 export GIT_CLONE_PARAM_URL=
@@ -107,8 +107,8 @@ function clone() {
 	if [ "${EXIT_CODE}" != 0 ] ; then
 	  exit "${EXIT_CODE}"
 	fi
-	printf "%s" "${RESULT_SHA}" > "./results/commit"
-	printf "%s" "${PARAM_URL}" > "./results/url"
+	printf "%s" "${RESULT_SHA}" > "$RESULTS/commit"
+	printf "%s" "${PARAM_URL}" > "$RESULTS/url"
 	
 	if [ "${PARAM_FETCH_TAGS}" = "true" ] ; then
 	  echo "Fetching tags"
