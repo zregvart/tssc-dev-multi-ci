@@ -14,7 +14,7 @@ export BUILD_ARGS=""
 export BUILD_ARGS_FILE=""
 
 
-$SCRIPTDIR/hack/verify-deps-exist "
+$SCRIPTDIR/hack/verify-deps-exist "" 
 
 function build() {
 	echo "Running  build"
