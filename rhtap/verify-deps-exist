@@ -28,6 +28,12 @@ function env_must_be_defined ()
   fi 
 }
 
+
+  
+echo "PATH IS $PATH"
+echo "=+++++++++++++++++++++++++++++++++++++++++++"
+
+
 echo "ENV vars:"
 for env in $ENV_VARS_MUST_EXIST; do
   env_must_be_defined $env 
@@ -47,8 +53,5 @@ if [ "$ANY_ERRORS" == "true" ]; then
 fi
 SCRIPTDIR=$SAVE
 echo "Env vars and binaries ok"
-  
-echo "PATH IS $PATH"
-echo "=+++++++++++++++++++++++++++++++++++++++++++"
 
 
