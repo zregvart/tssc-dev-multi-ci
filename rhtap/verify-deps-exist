@@ -48,4 +48,7 @@ fi
 SCRIPTDIR=$SAVE
 echo "Env vars and binaries ok"
   
-echo $PATH
+echo "PATH IS $PATH"
+echo "=+++++++++++++++++++++++++++++++++++++++++++"
+
+
