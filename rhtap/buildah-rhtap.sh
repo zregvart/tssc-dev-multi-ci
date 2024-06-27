@@ -14,12 +14,10 @@ export BUILD_ARGS=""
 export BUILD_ARGS_FILE=""
 
 
-$SCRIPTDIR/verify-deps-exist 
-
 function build() {
 	echo "Running $TASK_NAME:build"
 	# Check if the Dockerfile exists
-	SOURCE_CODE_DIR=source
+	SOURCE_CODE_DIR=.
 	if [ -e "$SOURCE_CODE_DIR/$CONTEXT/$DOCKERFILE" ]; then
 	  dockerfile_path="$SOURCE_CODE_DIR/$CONTEXT/$DOCKERFILE"
 	elif [ -e "$SOURCE_CODE_DIR/$DOCKERFILE" ]; then
