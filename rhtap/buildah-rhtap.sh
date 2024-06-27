@@ -5,6 +5,8 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # buildah-rhtap
 source $SCRIPTDIR/common.sh
 
+echo $RESULTS
+echo "#@@@)#(_#)(#_)(#_)(#_)(_#)(#_"
 # Top level parameters 
 export IMAGE=quay.io/jduimovich0/bootstrap
 export DOCKERFILE=Dockerfile

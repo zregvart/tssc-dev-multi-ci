@@ -3,7 +3,7 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 source $SCRIPTDIR/common.sh
 
-REQUIRED_BINARY="git curl cosign jq yq"
+REQUIRED_BINARY="git curl cosign jq yq buildah syft"
 REQUIRED_ENV="" 
 rhtap/verify-deps-exist "$REQUIRED_ENV" "$REQUIRED_BINARY" 
 
