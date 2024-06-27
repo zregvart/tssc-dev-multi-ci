@@ -6,8 +6,8 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $SCRIPTDIR/common.sh
 
 # Top level parameters 
-export IMAGE=
-export DOCKERFILE=
+export IMAGE=quay.io/jduimovich0/bootstrap
+export DOCKERFILE=Dockerfile
 export CONTEXT=.
 export TLSVERIFY=false
 export BUILD_ARGS=""

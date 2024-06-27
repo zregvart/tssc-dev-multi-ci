@@ -7,12 +7,12 @@ function run () {
     printf "\n"
     printf '=%.0s' {1..31}
     printf " %d " $COUNT
-    printf '=%.0s' {1..31}
+    printf '=%.0s' {1..32}
     bash $1
-    printf '^%.0s' {1..64}
-    printf "\n" 
     ERR=$?
     echo "Error code for $1 = $ERR"
+    printf '_%.0s' {1..64}
+    printf "\n" 
     if [ $ERR != 0 ]; then
         echo "Fatal Error code for $1 = $ERR"
         echo "IGNORE FATAL"
