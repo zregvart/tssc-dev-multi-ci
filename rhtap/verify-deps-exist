@@ -32,6 +32,9 @@ function env_must_be_defined ()
   
 echo "PATH IS $PATH"
 echo "=+++++++++++++++++++++++++++++++++++++++++++"
+PATH=$PATH:/usr/local/bin
+echo "PATH EXT IS $PATH"
+echo "=+++++++++++++++++++++++++++++++++++++++++++"
 
 echo "ENV vars:"
 for env in $ENV_VARS_MUST_EXIST; do
