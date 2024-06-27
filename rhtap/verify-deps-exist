@@ -48,3 +48,4 @@ fi
 SCRIPTDIR=$SAVE
 echo "Env vars and binaries ok"
   
+echo $PATH
