@@ -33,7 +33,6 @@ function env_must_be_defined ()
 echo "PATH IS $PATH"
 echo "=+++++++++++++++++++++++++++++++++++++++++++"
 
-
 echo "ENV vars:"
 for env in $ENV_VARS_MUST_EXIST; do
   env_must_be_defined $env 
