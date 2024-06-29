@@ -1,5 +1,5 @@
 pipeline { 
-    agent { label 'wsl' }
+    agent any
     stages {
         stage('init.sh') {
             steps {
