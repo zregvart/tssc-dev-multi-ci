@@ -28,8 +28,6 @@ function env_must_be_defined ()
   fi 
 }
 
-
-  
 echo "PATH IS $PATH"
 echo "=+++++++++++++++++++++++++++++++++++++++++++"
 PATH=$PATH:/usr/local/bin
