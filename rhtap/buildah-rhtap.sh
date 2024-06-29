@@ -20,7 +20,6 @@ function build() {
 	echo "Running $TASK_NAME:build"
 	# Check if the Dockerfile exists
 	SOURCE_CODE_DIR=.
-	ls -al
 	if [ -e "$SOURCE_CODE_DIR/$CONTEXT/$DOCKERFILE" ]; then
 	  dockerfile_path="$SOURCE_CODE_DIR/$CONTEXT/$DOCKERFILE"
 	elif [ -e "$SOURCE_CODE_DIR/$DOCKERFILE" ]; then

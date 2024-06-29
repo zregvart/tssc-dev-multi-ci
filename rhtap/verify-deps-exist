@@ -28,11 +28,6 @@ function env_must_be_defined ()
   fi 
 }
 
-echo "PATH IS $PATH"
-echo "=+++++++++++++++++++++++++++++++++++++++++++"
-PATH=$PATH:/usr/local/bin
-echo "PATH EXT IS $PATH"
-echo "=+++++++++++++++++++++++++++++++++++++++++++"
 
 echo "ENV vars:"
 for env in $ENV_VARS_MUST_EXIST; do
@@ -49,7 +44,7 @@ if [ "$ANY_ERRORS" == "true" ]; then
   echo "Errors in configuration above, fix and rerun"
   echo "----------"
   echo "TEMP HACK: Allow missing binaries"
-#  exit -1
+  exit -1
 fi
 SCRIPTDIR=$SAVE
 echo "Env vars and binaries ok"

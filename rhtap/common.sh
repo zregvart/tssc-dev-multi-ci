@@ -7,3 +7,5 @@ mkdir -p $RESULTS
 echo 
 echo "Step: $TASK_NAME"
 echo "Results: $RESULTS"
+
+export PATH=$PATH:/usr/local/bin 
