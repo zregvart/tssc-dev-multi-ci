@@ -59,8 +59,8 @@ function rox-deploy-check() {
 	  ./roxctl deployment check \
 	    $( [ "${PARAM_INSECURE_SKIP_TLS_VERIFY}" = "true" ] && echo -n "--insecure-skip-tls-verify") \
 	    -e "${ROX_CENTRAL_ENDPOINT}" --file "$file_to_check" --output json \
-	    > /tmp/roxctl_deployment_check_output.json
-	  cp /tmp/roxctl_deployment_check_output.json /workspace/repository/acs-deploy-check.json
+	    > $TEMP_DIR/roxctl_deployment_check_output.json
+	  cp $TEMP_DIR/roxctl_deployment_check_output.json /workspace/repository/acs-deploy-check.json
 	else
 	  echo "Failed to find file to check: $file_to_check"
 	  exit 2

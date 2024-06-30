@@ -3,6 +3,7 @@
 
 export TASK_NAME=$(basename $0 .sh)
 export RESULTS=./results/$TASK_NAME
+export TEMP_DIR=./results/temp
 mkdir -p $RESULTS
 echo 
 echo "Step: $TASK_NAME"

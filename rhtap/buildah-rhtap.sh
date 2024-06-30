@@ -47,22 +47,22 @@ function build() {
 	buildah push \
 	  --tls-verify=$TLSVERIFY \
 	  --retry=5 \
-	  --digestfile /tmp/files/image-digest $IMAGE \
+	  --digestfile $TEMP_DIR/files/image-digest $IMAGE \
 	  docker://$IMAGE
 	
 	# Set task results
 	buildah images --format '{{ .Name }}:{{ .Tag }}@{{ .Digest }}' | grep -v $IMAGE > $RESULTS/BASE_IMAGES_DIGESTS
-	cat /tmp/files/image-digest | tee $RESULTS/IMAGE_DIGEST
+	cat $TEMP_DIR/files/image-digest | tee $RESULTS/IMAGE_DIGEST
 	echo -n "$IMAGE" | tee $RESULTS/IMAGE_URL
 	
 	# Save the image so it can be used in the generate-sbom step
-	buildah push "$IMAGE" oci:/tmp/files/image
+	buildah push "$IMAGE" oci:$TEMP_DIR/files/image
 	
 }
 
 function generate-sboms() {
 	echo "Running $TASK_NAME:generate-sboms"
-	syft dir:$(workspaces.source.path)/source --output cyclonedx-json@1.5=/tmp/files/sbom-source.json
+	syft dir:$(workspaces.source.path)/source --output cyclonedx-json@1.5=$TEMP_DIR/files/sbom-source.json
 	syft oci-dir:/tmp/files/image --output cyclonedx-json@1.5=/tmp/files/sbom-image.json
 	
 }
