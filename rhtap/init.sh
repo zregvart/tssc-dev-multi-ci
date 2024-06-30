@@ -8,10 +8,9 @@ REQUIRED_BINARY="git curl jq yq buildah syft cosign "
 REQUIRED_ENV="" 
 rhtap/verify-deps-exist "$REQUIRED_ENV" "$REQUIRED_BINARY" 
 
-# Top level parameters 
-export INIT_PARAM_IMAGE_URL=
-export INIT_PARAM_REBUILD=
-export INIT_PARAM_SKIP_CHECKS=
+# Top level parameters  
+export REBUILD=false
+export SKIP_CHECKS=true
 
 
 function init() {

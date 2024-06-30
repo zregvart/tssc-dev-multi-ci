@@ -27,7 +27,7 @@ run  "rhtap/acs-deploy-check.sh"
 run  "rhtap/acs-image-check.sh"  
 run  "rhtap/acs-image-scan.sh"  
 run  "rhtap/update-deployment.sh"  
-run  "rhtap/summary.sh"  
 run  "rhtap/show-sbom-rhdh.sh"  
+run  "rhtap/summary.sh"  
 
 tree ./results 

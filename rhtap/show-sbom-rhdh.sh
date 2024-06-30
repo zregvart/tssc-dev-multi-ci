@@ -4,9 +4,6 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # show-sbom-rhdh
 source $SCRIPTDIR/common.sh
 
-# Top level parameters 
-export IMAGE_URL=
-
 function show-sbom() {
 	echo "Running $TASK_NAME:show-sbom"
 	#!/bin/bash

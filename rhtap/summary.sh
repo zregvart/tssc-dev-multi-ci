@@ -4,8 +4,7 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # summary
 source $SCRIPTDIR/common.sh
 
-# Top level parameters 
-export IMAGE_URL=
+# Top level parameters  
 export SOURCE_BUILD_RESULT_FILE= 
 
 function appstudio-summary() {
