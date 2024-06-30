@@ -11,7 +11,7 @@ REQUIRED_BINARY+="buildah syft cosign "
 REQUIRED_BINARY+="python3 " 
 # scans
 #REQUIRED_BINARY+="roxctl "
-REQUIRED_ENV="" 
+REQUIRED_ENV="IMAGE_URL IMAGE " 
 rhtap/verify-deps-exist "$REQUIRED_ENV" "$REQUIRED_BINARY" 
 
 # Top level parameters  
