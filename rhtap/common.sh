@@ -3,7 +3,8 @@
 
 DIR=$(pwd)
 export TASK_NAME=$(basename $0 .sh)
-export RESULTS=$DIR/results/$TASK_NAME
+export BASE_RESULTS=$DIR/results 
+export RESULTS=$BASE_RESULTS/$TASK_NAME
 export TEMP_DIR=$DIR/results/temp 
 # clean results per build 
 rm -rf $RESULTS
@@ -21,3 +22,6 @@ export IMAGE=$IMAGE_URL
 export RESULT_PATH=$DIR/results/temp/files/sbom-url
 #export XDG_RUNTIME_DIR=/home/john/dev/auth-creds
 
+function success() { 
+    echo "Succeeded" > $RESULTS/STATUS
+}

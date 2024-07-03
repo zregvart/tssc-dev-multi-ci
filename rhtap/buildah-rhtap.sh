@@ -88,3 +88,5 @@ python3 $SCRIPTDIR/merge-sboms.sh
 delim
 upload-sbom
 delim
+
+success
