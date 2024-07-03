@@ -16,6 +16,9 @@ export BUILD_ARGS_FILE=""
 
 function build() {
 	echo "Running $TASK_NAME:build"
+	echo "Running Login"
+	buildah-login
+
 	# Check if the Dockerfile exists
 	SOURCE_CODE_DIR=.
 	if [ -e "$SOURCE_CODE_DIR/$CONTEXT/$DOCKERFILE" ]; then
