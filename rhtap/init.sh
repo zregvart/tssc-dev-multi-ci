@@ -1,6 +1,13 @@
 #!/bin/bash
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 
+
+# clean all results for each run.
+# do it once, each task loading common will reinitialize the results for that task
+DIR=$(pwd) 
+rm -rf $DIR/results
+mkdir -p $DIR/results
+
 source $SCRIPTDIR/common.sh
 
 # tools 
