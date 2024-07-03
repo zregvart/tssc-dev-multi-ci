@@ -67,12 +67,11 @@ function generate-sboms() {
 	echo "Running $TASK_NAME:generate-sboms"
 	syft dir:. --output cyclonedx-json@1.5=$TEMP_DIR/files/sbom-source.json
 	syft oci-dir:$TEMP_DIR/files/image --output cyclonedx-json@1.5=$TEMP_DIR/files/sbom-image.json
-
-    
 }
 
 function upload-sbom() {
 	echo "Running $TASK_NAME:upload-sbom"
+	ls -al ~
 	cosign attach sbom --sbom $TEMP_DIR/files/sbom-cyclonedx.json --type cyclonedx "$IMAGE"
 
 }
