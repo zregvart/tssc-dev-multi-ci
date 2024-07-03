@@ -17,5 +17,5 @@ export PATH=$PATH:/usr/local/bin
 export IMAGE_URL=quay.io/jduimovich0/bootstrap
 export IMAGE=$IMAGE_URL
 export RESULT_PATH=$DIR/results/temp/files/sbom-url
-export XDG_RUNTIME_DIR=/home/john/dev/auth-creds
+#export XDG_RUNTIME_DIR=/home/john/dev/auth-creds
 
