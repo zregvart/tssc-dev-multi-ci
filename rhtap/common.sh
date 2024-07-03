@@ -1,5 +1,5 @@
 #!/bin/bash
-# Vars for scrips
+# Vars for scripts
 
 DIR=$(pwd)
 export TASK_NAME=$(basename $0 .sh)

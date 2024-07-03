@@ -28,7 +28,6 @@ function env_must_be_defined ()
   fi 
 }
 
-
 echo "ENV vars:"
 for env in $ENV_VARS_MUST_EXIST; do
   env_must_be_defined $env 

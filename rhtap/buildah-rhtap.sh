@@ -60,24 +60,32 @@ function build() {
 	
 	# Save the image so it can be used in the generate-sbom step
 	buildah push "$IMAGE" oci:$TEMP_DIR/files/image
-	
+	 
 }
 
 function generate-sboms() {
 	echo "Running $TASK_NAME:generate-sboms"
 	syft dir:. --output cyclonedx-json@1.5=$TEMP_DIR/files/sbom-source.json
 	syft oci-dir:$TEMP_DIR/files/image --output cyclonedx-json@1.5=$TEMP_DIR/files/sbom-image.json
+
+    
 }
 
 function upload-sbom() {
 	echo "Running $TASK_NAME:upload-sbom"
 	cosign attach sbom --sbom $TEMP_DIR/files/sbom-cyclonedx.json --type cyclonedx "$IMAGE"
-}
 
+}
+function delim() { 
+	printf '=%.0s' {1..8}
+}
 # Task Steps 
 build
+delim
 generate-sboms
+delim
 echo "RUNNING PYTHON "
 python3 $SCRIPTDIR/merge-sboms.sh
-echo "------------------"
+delim
 upload-sbom
+delim

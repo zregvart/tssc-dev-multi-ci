@@ -13,6 +13,7 @@ REQUIRED_BINARY+="buildah-login "
 # scans
 #REQUIRED_BINARY+="roxctl "
 REQUIRED_ENV="IMAGE_URL IMAGE " 
+
 rhtap/verify-deps-exist "$REQUIRED_ENV" "$REQUIRED_BINARY" 
 ERR=$?
 echo "Dependency Error $1 = $ERR" 
@@ -20,11 +21,10 @@ if [ $ERR != 0 ]; then
 	echo "Fatal Error code for $1 = $ERR" 
 	exit 1
 fi
-# Always build
+
+# For now, always build. 
 export REBUILD=true
-export SKIP_CHECKS=true
-
-
+export SKIP_CHECKS=true 
 function init() {
 	echo "Running $TASK_NAME:init"
 	#!/bin/bash
