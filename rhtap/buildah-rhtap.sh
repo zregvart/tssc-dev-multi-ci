@@ -74,5 +74,7 @@ function upload-sbom() {
 # Task Steps 
 build
 generate-sboms
+echo "RUNNING PYTHON "
 python3 $SCRIPTDIR/merge-sboms.sh
+echo "------------------"
 upload-sbom
