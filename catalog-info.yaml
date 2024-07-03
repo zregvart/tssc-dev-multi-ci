@@ -1,0 +1,20 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: tssc-jenkins 
+  description: Secure Supply Chain Example Jenkins  
+  links:
+    - url: https://www.redhat.com/en/solutions/trusted-software-supply-chain
+      title: Trusted Secure Supply Chain 
+      icon: dashboard
+      type: admin-dashboard
+  annotations: 
+    backstage.io/techdocs-ref: dir:. 
+    quay.io/repository-slug: jduimovich0/bootstrap
+    jenkins.io/job-full-name: john-home-jenkins/tssc-jenkins
+  tags: ["jenkins"] 
+spec:
+  type: service
+  owner: user:guest 
+  lifecycle: experimental 
+ 
