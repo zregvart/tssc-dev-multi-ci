@@ -9,6 +9,7 @@ REQUIRED_BINARY="git curl jq yq "
 REQUIRED_BINARY+="buildah syft cosign "
 # runtimes 
 REQUIRED_BINARY+="python3 " 
+REQUIRED_BINARY+="buildah-login " 
 # scans
 #REQUIRED_BINARY+="roxctl "
 REQUIRED_ENV="IMAGE_URL IMAGE " 

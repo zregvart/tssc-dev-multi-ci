@@ -10,7 +10,7 @@ export IMAGE=quay.io/jduimovich0/bootstrap
 export DOCKERFILE=Dockerfile
 export CONTEXT=.
 export TLSVERIFY=false
-export BUILD_ARGS=""
+export BUILD_ARGS="--authfile /home/john/dev/auth-creds/auth.json" 
 export BUILD_ARGS_FILE=""
 
 
