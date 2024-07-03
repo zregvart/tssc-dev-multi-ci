@@ -5,6 +5,8 @@ DIR=$(pwd)
 export TASK_NAME=$(basename $0 .sh)
 export RESULTS=$DIR/results/$TASK_NAME
 export TEMP_DIR=$DIR/results/temp 
+# clean results per build 
+rm -rf $RESULTS
 mkdir -p $RESULTS
 mkdir -p $TEMP_DIR
 mkdir -p $TEMP_DIR/files
