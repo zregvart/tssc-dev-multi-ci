@@ -63,15 +63,7 @@ function build() {
 function generate-sboms() {
 	echo "Running $TASK_NAME:generate-sboms"
 	syft dir:. --output cyclonedx-json@1.5=$TEMP_DIR/files/sbom-source.json
-	
-	echo "cyclonedx-json"
-
 	syft oci-dir:$TEMP_DIR/files/image --output cyclonedx-json@1.5=$TEMP_DIR/files/sbom-image.json
-	ls -al $TEMP_DIR/files
-
-	
-	echo "done cyclonedx-json"
-
 }
 
 function upload-sbom() {
