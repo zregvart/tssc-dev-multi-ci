@@ -1,6 +1,7 @@
 # Use the official Node 8 image.
 # https://hub.docker.com/_/node 
-FROM node 
+# Try the bookworm supported debian version 
+FROM node:bookworm 
 
 # Create and change to the app directory.
 WORKDIR /usr/src/app
