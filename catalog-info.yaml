@@ -6,7 +6,7 @@ metadata:
   annotations: 
     backstage.io/techdocs-ref: dir:. 
     quay.io/repository-slug: jduimovich0/bootstrap
-    jenkins.io/job-full-name: john-home-jenkins/tssc-jenkins
+    jenkins.io/job-full-name: tssc-jenkins
   tags: ["jenkins"] 
 spec:
   type: service
