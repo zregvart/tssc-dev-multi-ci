@@ -14,9 +14,8 @@ function run () {
     printf '_%.0s' {1..64}
     printf "\n" 
     if [ $ERR != 0 ]; then
-        echo "Fatal Error code for $1 = $ERR"
-        echo "IGNORE FATAL"
-        #exit 1
+        echo "Fatal Error code for $1 = $ERR" 
+        exit 1
     fi
 }
 rm -rf ./results

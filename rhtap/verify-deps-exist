@@ -41,10 +41,8 @@ done
 
 if [ "$ANY_ERRORS" == "true" ]; then
   echo "---------- ERROR -----------------"
-  echo "Errors in configuration above, fix and rerun"
-  echo "----------"
-  echo "TEMP HACK: Allow missing binaries"
-  exit -1
+  echo "Errors in configuration above, fix and rerun" 
+  exit 1
 fi
 SCRIPTDIR=$SAVE
 echo "Env vars and binaries ok"
