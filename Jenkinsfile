@@ -30,8 +30,8 @@ pipeline {
         stage('summary') {
             steps {
                 echo 'summary' 
-                sh "rhtap/summary.sh"  
                 sh "rhtap/show-sbom-rhdh.sh"  
+                sh "rhtap/summary.sh"  
             }
         }
     }
