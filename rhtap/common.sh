@@ -16,8 +16,6 @@ echo "Results: $RESULTS"
 
 export PATH=$PATH:/usr/local/bin 
 
-clean results per build 
-
 export IMAGE_URL=quay.io/jduimovich0/bootstrap
 export IMAGE=$IMAGE_URL
 export RESULT_PATH=$DIR/results/temp/files/sbom-url
