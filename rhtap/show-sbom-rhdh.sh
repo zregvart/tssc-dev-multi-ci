@@ -13,7 +13,7 @@ function show-sbom() {
 	for run in $(seq 1 $max_try); do
       echo -n "."
 	  status=0
-	  cosign download sbom $IMAGE_URL 2>>err
+	  cosign download sbom $IMAGE_URL 2>>$RESULTS/err
 	  status=$?
 	  if [ "$status" -eq 0 ]; then
 	    break
@@ -22,8 +22,8 @@ function show-sbom() {
 	done
 	if [ "$status" -ne 0 ]; then
 	    echo "Failed to get SBOM after ${max_try} tries" >&2
-	    cat err >&2
-		rm err
+	    cat $RESULTS/err >&2
+		rm $RESULTS/err
 	fi
 	
 	# This result will be ignored by RHDH, but having it set is actually necessary for the task to be properly

@@ -5,8 +5,7 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # buildah-rhtap
 source $SCRIPTDIR/common.sh 
 
-# Top level parameters 
-export IMAGE=quay.io/jduimovich0/bootstrap
+# Top level parameters  
 export DOCKERFILE=Dockerfile
 export CONTEXT=.
 export TLSVERIFY=false
