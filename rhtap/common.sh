@@ -1,5 +1,19 @@
 #!/bin/bash
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+
 # Vars for scripts
+
+
+function exit_with_success_result () { 
+    echo "Succeeded" > $RESULTS/STATUS
+    exit 0
+}
+
+function exit_with_fail_result () { 
+    echo "Failed" > $RESULTS/STATUS
+    exit 1
+}
+
 
 DIR=$(pwd)
 export TASK_NAME=$(basename $0 .sh)
@@ -17,11 +31,4 @@ echo "Results: $RESULTS"
 
 export PATH=$PATH:/usr/local/bin 
 
-export IMAGE_URL=quay.io/jduimovich0/bootstrap
-export IMAGE=$IMAGE_URL
-export RESULT_PATH=$DIR/results/temp/files/sbom-url
-#export XDG_RUNTIME_DIR=/home/john/dev/auth-creds
-
-function success() { 
-    echo "Succeeded" > $RESULTS/STATUS
-}
+source $SCRIPTDIR/env.sh 

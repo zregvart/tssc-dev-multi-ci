@@ -4,8 +4,6 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # summary
 source $SCRIPTDIR/common.sh
 
-# Top level parameters  
-export SOURCE_BUILD_RESULT_FILE= 
 
 function appstudio-summary() {
 	echo "Running $TASK_NAME:appstudio-summary"
@@ -29,3 +27,4 @@ function appstudio-summary() {
 
 # Task Steps 
 appstudio-summary
+exit_with_success_result

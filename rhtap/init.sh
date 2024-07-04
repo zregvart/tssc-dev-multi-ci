@@ -26,12 +26,10 @@ ERR=$?
 echo "Dependency Error $1 = $ERR" 
 if [ $ERR != 0 ]; then
 	echo "Fatal Error code for $1 = $ERR" 
-	exit 1
+	exit_with_fail_result
 fi
 
 # For now, always build. 
-export REBUILD=true
-export SKIP_CHECKS=true 
 function init() {
 	echo "Running $TASK_NAME:init"
 	#!/bin/bash
@@ -49,3 +47,4 @@ function init() {
 
 # Task Steps 
 init
+exit_with_success_result

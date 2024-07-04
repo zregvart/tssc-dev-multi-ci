@@ -5,12 +5,6 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # buildah-rhtap
 source $SCRIPTDIR/common.sh 
 
-# Top level parameters  
-export DOCKERFILE=Dockerfile
-export CONTEXT=.
-export TLSVERIFY=false
-export BUILD_ARGS="--authfile /home/john/dev/auth-creds/auth.json" 
-export BUILD_ARGS_FILE=""
 
 
 function build() {
@@ -88,4 +82,4 @@ delim
 upload-sbom
 delim
 
-success
+exit_with_success_result

@@ -28,7 +28,7 @@ function patch-gitops() {
 	  echo "gitops repository is not updated automatically."
 	  echo "You can update gitops repository with the new image: ${PARAM_IMAGE} manually"
 	  echo "TODO: configure git credentials to update gitops repository."
-	  exit 0
+	  exit_with_success_result
 	fi
 	
 	git config --global user.email "rhtap@noreplay.com"
@@ -51,7 +51,7 @@ function patch-gitops() {
 	{
 	  echo "Failed to push update to gitops repository: ${PARAM_GITOPS_REPO_URL}"
 	  echo 'Do you have correct git credentials configured?'
-	  exit 1
+	  exit_with_fail_result
 	}
 	echo "Successfully updated development image from ${old_image} to ${PARAM_IMAGE}"
 	
@@ -59,3 +59,4 @@ function patch-gitops() {
 
 # Task Steps 
 patch-gitops
+exit_with_success_result

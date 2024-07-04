@@ -2,15 +2,7 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 
 # acs-image-check
-source $SCRIPTDIR/common.sh
-
-# Top level parameters 
-export ROX_CENTRAL_ENDPOINT=
-export ROX_API_TOKEN=
-export ACS_DEPLOY_CHECK_PARAM_VERBOSE=
-export PARAM_INSECURE_SKIP_TLS_VERIFY=true
-
-export PARAM_GITOPS_REPO_URL=
+source $SCRIPTDIR/common.sh 
 
 function rox-image-check() {
 	echo "Running $TASK_NAME:rox-image-check"
@@ -19,11 +11,11 @@ function rox-image-check() {
 
 	if [ -z "$ROX_API_TOKEN" ]; then
 		echo "ROX_API_TOKEN is not set, demo will exit with success"
-		exit 0
+		exit_with_success_result
 	fi
 	if [ -z "$ROX_CENTRAL_ENDPOINT" ]; then
 		echo "ROX_CENTRAL_ENDPOINT is not set, demo will exit with success"
-		exit 0
+		exit_with_success_result
 	fi
 	
 	echo "Using rox central endpoint ${ROX_CENTRAL_ENDPOINT}"
@@ -38,7 +30,7 @@ function rox-image-check() {
 	  > /dev/null
 	if [ $? -ne 0 ]; then
 	  echo 'Failed to download roxctl'
-	  exit 1
+	  exit_with_fail_result
 	fi
 	received_filesize=$(stat -c%s ./roxctl)
 	if (( $received_filesize < 10000 )); then
@@ -70,3 +62,4 @@ function report() {
 # Task Steps 
 rox-image-check
 report
+exit_with_success_result

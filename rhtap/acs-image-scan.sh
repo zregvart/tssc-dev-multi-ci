@@ -4,14 +4,6 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # acs-image-scan
 source $SCRIPTDIR/common.sh
 
-# Top level parameters 
-export ACS_IMAGE_SCAN_PARAM_ROX_SECRET_NAME=
-export ACS_IMAGE_SCAN_PARAM_IMAGE=
-export ACS_IMAGE_SCAN_PARAM_IMAGE_DIGEST=
-export ACS_IMAGE_SCAN_PARAM_INSECURE_SKIP_TLS_VERIFY=
-
-
-
 function rox-image-scan() {
 	echo "Running $TASK_NAME:rox-image-scan"
 	#!/usr/bin/env bash
@@ -31,11 +23,11 @@ function rox-image-scan() {
 	# Check if rox API enpoint is configured
 	if [ -z "$ROX_API_TOKEN" ]; then
 		echo "ROX_API_TOKEN is not set, demo will exit with success"
-		exit 0
+		exit_with_success_result
 	fi
 	if [ -z "$ROX_CENTRAL_ENDPOINT" ]; then
 		echo "ROX_CENTRAL_ENDPOINT is not set, demo will exit with success"
-		exit 0
+		exit_with_success_result
 	fi
 	
 	echo "Using rox central endpoint ${ROX_CENTRAL_ENDPOINT}"
@@ -52,7 +44,7 @@ function rox-image-scan() {
 	  note='Failed to download roxctl'
 	  echo $note
 	  set_test_output_result ERROR "$note"
-	  exit 1
+	  exit_with_fail_result
 	fi
 	chmod +x ./roxctl  > /dev/null
 	
@@ -101,3 +93,4 @@ function report() {
 # Task Steps 
 rox-image-scan
 report
+exit_with_success_result

@@ -13,8 +13,12 @@ function show-sbom() {
 	for run in $(seq 1 $max_try); do
       echo -n "."
 	  status=0
+	  echo
+	  echo "SBOM_EYECATCHER_BEGIN"
 	  cosign download sbom $IMAGE_URL 2>>$RESULTS/err
 	  status=$?
+	  echo 
+	  echo "SBOM_EYECATCHER_END"
 	  if [ "$status" -eq 0 ]; then
 	    break
 	  fi
@@ -34,3 +38,4 @@ function show-sbom() {
 
 # Task Steps  
 show-sbom
+exit_with_success_result
