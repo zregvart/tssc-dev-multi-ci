@@ -4,7 +4,7 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 source $SCRIPTDIR/common.sh
 
 # Top level parameters 
-export UPDATE_DEPLOYMENT_PARAM_GITOPS_REPO_URL=
+export UPDATE_DEPLOYMENT_GITOPS_REPO_URL=
 export UPDATE_DEPLOYMENT_PARAM_IMAGE=
 export UPDATE_DEPLOYMENT_PARAM_GITOPS_AUTH_SECRET_NAME=
 
@@ -12,7 +12,7 @@ export UPDATE_DEPLOYMENT_PARAM_GITOPS_AUTH_SECRET_NAME=
 function patch-gitops() {
 	echo "Running  patch-gitops"
 	if test -f /gitops-auth-secret/password ; then
-	  gitops_repo_url=${PARAM_GITOPS_REPO_URL%'.git'}
+	  gitops_repo_url=${GITOPS_REPO_URL%'.git'}
 	  remote_without_protocol=${gitops_repo_url#'https://'}
 	
 	  password=$(cat /gitops-auth-secret/password)
@@ -24,7 +24,7 @@ function patch-gitops() {
 	    origin_with_auth=https://${password}@${remote_without_protocol}.git
 	  fi
 	else
-	  echo "git credentials to push into gitops repository ${PARAM_GITOPS_REPO_URL} is not configured."
+	  echo "git credentials to push into gitops repository ${GITOPS_REPO_URL} is not configured."
 	  echo "gitops repository is not updated automatically."
 	  echo "You can update gitops repository with the new image: ${PARAM_IMAGE} manually"
 	  echo "TODO: configure git credentials to update gitops repository."
@@ -34,7 +34,7 @@ function patch-gitops() {
 	git config --global user.email "rhtap@noreplay.com"
 	git config --global user.name "gitops-update"
 	
-	git clone ${PARAM_GITOPS_REPO_URL}
+	git clone ${GITOPS_REPO_URL}
 	gitops_repo_name=$(basename ${gitops_repo_url})
 	cd ${gitops_repo_name}
 	
@@ -49,7 +49,7 @@ function patch-gitops() {
 	git remote set-url origin $origin_with_auth
 	git push 2> /dev/null || \
 	{
-	  echo "Failed to push update to gitops repository: ${PARAM_GITOPS_REPO_URL}"
+	  echo "Failed to push update to gitops repository: ${GITOPS_REPO_URL}"
 	  echo 'Do you have correct git credentials configured?'
 	  exit_with_fail_result
 	}
