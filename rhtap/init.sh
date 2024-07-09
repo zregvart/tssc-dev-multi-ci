@@ -1,9 +1,9 @@
 #!/bin/bash
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
 
-
 # clean all results for each run.
-# do it once, each task loading common will reinitialize the results for that task
+# do it once, each task loading common will reinitialize the results for that task in 
+# results/TASK_NAME
 DIR=$(pwd) 
 rm -rf $DIR/results
 mkdir -p $DIR/results
@@ -33,7 +33,8 @@ fi
 function init() {
 	echo "Running $TASK_NAME:init"
 	#!/bin/bash
-	echo "Build Initialize: $IMAGE_URL" 	
+	echo "Build Initialize: $IMAGE_URL" 
+	echo	
 	echo "Determine if Image Already Exists"
 	# Build the image when rebuild is set to true or image does not exist
 	# The image check comes last to avoid unnecessary, slow API calls
