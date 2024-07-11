@@ -9,16 +9,15 @@ source $SCRIPTDIR/common.sh
 function patch-gitops() {
 	echo "Running  patch-gitops"
 	if [ -z "$GITOPS_REPO_URL" ]; then
-		echo "GITOPS_REPO_URL deployment will not be updated"
+		echo "GITOPS_REPO_URL not set to a value, deployment will not be updated"
 		exit_with_success_result
-	fi
+	fi 
 
-	if test -f /gitops-auth-secret/password ; then
+	if [[ -v "$GITOPS_AUTH_PASSWORD" ]]; then
 	  gitops_repo_url=${GITOPS_REPO_URL%'.git'}
-	  remote_without_protocol=${gitops_repo_url#'https://'}
-	
-	  password=$(cat /gitops-auth-secret/password)
-	  if test -f /gitops-auth-secret/username ; then
+	  remote_without_protocol=${gitops_repo_url#'https://'} 
+	  password=$GITOPS_AUTH_PASSWORD 
+	  if [[ -v "$GITOPS_AUTH_USERNAME" ]]; then
 	    username=$(cat /gitops-auth-secret/username)
 	    echo "https://${username}:${password})@${hostname}" > "${HOME}/.git-credentials"
 	    origin_with_auth=https://${username}:${password}@${remote_without_protocol}.git
@@ -29,7 +28,6 @@ function patch-gitops() {
 	  echo "git credentials to push into gitops repository ${GITOPS_REPO_URL} is not configured."
 	  echo "gitops repository is not updated automatically."
 	  echo "You can update gitops repository with the new image: ${PARAM_IMAGE} manually"
-	  echo "TODO: configure git credentials to update gitops repository."
 	  exit_with_success_result
 	fi
 	

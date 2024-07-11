@@ -20,6 +20,11 @@ function rox-image-scan() {
 	    | tee $RESULTS/TEST_OUTPUT
 	}
 	
+	if [ "$DISABLE_ACS" == "true" ]; then
+		echo "DISABLE_ACS is set. No scans will be produced"
+		exit_with_success_result
+	fi
+	
 	# Check if rox API enpoint is configured
 	if [ -z "$ROX_API_TOKEN" ]; then
 		echo "ROX_API_TOKEN is not set, demo will exit with success"
@@ -86,7 +91,9 @@ function rox-image-scan() {
 function report() {
 	echo "Running $TASK_NAME:report"
 	#!/usr/bin/env bash
+	echo "ACS_IMAGE_SCAN_EYECATCHER_BEGIN"
 	cat /steps-shared-folder/acs-image-scan.json
+	echo "ACS_IMAGE_SCAN_EYECATCHER_END"
 	
 }
 

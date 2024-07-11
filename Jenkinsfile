@@ -3,11 +3,13 @@ pipeline {
     environment {
         ROX_API_TOKEN     = credentials('ROX_API_TOKEN')
         ROX_CENTRAL_ENDPOINT = credentials('ROX_CENTRAL_ENDPOINT')
+        GITOPS_AUTH_PASSWORD = credentials('GITOPS_AUTH_PASSWORD')
+        QUAY_IO_CREDS = credentials('QUAY_IO_CREDS')
     }   
     stages {
-        stage('test secrect passing') {
+        stage('test secret passing') {
             steps {
-                echo "test secrect passing ROX_CENTRAL_ENDPOINT = $ROX_CENTRAL_ENDPOINT" 
+                echo "test secret passing ROX_CENTRAL_ENDPOINT = $ROX_CENTRAL_ENDPOINT" 
             }
         } 
         stage('init.sh') {

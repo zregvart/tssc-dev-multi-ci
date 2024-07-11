@@ -10,7 +10,7 @@ source $SCRIPTDIR/common.sh
 function build() {
 	echo "Running $TASK_NAME:build"
 	echo "Running Login"
-	buildah-login
+	buildah login -u $QUAY_IO_CREDS_USR -p $QUAY_IO_CREDS_PSW quay.io
 
 	# Check if the Dockerfile exists
 	SOURCE_CODE_DIR=.

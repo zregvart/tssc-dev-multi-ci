@@ -16,10 +16,19 @@ REQUIRED_BINARY="git curl jq yq "
 REQUIRED_BINARY+="buildah syft cosign "
 # runtimes 
 REQUIRED_BINARY+="python3 " 
-REQUIRED_BINARY+="buildah-login " 
+#REQUIRED_BINARY+="buildah-login " 
 # scans
 #REQUIRED_BINARY+="roxctl "
-REQUIRED_ENV="IMAGE_URL IMAGE " 
+
+# BUILD TARGETS AND REGISTRY
+# remember to leave a space when you add them to a prior ENV list
+REQUIRED_ENV="IMAGE_URL IMAGE "
+REQUIRED_ENV+="QUAY_IO_CREDS_USR QUAY_IO_CREDS_PSW "
+# SCANS 
+REQUIRED_ENV+="DISABLE_ACS "
+# Update gitops repos
+REQUIRED_ENV+="GITOPS_AUTH_PASSWORD  " 
+
 
 rhtap/verify-deps-exist "$REQUIRED_ENV" "$REQUIRED_BINARY" 
 ERR=$?

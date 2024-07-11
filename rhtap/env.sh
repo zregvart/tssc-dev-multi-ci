@@ -16,6 +16,7 @@ export BUILD_ARGS="--authfile /home/john/dev/auth-creds/auth.json"
 export BUILD_ARGS_FILE=""
 
 # from ACS_*.* 
+export DISABLE_ACS=true
 export ROX_CENTRAL_ENDPOINT=
 export ROX_API_TOKEN= 
 export INSECURE_SKIP_TLS_VERIFY=true 

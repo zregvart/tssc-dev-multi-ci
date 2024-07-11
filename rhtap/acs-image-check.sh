@@ -8,7 +8,11 @@ function rox-image-check() {
 	echo "Running $TASK_NAME:rox-image-check"
 	#!/usr/bin/env bash
 	set +x
-
+	
+	if [ "$DISABLE_ACS" == "true" ]; then
+		echo "DISABLE_ACS is set. No scans will be produced"
+		exit_with_success_result
+	fi
 	if [ -z "$ROX_API_TOKEN" ]; then
 		echo "ROX_API_TOKEN is not set, demo will exit with success"
 		exit_with_success_result
@@ -55,7 +59,9 @@ function rox-image-check() {
 function report() {
 	echo "Running $TASK_NAME:report"
 	#!/usr/bin/env bash
+	echo "ACS_IMAGE_CHECK_EYECATCHER_BEGIN"
 	cat /steps-shared-folder/acs-image-check.json
+	echo "ACS_IMAGE_CHECK_EYECATCHER_END"
 	
 }
 

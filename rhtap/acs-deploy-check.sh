@@ -9,7 +9,11 @@ function rox-deploy-check() {
 	echo "Running $TASK_NAME:rox-deploy-check"
 	#!/usr/bin/env bash
 	set +x
-	
+
+	if [ "$DISABLE_ACS" == "true" ]; then
+		echo "DISABLE_ACS is set. No scans will be produced"
+		exit_with_success_result
+	fi
 	if [ -z "$ROX_API_TOKEN" ]; then
 		echo "ROX_API_TOKEN is not set, demo will exit with success"
 		exit_with_success_result
@@ -64,8 +68,9 @@ function rox-deploy-check() {
 function report() {
 	echo "Running $TASK_NAME:report"
 	#!/usr/bin/env bash
+	echo "ACS_DEPLOY_EYECATCHER_BEGIN"
 	cat /workspace/repository/acs-deploy-check.json
-	
+	echo "ACS_DEPLOY_EYECATCHER_END"
 }
 
 # Task Steps  
