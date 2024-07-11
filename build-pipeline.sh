@@ -9,7 +9,7 @@ cp rhtap/env.template.sh $SETUP_ENV
 sed -i "s!\${{ values.image }}!quay.io/jduimovich0/bootstrap!g" $SETUP_ENV
 sed -i "s!\${{ values.dockerfile }}!Dockerfile!g" $SETUP_ENV
 sed -i "s!\${{ values.buildContext }}!.!g" $SETUP_ENV
-sed -i "s!\${{ values.repoURL }}! !g" $SETUP_ENV
+sed -i "s!\${{ values.repoURL }}!!g" $SETUP_ENV
 source $SETUP_ENV
 cat $SETUP_ENV
 
