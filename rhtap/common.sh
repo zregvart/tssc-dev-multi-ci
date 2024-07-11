@@ -35,5 +35,5 @@ export PATH=$PATH:/usr/local/bin
 if [ -z "$LOCAL_SHELL_RUN" ]; then
     source $SCRIPTDIR/env.sh 
 else
-    echo "LOCAL_SHELL_RUN set to true, using local shell execution mode."
+    echo "NOTE: Local shell execution mode."
 fi
