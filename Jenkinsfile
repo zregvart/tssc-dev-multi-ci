@@ -1,16 +1,15 @@
 pipeline { 
     agent any
+    environment {
+        ROX_API_TOKEN     = credentials('ROX_API_TOKEN')
+        ROX_CENTRAL_ENDPOINT = credentials('ROX_CENTRAL_ENDPOINT')
+    }   
     stages {
-        environment {
-            ROX_API_TOKEN     = credentials('ROX_API_TOKEN')
-            ROX_CENTRAL_ENDPOINT = credentials('ROX_CENTRAL_ENDPOINT')
-        }   
         stage('test secrect passing') {
             steps {
                 echo "test secrect passing ROX_CENTRAL_ENDPOINT = $ROX_CENTRAL_ENDPOINT" 
             }
-        }
-
+        } 
         stage('init.sh') {
             steps {
                 echo 'Initialize and check dependencies' 
