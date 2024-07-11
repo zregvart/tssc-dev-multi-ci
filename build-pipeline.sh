@@ -1,4 +1,14 @@
 
+export LOCAL_SHELL_RUN=true
+
+# emulate values and env vars as per templates 
+SETUP_ENV=$(mktemp)  
+cp rhtap/env.sh $SETUP_ENV
+sed -i "s!\${{ values.image }}!quay.io/jduimovich0/bootstrap!g" $SETUP_ENV
+sed -i "s!\${{ values.dockerfile }}!Dockerfile!g" $SETUP_ENV
+sed -i "s!\${{ values.buildContext }}!.!g" $SETUP_ENV
+sed -i "s!\${{ values.repoURL }}! !g" $SETUP_ENV
+source $SETUP_ENV
 
 COUNT=0
 

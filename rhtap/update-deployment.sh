@@ -3,14 +3,16 @@ SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 # summary
 source $SCRIPTDIR/common.sh
 
-# Top level parameters 
-export UPDATE_DEPLOYMENT_GITOPS_REPO_URL=
-export UPDATE_DEPLOYMENT_PARAM_IMAGE=
-export UPDATE_DEPLOYMENT_PARAM_GITOPS_AUTH_SECRET_NAME=
+# Top level parameters     
 
 
 function patch-gitops() {
 	echo "Running  patch-gitops"
+	if [ -z "$GITOPS_REPO_URL" ]; then
+		echo "GITOPS_REPO_URL deployment will not be updated"
+		exit_with_success_result
+	fi
+
 	if test -f /gitops-auth-secret/password ; then
 	  gitops_repo_url=${GITOPS_REPO_URL%'.git'}
 	  remote_without_protocol=${gitops_repo_url#'https://'}
@@ -34,8 +36,9 @@ function patch-gitops() {
 	git config --global user.email "rhtap@noreplay.com"
 	git config --global user.name "gitops-update"
 	
-	git clone ${GITOPS_REPO_URL}
 	gitops_repo_name=$(basename ${gitops_repo_url})
+	rm -rf $gitops_repo_name
+	git clone ${GITOPS_REPO_URL}
 	cd ${gitops_repo_name}
 	
 	component_name=$(yq .metadata.name application.yaml)
