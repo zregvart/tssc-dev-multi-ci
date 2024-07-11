@@ -32,8 +32,4 @@ echo "Step: $TASK_NAME"
 echo "Results: $RESULTS" 
 export PATH=$PATH:/usr/local/bin 
 
-if [ -z "$LOCAL_SHELL_RUN" ]; then
-    source $SCRIPTDIR/env.sh 
-else
-    echo "NOTE: Local shell execution mode."
-fi
+source $SCRIPTDIR/env.sh  

@@ -1,9 +1,11 @@
 
 
-# emulate values and env vars as per templates 
+# Fill in template values and set run local
+# the env.template is copyed to the RHDH sample templates
+# into env.sh and is filled in by the template expansion
 export LOCAL_SHELL_RUN=true
-SETUP_ENV=$(mktemp)  
-cp rhtap/env.sh $SETUP_ENV
+SETUP_ENV=rhtap/env.sh 
+cp rhtap/env.template.sh $SETUP_ENV
 sed -i "s!\${{ values.image }}!quay.io/jduimovich0/bootstrap!g" $SETUP_ENV
 sed -i "s!\${{ values.dockerfile }}!Dockerfile!g" $SETUP_ENV
 sed -i "s!\${{ values.buildContext }}!.!g" $SETUP_ENV
