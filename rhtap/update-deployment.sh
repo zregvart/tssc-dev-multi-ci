@@ -13,11 +13,11 @@ function patch-gitops() {
 		exit_with_success_result
 	fi 
 
-	if [[ -v "$GITOPS_AUTH_PASSWORD" ]]; then
+	if [[ -n "$GITOPS_AUTH_PASSWORD" ]]; then
 	  gitops_repo_url=${GITOPS_REPO_URL%'.git'}
 	  remote_without_protocol=${gitops_repo_url#'https://'} 
 	  password=$GITOPS_AUTH_PASSWORD 
-	  if [[ -v "$GITOPS_AUTH_USERNAME" ]]; then
+	  if [[ -n "$GITOPS_AUTH_USERNAME" ]]; then
 	    username=$(cat /gitops-auth-secret/username)
 	    echo "https://${username}:${password})@${hostname}" > "${HOME}/.git-credentials"
 	    origin_with_auth=https://${username}:${password}@${remote_without_protocol}.git
