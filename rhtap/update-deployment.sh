@@ -8,6 +8,7 @@ source $SCRIPTDIR/common.sh
 
 function patch-gitops() {
 	echo "Running  patch-gitops"
+	echo "GITOPS_REPO_URL = <$GITOPS_REPO_URL>"
 	if [ -z "$GITOPS_REPO_URL" ]; then
 		echo "GITOPS_REPO_URL deployment will not be updated"
 		exit_with_success_result
