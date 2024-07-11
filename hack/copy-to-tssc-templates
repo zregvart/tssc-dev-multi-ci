@@ -1,0 +1,15 @@
+
+
+# src test 
+SRC_TEMPLATE=../tssc-sample-templates/skeleton/ci/source-repo/jenkins/rhtap/
+GITOPS_TEMPLATE=../tssc-sample-templates/skeleton/ci/gitops-template/jenkins/rhtap/
+
+# source repo part of template 
+mkdir -p $SRC_TEMPLATE
+cp rhtap/*.sh $SRC_TEMPLATE
+cp rhtap/env.template.sh $SRC_TEMPLATE/env.sh
+
+# gitops repo part of template 
+mkdir -p $GITOPS_TEMPLATE
+cp rhtap/*.sh $GITOPS_TEMPLATE
+cp rhtap/env.template.sh $GITOPS_TEMPLATE/env.sh

@@ -67,5 +67,5 @@ validate
 report
 report-json
 summary
-assert
-annotate-task
+assert 
+exit_with_success_result
