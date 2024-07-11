@@ -63,10 +63,8 @@ function generate-sboms() {
 }
 
 function upload-sbom() {
-	echo "Running $TASK_NAME:upload-sbom"
-	ls -al ~
+	echo "Running $TASK_NAME:upload-sbom" 
 	cosign attach sbom --sbom $TEMP_DIR/files/sbom-cyclonedx.json --type cyclonedx "$IMAGE"
-
 }
 function delim() { 
 	printf '=%.0s' {1..8}

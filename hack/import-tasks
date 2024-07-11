@@ -12,5 +12,5 @@ for task in $TASK_DIR/*; do
     scriptname=$(basename $filename .yaml)
     echo $filename
     echo $scriptname
-    yq -j $task > $SCRIPTS_DIR/json/$scriptname.json 
+    yq -o=json $task > $SCRIPTS_DIR/json/$scriptname.json 
 done

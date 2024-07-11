@@ -37,18 +37,6 @@
         "description": "Verify the TLS on the registry endpoint (for push/pull to a non-TLS registry)",
         "name": "TLSVERIFY",
         "type": "string"
-      },
-      {
-        "name": "BUILD_ARGS",
-        "description": "Array of --build-arg values (\"arg=value\" strings)",
-        "type": "array",
-        "default": []
-      },
-      {
-        "name": "BUILD_ARGS_FILE",
-        "description": "Path to a file with build arguments, see https://www.mankier.com/1/buildah-build#--build-arg-file",
-        "type": "string",
-        "default": ""
       }
     ],
     "results": [
@@ -90,21 +78,14 @@
         {
           "name": "TLSVERIFY",
           "value": "$(params.TLSVERIFY)"
-        },
-        {
-          "name": "BUILD_ARGS_FILE",
-          "value": "$(params.BUILD_ARGS_FILE)"
         }
       ]
     },
     "steps": [
       {
         "name": "build",
-        "image": "registry.access.redhat.com/ubi9/buildah@sha256:3b11aae36f6c762e01731952ee6fb8e89c41660ce410e4c30d0bfc6496bca93c",
-        "args": [
-          "$(params.BUILD_ARGS[*])"
-        ],
-        "script": "# Check if the Dockerfile exists\nSOURCE_CODE_DIR=source\nif [ -e \"$SOURCE_CODE_DIR/$CONTEXT/$DOCKERFILE\" ]; then\n  dockerfile_path=\"$SOURCE_CODE_DIR/$CONTEXT/$DOCKERFILE\"\nelif [ -e \"$SOURCE_CODE_DIR/$DOCKERFILE\" ]; then\n  dockerfile_path=\"$SOURCE_CODE_DIR/$DOCKERFILE\"\nelse\n  echo \"Cannot find Dockerfile $DOCKERFILE\"\n  exit 1\nfi\n\nBUILDAH_ARGS=()\nif [ -n \"${BUILD_ARGS_FILE}\" ]; then\n  BUILDAH_ARGS+=(\"--build-arg-file=${SOURCE_CODE_DIR}/${BUILD_ARGS_FILE}\")\nfi\n\nfor build_arg in \"$@\"; do\n  BUILDAH_ARGS+=(\"--build-arg=$build_arg\")\ndone\n\n# Build the image\nbuildah build \\\n  \"${BUILDAH_ARGS[@]}\" \\\n  --tls-verify=$TLSVERIFY \\\n  --ulimit nofile=4096:4096 \\\n  -f \"$dockerfile_path\" -t $IMAGE $SOURCE_CODE_DIR/$CONTEXT\n\n# Push the image\nbuildah push \\\n  --tls-verify=$TLSVERIFY \\\n  --retry=5 \\\n  --digestfile /tmp/files/image-digest $IMAGE \\\n  docker://$IMAGE\n\n# Set task results\nbuildah images --format '{{ .Name }}:{{ .Tag }}@{{ .Digest }}' | grep -v $IMAGE > $(results.BASE_IMAGES_DIGESTS.path)\ncat /tmp/files/image-digest | tee $(results.IMAGE_DIGEST.path)\necho -n \"$IMAGE\" | tee $(results.IMAGE_URL.path)\n\n# Save the image so it can be used in the generate-sbom step\nbuildah push \"$IMAGE\" oci:/tmp/files/image\n",
+        "image": "registry.access.redhat.com/ubi9/buildah@sha256:d28590e6ff9933a50be664e95a99ed9c85e0d50101ddc7f8f7cfc9ceea57fe30",
+        "script": "# Check if the Dockerfile exists\nSOURCE_CODE_DIR=source\nif [ -e \"$SOURCE_CODE_DIR/$CONTEXT/$DOCKERFILE\" ]; then\n  dockerfile_path=\"$SOURCE_CODE_DIR/$CONTEXT/$DOCKERFILE\"\nelif [ -e \"$SOURCE_CODE_DIR/$DOCKERFILE\" ]; then\n  dockerfile_path=\"$SOURCE_CODE_DIR/$DOCKERFILE\"\nelse\n  echo \"Cannot find Dockerfile $DOCKERFILE\"\n  exit 1\nfi\n\n# Build the image\nbuildah build \\\n  --tls-verify=$TLSVERIFY \\\n  --ulimit nofile=4096:4096 \\\n  -f \"$dockerfile_path\" -t $IMAGE $SOURCE_CODE_DIR/$CONTEXT\n\n# Push the image\nbuildah push \\\n  --tls-verify=$TLSVERIFY \\\n  --retry=5 \\\n  --digestfile /tmp/files/image-digest $IMAGE \\\n  docker://$IMAGE\n\n# Set task results\nbuildah images --format '{{ .Name }}:{{ .Tag }}@{{ .Digest }}' | grep -v $IMAGE > $(results.BASE_IMAGES_DIGESTS.path)\ncat /tmp/files/image-digest | tee $(results.IMAGE_DIGEST.path)\necho -n \"$IMAGE\" | tee $(results.IMAGE_URL.path)\n\n# Save the image so it can be used in the generate-sbom step\nbuildah push \"$IMAGE\" oci:/tmp/files/image\n",
         "securityContext": {
           "capabilities": {
             "add": [
@@ -142,7 +123,7 @@
       },
       {
         "name": "merge-sboms",
-        "image": "registry.access.redhat.com/ubi8/python-311@sha256:634918e88adb803029a99cb1a5a6bb42834c2560ee098e87677efdaf7309380d",
+        "image": "registry.access.redhat.com/ubi8/python-311@sha256:8ded4b6d8087706b6819ddda5d31f22b80e5aa4efa772e94d750699ccfbf98eb",
         "env": [
           {
             "name": "RESULT_PATH",

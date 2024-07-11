@@ -59,7 +59,7 @@
       },
       {
         "name": "rox-image-check",
-        "image": "registry.access.redhat.com/ubi8-minimal@sha256:f30dbf77b075215f6c827c269c073b5e0973e5cea8dacdf7ecb6a19c868f37f2",
+        "image": "registry.access.redhat.com/ubi8-minimal@sha256:d8b81a38b5ad9694742ea03159d3217cd2dde3997b1ee53bbb53c33dd67be7b7",
         "volumeMounts": [
           {
             "name": "rox-secret",
@@ -72,7 +72,7 @@
         ],
         "env": [
           {
-            "name": "PARAM_INSECURE_SKIP_TLS_VERIFY",
+            "name": "INSECURE_SKIP_TLS_VERIFY",
             "value": "$(params.insecure-skip-tls-verify)"
           },
           {
@@ -84,11 +84,11 @@
             "value": "$(params.image-digest)"
           }
         ],
-        "script": "#!/usr/bin/env bash\nset +x\n\n# Check if rox API enpoint is configured\nif test -f /rox-secret/rox-api-endpoint ; then\n  export ROX_CENTRAL_ENDPOINT=$(</rox-secret/rox-api-endpoint)\nelse\n  echo \"rox API endpoint is not set, demo will exit with success\"\n  echo \"TODO: configure the pipeline with your ACS server domain. Set your ACS endpoint under 'rox-api-endpoint' key in the secret specified in rox-secret-name parameter. For example: 'rox.stackrox.io:443'\"\n  exit 0\nfi\n\n# Check if rox API token is configured\nif test -f /rox-secret/rox-api-token ; then\n  export ROX_API_TOKEN=$(</rox-secret/rox-api-token)\nelse\n  echo \"rox API token is not set, demo will exit with success\"\n  echo \"TODO: configure the pipeline to have access to ROXCTL. Set you ACS token under 'rox-api-token' key in the secret specified in rox-secret-name parameter.\"\n  exit 0\nfi\n\necho \"Using rox central endpoint ${ROX_CENTRAL_ENDPOINT}\"\n\necho \"Download roxctl cli\"\nif [ \"${PARAM_INSECURE_SKIP_TLS_VERIFY}\" = \"true\" ]; then\n  curl_insecure='--insecure'\nfi\ncurl $curl_insecure -s -L -H \"Authorization: Bearer $ROX_API_TOKEN\" \\\n  \"https://${ROX_CENTRAL_ENDPOINT}/api/cli/download/roxctl-linux\" \\\n  --output ./roxctl \\\n  > /dev/null\nif [ $? -ne 0 ]; then\n  echo 'Failed to download roxctl'\n  exit 1\nfi\nreceived_filesize=$(stat -c%s ./roxctl)\nif (( $received_filesize < 10000 )); then\n  # Responce from ACS server is not a binary but error message\n  cat ./roxctl\n  echo 'Failed to download roxctl'\n  exit 2\nfi\nchmod +x ./roxctl  > /dev/null\n\necho \"roxctl image check\"\nIMAGE=${PARAM_IMAGE}@${PARAM_IMAGE_DIGEST}\n./roxctl image check \\\n  $( [ \"${PARAM_INSECURE_SKIP_TLS_VERIFY}\" = \"true\" ] && \\\n  echo -n \"--insecure-skip-tls-verify\") \\\n  -e \"${ROX_CENTRAL_ENDPOINT}\" --image \"$IMAGE\" --output json --force \\\n  > roxctl_image_check_output.json\ncp roxctl_image_check_output.json /steps-shared-folder/acs-image-check.json\n"
+        "script": "#!/usr/bin/env bash\nset +x\n\n# Check if rox API enpoint is configured\nif test -f /rox-secret/rox-api-endpoint ; then\n  export ROX_CENTRAL_ENDPOINT=$(</rox-secret/rox-api-endpoint)\nelse\n  echo \"rox API endpoint is not set, demo will exit with success\"\n  echo \"TODO: configure the pipeline with your ACS server domain. Set your ACS endpoint under 'rox-api-endpoint' key in the secret specified in rox-secret-name parameter. For example: 'rox.stackrox.io:443'\"\n  exit 0\nfi\n\n# Check if rox API token is configured\nif test -f /rox-secret/rox-api-token ; then\n  export ROX_API_TOKEN=$(</rox-secret/rox-api-token)\nelse\n  echo \"rox API token is not set, demo will exit with success\"\n  echo \"TODO: configure the pipeline to have access to ROXCTL. Set you ACS token under 'rox-api-token' key in the secret specified in rox-secret-name parameter.\"\n  exit 0\nfi\n\necho \"Using rox central endpoint ${ROX_CENTRAL_ENDPOINT}\"\n\necho \"Download roxctl cli\"\nif [ \"${INSECURE_SKIP_TLS_VERIFY}\" = \"true\" ]; then\n  curl_insecure='--insecure'\nfi\ncurl $curl_insecure -s -L -H \"Authorization: Bearer $ROX_API_TOKEN\" \\\n  \"https://${ROX_CENTRAL_ENDPOINT}/api/cli/download/roxctl-linux\" \\\n  --output ./roxctl \\\n  > /dev/null\nif [ $? -ne 0 ]; then\n  echo 'Failed to download roxctl'\n  exit 1\nfi\nreceived_filesize=$(stat -c%s ./roxctl)\nif (( $received_filesize < 10000 )); then\n  # Responce from ACS server is not a binary but error message\n  cat ./roxctl\n  echo 'Failed to download roxctl'\n  exit 2\nfi\nchmod +x ./roxctl  > /dev/null\n\necho \"roxctl image check\"\nIMAGE=${PARAM_IMAGE}@${PARAM_IMAGE_DIGEST}\n./roxctl image check \\\n  $( [ \"${INSECURE_SKIP_TLS_VERIFY}\" = \"true\" ] && \\\n  echo -n \"--insecure-skip-tls-verify\") \\\n  -e \"${ROX_CENTRAL_ENDPOINT}\" --image \"$IMAGE\" --output json --force \\\n  > roxctl_image_check_output.json\ncp roxctl_image_check_output.json /steps-shared-folder/acs-image-check.json\n"
       },
       {
         "name": "report",
-        "image": "registry.access.redhat.com/ubi8-minimal@sha256:f30dbf77b075215f6c827c269c073b5e0973e5cea8dacdf7ecb6a19c868f37f2",
+        "image": "registry.access.redhat.com/ubi8-minimal@sha256:d8b81a38b5ad9694742ea03159d3217cd2dde3997b1ee53bbb53c33dd67be7b7",
         "volumeMounts": [
           {
             "name": "shared-folder",

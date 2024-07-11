@@ -21,7 +21,7 @@ function rox-image-check() {
 	echo "Using rox central endpoint ${ROX_CENTRAL_ENDPOINT}"
 	
 	echo "Download roxctl cli"
-	if [ "${PARAM_INSECURE_SKIP_TLS_VERIFY}" = "true" ]; then
+	if [ "${INSECURE_SKIP_TLS_VERIFY}" = "true" ]; then
 	  curl_insecure='--insecure'
 	fi
 	curl $curl_insecure -s -L -H "Authorization: Bearer $ROX_API_TOKEN" \
@@ -44,7 +44,7 @@ function rox-image-check() {
 	echo "roxctl image check"
 	IMAGE=${PARAM_IMAGE}@${PARAM_IMAGE_DIGEST}
 	./roxctl image check \
-	  $( [ "${PARAM_INSECURE_SKIP_TLS_VERIFY}" = "true" ] && \
+	  $( [ "${INSECURE_SKIP_TLS_VERIFY}" = "true" ] && \
 	  echo -n "--insecure-skip-tls-verify") \
 	  -e "${ROX_CENTRAL_ENDPOINT}" --image "$IMAGE" --output json --force \
 	  > roxctl_image_check_output.json

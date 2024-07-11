@@ -53,7 +53,7 @@
             "value": "$(params.skip-checks)"
           }
         ],
-        "script": "#!/bin/bash\necho \"Build Initialize: $IMAGE_URL\"\necho\n\necho \"Determine if Image Already Exists\"\n# Build the image when rebuild is set to true or image does not exist\n# The image check comes last to avoid unnecessary, slow API calls\nif [ \"$REBUILD\" == \"true\" ] || [ \"$SKIP_CHECKS\" == \"false\" ] || ! oc image info $IMAGE_URL &>/dev/null; then\n  echo -n \"true\" > $(results.build.path)\nelse\n  echo -n \"false\" > $(results.build.path)\nfi\n"
+        "script": "#!/bin/bash\necho \"Build Initialize: $IMAGE_URL\"\necho\n\necho \"Determine if Image Already Exists\"\n# Build the image when image does not exists or rebuild is set to true\nif ! oc image info $IMAGE_URL &>/dev/null || [ \"$REBUILD\" == \"true\" ] || [ \"$SKIP_CHECKS\" == \"false\" ]; then\n  echo -n \"true\" > $(results.build.path)\nelse\n  echo -n \"false\" > $(results.build.path)\nfi\n"
       }
     ]
   }

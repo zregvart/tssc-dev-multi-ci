@@ -22,8 +22,8 @@ function rox-deploy-check() {
 	echo "Using rox central endpoint ${ROX_CENTRAL_ENDPOINT}"
 	
 	# Clone gitops repository
-	echo "Using gitops repository: ${PARAM_GITOPS_REPO_URL}"
-	git clone "${PARAM_GITOPS_REPO_URL}" --single-branch --depth 1 gitops
+	echo "Using gitops repository: ${GITOPS_REPO_URL}"
+	git clone "${GITOPS_REPO_URL}" --single-branch --depth 1 gitops
 	cd gitops
 	echo "List of files in gitops repository root:"
 	ls -al
@@ -31,7 +31,7 @@ function rox-deploy-check() {
 	ls -l components/
 	
 	echo "Download roxctl cli"
-	if [ "${PARAM_INSECURE_SKIP_TLS_VERIFY}" = "true" ] ; then
+	if [ "${INSECURE_SKIP_TLS_VERIFY}" = "true" ] ; then
 	  curl_insecure='--insecure'
 	fi
 	curl $curl_insecure -s -L -H "Authorization: Bearer $ROX_API_TOKEN" \
@@ -50,7 +50,7 @@ function rox-deploy-check() {
 	if [ -f "$file_to_check" ]; then
 	  echo "ROXCTL on $file_to_check"
 	  ./roxctl deployment check \
-	    $( [ "${PARAM_INSECURE_SKIP_TLS_VERIFY}" = "true" ] && echo -n "--insecure-skip-tls-verify") \
+	    $( [ "${INSECURE_SKIP_TLS_VERIFY}" = "true" ] && echo -n "--insecure-skip-tls-verify") \
 	    -e "${ROX_CENTRAL_ENDPOINT}" --file "$file_to_check" --output json \
 	    > $TEMP_DIR/roxctl_deployment_check_output.json
 	  cp $TEMP_DIR/roxctl_deployment_check_output.json /workspace/repository/acs-deploy-check.json

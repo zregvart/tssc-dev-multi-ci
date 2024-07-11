@@ -38,26 +38,26 @@ function convert_task(task) {
     if (results) {
         for (r of results) {
             const key = "results." + r.name + ".path" 
-            replacements[key] = "./results/" + r.name
+            replacements[key] = "$RESULTS/" + r.name
         }
     }
     out ("#!/bin/bash")
+    out ('SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"')
     out ("# " + task_name)
-    out ("mkdir -p ./results")
+    out ("source $SCRIPTDIR/common.sh")
     out ("")
     out ("# Top level parameters ")
-    for(  p of params) {
-        exp= (task_name+"_PARAM_" + p.name).toUpperCase().replaceAll ("-", "_").replaceAll(".", "_")
-        out ("export " + exp + "=") 
-    }
-    out ("")
+    // for(  p of params) {
+    //     exp= (p.name).toUpperCase().replaceAll ("-", "_").replaceAll(".", "_")
+    //     out ("export " + exp + "=") 
+    // }
+    // out ("")
     steps=task.spec.steps
     idx=0
     for (p of steps) {
         out("")
         out("function " + p.name + "() {")
-        out('\techo "Running  ' + p.name + '"')
-
+        out('\techo "Running $TASK_NAME:' + p.name + '"')
         var lines = expandStep(steps[idx],replacements)
         lines = lines.split('\n');
         for (const line of lines) {
@@ -84,7 +84,6 @@ fs.readFile(process.argv[2], function(err, data) {
     } else {
         try {
             scriptfile = JSON.parse(data.toString('utf8',0,data.length));
-
             convert_task (scriptfile)
         } catch (e) {
             console.log('Error parsing scriptfile.json: '+e);
