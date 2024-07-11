@@ -1,0 +1,8 @@
+
+
+# src test 
+SRC_TEMPLATE=../tssc-sample-templates/skeleton/ci/source-repo/jenkins/rhtap/
+GITOPS_TEMPLATE=../tssc-sample-templates/skeleton/ci/gitops-template/jenkins/rhtap/
+
+diff rhtap $SRC_TEMPLATE --exclude env.sh --exclude env.template.sh 
+diff rhtap $GITOPS_TEMPLATE --exclude env.sh --exclude env.template.sh  

@@ -6,12 +6,7 @@ pipeline {
         GITOPS_AUTH_PASSWORD = credentials('GITOPS_AUTH_PASSWORD')
         QUAY_IO_CREDS = credentials('QUAY_IO_CREDS')
     }   
-    stages {
-        stage('test secret passing') {
-            steps {
-                echo "test secret passing ROX_CENTRAL_ENDPOINT = $ROX_CENTRAL_ENDPOINT" 
-            }
-        } 
+    stages { 
         stage('init.sh') {
             steps {
                 echo 'Initialize and check dependencies' 

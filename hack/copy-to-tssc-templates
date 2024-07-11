@@ -1,15 +1,19 @@
 
 
 # src test 
-SRC_TEMPLATE=../tssc-sample-templates/skeleton/ci/source-repo/jenkins/rhtap/
-GITOPS_TEMPLATE=../tssc-sample-templates/skeleton/ci/gitops-template/jenkins/rhtap/
+SRC_TEMPLATE=../tssc-sample-templates/skeleton/ci/source-repo/jenkins
+GITOPS_TEMPLATE=../tssc-sample-templates/skeleton/ci/gitops-template/jenkins/
 
 # source repo part of template 
 mkdir -p $SRC_TEMPLATE
-cp rhtap/*.sh $SRC_TEMPLATE
-cp rhtap/env.template.sh $SRC_TEMPLATE/env.sh
+cp rhtap/*.sh $SRC_TEMPLATE/rhtap
+cp Jenkinsfile $SRC_TEMPLATE/Jenkinsfile
+cp rhtap/env.template.sh $SRC_TEMPLATE/rhtap/env.sh 
 
 # gitops repo part of template 
 mkdir -p $GITOPS_TEMPLATE
-cp rhtap/*.sh $GITOPS_TEMPLATE
-cp rhtap/env.template.sh $GITOPS_TEMPLATE/env.sh
+cp rhtap/common.sh $GITOPS_TEMPLATE/rhtap
+cp rhtap/gather-deploy-images.sh $GITOPS_TEMPLATE/rhtap
+cp rhtap/verify-enterprise-contract.sh $GITOPS_TEMPLATE/rhtap 
+cp Jenkinsfile.gitops $GITOPS_TEMPLATE/Jenkinsfile
+cp rhtap/env.template.sh $GITOPS_TEMPLATE/rhtap/env.sh  
