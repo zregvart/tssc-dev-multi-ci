@@ -27,3 +27,15 @@ export PARAM_IMAGE_DIGEST=latest
 
 # From Summary 
 export SOURCE_BUILD_RESULT_FILE= 
+
+
+# needs to be generated and private and public key and put into the Jenkins secrets
+# TBD signing it 
+export PUBLIC_KEY= 
+# enterprise contract 
+export POLICY_CONFIGURATION="enterprise-contract-service/default" 
+export REKOR_HOST=  
+export IGNORE_REKOR=false
+export INFO=tue
+export EFFECTIVE_TIME=now 
+export HOMEDIR=$(pwd)
