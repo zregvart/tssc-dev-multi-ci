@@ -47,6 +47,8 @@ function get-images-per-env() {
 	    "components": map({"containerImage": .})
 	  }
 	' | tee $RESULTS/IMAGES_TO_VERIFY
+
+	cat $RESULTS/IMAGES_TO_VERIFY | jq
 	
 }
 

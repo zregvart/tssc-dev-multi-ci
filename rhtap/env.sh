@@ -28,14 +28,21 @@ export PARAM_IMAGE_DIGEST=latest
 # From Summary 
 export SOURCE_BUILD_RESULT_FILE= 
 
+# gather images params
+
+export TARGET_BRANCH=""
+export TARGET_BRANCH=""
 
 # needs to be generated and private and public key and put into the Jenkins secrets
 # TBD signing it 
 export PUBLIC_KEY= 
 # enterprise contract 
 export POLICY_CONFIGURATION="enterprise-contract-service/default" 
-export REKOR_HOST=  
+#internal, assumes jenkins is local openshift
+export REKOR_HOST=http://rekor-server.rhtap.svc
 export IGNORE_REKOR=false
-export INFO=tue
+export INFO=true
+export STRICT=true
 export EFFECTIVE_TIME=now 
 export HOMEDIR=$(pwd)
+export TUF_MIRROR=http://tuf.rhtap.svc 

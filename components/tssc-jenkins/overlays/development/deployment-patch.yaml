@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    tad.gitops.set/image: ".spec.template.spec.containers[0].image"
+    tad.gitops.get/image: ".spec.template.spec.containers[0].image"
+    tad.gitops.set/replicas: ".spec.replicas"
+    tad.gitops.get/replicas: ".spec.replicas"
+  name: tssc-jenkins
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - image: quay.io/jduimovich0/tssc-jenkins:jenkins-a390f2199fc9f5af5cae59515dd6c7a25b6855b5
+          name: container-image

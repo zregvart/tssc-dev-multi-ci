@@ -16,16 +16,19 @@ function initialize-tuf() {
 	
 	if [[ -z "${TUF_MIRROR:-}" ]]; then
 	    echo 'TUF_MIRROR not set. Skipping TUF root initialization.'
-	    exit
+	else 
+		echo 'Initializing TUF root...'
+		cosign initialize --mirror "${TUF_MIRROR}" --root "${TUF_MIRROR}/root.json"
+		echo 'Done!'
 	fi
-	
-	echo 'Initializing TUF root...'
-	cosign initialize --mirror "${TUF_MIRROR}" --root "${TUF_MIRROR}/root.json"
-	echo 'Done!'
 }
 
 function validate() {
 	echo "Running $TASK_NAME:validate"
+	
+	IMAGES=$(cat $BASE_RESULTS/gather-deploy-images/IMAGES_TO_VERIFY)
+	echo "Images to Verify "
+	cat $BASE_RESULTS/gather-deploy-images/IMAGES_TO_VERIFY | jq  
 	ec "$IMAGES" \
           "--policy" \
           "$POLICY_CONFIGURATION" \
