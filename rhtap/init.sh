@@ -44,6 +44,7 @@ fi
 # For now, always build. 
 function init() {
 	echo "Running $TASK_NAME:init"
+	echo "DEMO $TASK_NAME:init"
 	#!/bin/bash
 	echo "Build Initialize: $IMAGE_URL" 	
 	echo "Determine if Image Already Exists"
