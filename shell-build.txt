@@ -9,6 +9,13 @@ OK: QUAY_IO_CREDS_USR
 OK: QUAY_IO_CREDS_PSW
 OK: DISABLE_ACS
 OK: GITOPS_AUTH_PASSWORD
+OK: POLICY_CONFIGURATION
+OK: REKOR_HOST
+OK: IGNORE_REKOR
+OK: INFO
+OK: STRICT
+OK: EFFECTIVE_TIME
+OK: HOMEDIR
 Binaries:
 OK: git in /usr/bin/git
 OK: curl in /usr/bin/curl
@@ -21,7 +28,7 @@ OK: python3 in /usr/bin/python3
 Env vars and binaries ok
 Dependency Error  = 0
 Running init:init
-Build Initialize: quay.io/jduimovich0/bootstrap:jenkins-81373917ecb7daea8c1590a22427191456b310f4
+Build Initialize: quay.io/jduimovich0/bootstrap:jenkins-1c10f489c7e243a344f5e41f06fe8c0dd20d54c0
 Determine if Image Already Exists
 Error code for rhtap/init.sh = 0
 ________________________________________________________________
@@ -39,7 +46,7 @@ STEP 4/9: COPY html html
 STEP 5/9: COPY app.js app.js 
 STEP 6/9: RUN npm install --only=production
 
-added 64 packages, and audited 65 packages in 922ms
+added 64 packages, and audited 65 packages in 1s
 
 12 packages are looking for funding
   run `npm fund` for details
@@ -48,11 +55,11 @@ found 0 vulnerabilities
 STEP 7/9: ENV PORT 8080
 STEP 8/9: EXPOSE $PORT
 STEP 9/9: CMD [ "node", "app.js" ]
-COMMIT quay.io/jduimovich0/bootstrap:jenkins-81373917ecb7daea8c1590a22427191456b310f4
---> eb3ceb1179e6
-Successfully tagged quay.io/jduimovich0/bootstrap:jenkins-81373917ecb7daea8c1590a22427191456b310f4
-eb3ceb1179e650e26356b1be27a4fb88266a5b21035889d3487080c20d2c2baa
-sha256:3f3ba560e9fadcfd96d298113fd821cbaf511be9682107df7dcf627e2e6b9d13quay.io/jduimovich0/bootstrap:jenkins-81373917ecb7daea8c1590a22427191456b310f4========Running buildah-rhtap:generate-sboms
+COMMIT quay.io/jduimovich0/bootstrap:jenkins-1c10f489c7e243a344f5e41f06fe8c0dd20d54c0
+--> 7534d8644207
+Successfully tagged quay.io/jduimovich0/bootstrap:jenkins-1c10f489c7e243a344f5e41f06fe8c0dd20d54c0
+7534d8644207fb4416f1d99a0017ab81b58335cc7298930637e2ca85bf8dabf3
+sha256:4113dfd7e770bc154121d090996ad20dec58cf1c4677d137be01073f7a03f92bquay.io/jduimovich0/bootstrap:jenkins-1c10f489c7e243a344f5e41f06fe8c0dd20d54c0========Running buildah-rhtap:generate-sboms
 ========RUNNING PYTHON 
 ========Running buildah-rhtap:upload-sbom
 ========Error code for rhtap/buildah-rhtap.sh = 0
@@ -100,10 +107,10 @@ SBOM_EYECATCHER_BEGIN
     "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
     "bomFormat": "CycloneDX",
     "specVersion": "1.5",
-    "serialNumber": "urn:uuid:d73d1766-c77e-4497-87c8-45a41dc2d128",
+    "serialNumber": "urn:uuid:9c797953-3a53-48e6-8359-23f827ce3f60",
     "version": 1,
     "metadata": {
-        "timestamp": "2024-07-11T10:54:46-04:00",
+        "timestamp": "2024-07-12T09:49:46-04:00",
         "tools": {
             "components": [
                 {
@@ -115,10 +122,10 @@ SBOM_EYECATCHER_BEGIN
             ]
         },
         "component": {
-            "bom-ref": "a6d2430004673c41",
+            "bom-ref": "1c1cebdd1a1ab47f",
             "type": "container",
             "name": "/home/john/dev/tssc-jenkins/results/temp/files/image",
-            "version": "sha256:3f3ba560e9fadcfd96d298113fd821cbaf511be9682107df7dcf627e2e6b9d13"
+            "version": "sha256:4113dfd7e770bc154121d090996ad20dec58cf1c4677d137be01073f7a03f92b"
         },
         "properties": [
             {
@@ -1948,7 +1955,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -2686,7 +2693,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -3858,7 +3865,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -4123,7 +4130,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -4412,7 +4419,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -5274,7 +5281,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -5337,7 +5344,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -5380,7 +5387,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -5429,7 +5436,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -6345,7 +6352,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -6594,7 +6601,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -6637,7 +6644,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -6680,7 +6687,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -7390,7 +7397,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -7675,7 +7682,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -7965,7 +7972,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -8046,7 +8053,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -8108,7 +8115,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -8150,7 +8157,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -8280,7 +8287,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -8482,7 +8489,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -8991,7 +8998,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -9034,7 +9041,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -9358,7 +9365,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -9904,7 +9911,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -11419,7 +11426,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -12652,7 +12659,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -12733,7 +12740,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -12822,7 +12829,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -12936,7 +12943,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -13302,7 +13309,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -13398,7 +13405,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -13621,7 +13628,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -14636,7 +14643,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -15067,7 +15074,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -47746,7 +47753,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -48219,7 +48226,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -48261,7 +48268,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -48310,7 +48317,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -48372,7 +48379,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -48434,7 +48441,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -49591,7 +49598,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -49717,7 +49724,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -50169,7 +50176,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -51406,7 +51413,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -51468,7 +51475,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -51916,7 +51923,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -52292,7 +52299,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -54144,7 +54151,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -54744,7 +54751,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -54807,7 +54814,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -54870,7 +54877,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -55507,7 +55514,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -55645,7 +55652,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -55835,7 +55842,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -55996,7 +56003,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -56093,7 +56100,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -56150,7 +56157,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -56451,7 +56458,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -57492,7 +57499,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -58634,7 +58641,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -58830,7 +58837,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -59163,7 +59170,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -59817,7 +59824,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -60225,7 +60232,7 @@ SBOM_EYECATCHER_BEGIN
                 },
                 {
                     "name": "syft:location:0:layerID",
-                    "value": "sha256:c3af5cdeed7e741e182bc40b668faaf14de4ff2a6f88b5e0290dfd144433f9d3"
+                    "value": "sha256:35585f06d4c6530a61bb60c17815649ca7105704932349cbe158357150966f73"
                 },
                 {
                     "name": "syft:location:0:path",
@@ -64796,7 +64803,7 @@ Running summary:appstudio-summary
 Build Summary:
 
 Build repository: 
-Generated Image is in : quay.io/jduimovich0/bootstrap:jenkins-81373917ecb7daea8c1590a22427191456b310f4
+Generated Image is in : quay.io/jduimovich0/bootstrap:jenkins-1c10f489c7e243a344f5e41f06fe8c0dd20d54c0
 
 End Summary
 /home/john/dev/tssc-jenkins/results
@@ -64825,16 +64832,16 @@ End Summary
 │       │   ├── blobs
 │       │   │   └── sha256
 │       │   │       ├── 0653190f423a0daac91bc38a795b0c08f99028d3e8d2d3c700025b7181fc814b
-│       │   │       ├── 3f3ba560e9fadcfd96d298113fd821cbaf511be9682107df7dcf627e2e6b9d13
+│       │   │       ├── 1ed8b885658624a7fbb6f39911df2b2541692d0ed2abafd9b05777b193c5cf1a
+│       │   │       ├── 4113dfd7e770bc154121d090996ad20dec58cf1c4677d137be01073f7a03f92b
+│       │   │       ├── 7534d8644207fb4416f1d99a0017ab81b58335cc7298930637e2ca85bf8dabf3
 │       │   │       ├── 9823e5e1496593732ba3c3f9269015d711575d8f9068f2baaf4b6d8723d1f31f
 │       │   │       ├── 999fc2c46ae1b12264069b1e0e25b1d233596e524c36662561fedf7e8fd170c1
 │       │   │       ├── 9b862c515aa80e761dd026e04dcf654aaf25bc17cd0e9a74cdf484eed3f0fc8e
 │       │   │       ├── a8e6d102d2261352b07c6426503dc5383648968bd9e0a699ccb6c784d22b5921
 │       │   │       ├── b020c541649c9d8dbb4d5f57c0ddb9c3f2126e2d091bb8f6628663039057955a
 │       │   │       ├── bb4db4aab693c8f49ae017de85bf788cd8987f09a73a877ad25329b7fb642cfe
-│       │   │       ├── ea6edaf32fbd80e258521bc4bf7765b5ca6e771697074b96684518726156513c
-│       │   │       ├── eb3ceb1179e650e26356b1be27a4fb88266a5b21035889d3487080c20d2c2baa
-│       │   │       └── f01ba2efb04f1c5c0f02e875b78285bdd7df08b8261e3deafac480b51cae1009
+│       │   │       └── ea6edaf32fbd80e258521bc4bf7765b5ca6e771697074b96684518726156513c
 │       │   ├── index.json
 │       │   └── oci-layout
 │       ├── image-digest
@@ -64875,16 +64882,16 @@ ________________________________________________________________
 │       │   ├── blobs
 │       │   │   └── sha256
 │       │   │       ├── 0653190f423a0daac91bc38a795b0c08f99028d3e8d2d3c700025b7181fc814b
-│       │   │       ├── 3f3ba560e9fadcfd96d298113fd821cbaf511be9682107df7dcf627e2e6b9d13
+│       │   │       ├── 1ed8b885658624a7fbb6f39911df2b2541692d0ed2abafd9b05777b193c5cf1a
+│       │   │       ├── 4113dfd7e770bc154121d090996ad20dec58cf1c4677d137be01073f7a03f92b
+│       │   │       ├── 7534d8644207fb4416f1d99a0017ab81b58335cc7298930637e2ca85bf8dabf3
 │       │   │       ├── 9823e5e1496593732ba3c3f9269015d711575d8f9068f2baaf4b6d8723d1f31f
 │       │   │       ├── 999fc2c46ae1b12264069b1e0e25b1d233596e524c36662561fedf7e8fd170c1
 │       │   │       ├── 9b862c515aa80e761dd026e04dcf654aaf25bc17cd0e9a74cdf484eed3f0fc8e
 │       │   │       ├── a8e6d102d2261352b07c6426503dc5383648968bd9e0a699ccb6c784d22b5921
 │       │   │       ├── b020c541649c9d8dbb4d5f57c0ddb9c3f2126e2d091bb8f6628663039057955a
 │       │   │       ├── bb4db4aab693c8f49ae017de85bf788cd8987f09a73a877ad25329b7fb642cfe
-│       │   │       ├── ea6edaf32fbd80e258521bc4bf7765b5ca6e771697074b96684518726156513c
-│       │   │       ├── eb3ceb1179e650e26356b1be27a4fb88266a5b21035889d3487080c20d2c2baa
-│       │   │       └── f01ba2efb04f1c5c0f02e875b78285bdd7df08b8261e3deafac480b51cae1009
+│       │   │       └── ea6edaf32fbd80e258521bc4bf7765b5ca6e771697074b96684518726156513c
 │       │   ├── index.json
 │       │   └── oci-layout
 │       ├── image-digest
