@@ -7,7 +7,7 @@ source $SCRIPTDIR/common.sh
 
 function version() {
 	echo "Running $TASK_NAME:version"
-	ec
+	ec version  
 }
 
 function initialize-tuf() {
@@ -26,40 +26,47 @@ function initialize-tuf() {
 
 function validate() {
 	echo "Running $TASK_NAME:validate"
-	ec
+	ec "$IMAGES" \
+          "--policy" \
+          "$POLICY_CONFIGURATION" \
+          "--public-key" \
+          "$PUBLIC_KEY" \
+          "--rekor-url" \
+          "$REKOR_HOST" \
+          "--ignore-rekor=$IGNORE_REKOR" \
+          "--info=$INFO" \
+          "--strict=false" \
+          "--show-successes" \
+          "--effective-time=$EFFECTIVE_TIME \
+          "--output" \ 
+          "yaml=$HOMEDIR/report.yaml" \
+          "--output" \
+          "appstudio=$RESULTS/TEST_OUTPUT" \
+          "--output" \
+          "json=$HOMEDIR/report-json.json"
 }
 
 function report() {
 	echo "Running $TASK_NAME:report"
-	cat
-}
+	cat "$HOMEDIR/report.yaml" 
 
 function report-json() {
 	echo "Running $TASK_NAME:report-json"
-	cat
+	cat  "$HOMEDIR/report-json.json" 
 }
 
 function summary() {
 	echo "Running $TASK_NAME:summary"
-	jq
+	jq "." "$RESULTS/TEST_OUTPUT" 
 }
 
 function assert() {
 	echo "Running $TASK_NAME:assert"
-	jq
+	jq --argjson strict "$STRICT" -e" \
+        ".result == \"SUCCESS\" or .result == \"WARNING\" or ($strict | not)\n" \
+          "$RESULTS/TEST_OUTPUT"
 }
-
-function annotate-task() {
-	echo "Running $TASK_NAME:annotate-task"
-	#!/usr/bin/env bash
-	echo "verify-enterprise-contract $(context.taskRun.name)"
-	oc annotate taskrun $(context.taskRun.name) task.results.format=application/json
-	oc annotate taskrun $(context.taskRun.name) task.results.type=ec
-	oc annotate taskrun $(context.taskRun.name) task.results.container=step-report-json
-	oc annotate taskrun $(context.taskRun.name) task.output.location=logs
-	
-}
-
+  
 # Task Steps 
 version
 initialize-tuf
