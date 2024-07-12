@@ -4,12 +4,19 @@
 # the env.template is copyed to the RHDH sample templates
 # into env.sh and is filled in by the template expansion
 export LOCAL_SHELL_RUN=true
+
+# optional set repo url and it will update this repo with the new image
+# this means you need to pull after a build to be in sync
+
+OPTIONAL_REPO_UPDATE=https://github.com/jduimovich/tssc-jenkins   	
+OPTIONAL_REPO_UPDATE=   	
+
 SETUP_ENV=rhtap/env.sh 
 cp rhtap/env.template.sh $SETUP_ENV
 sed -i "s!\${{ values.image }}!quay.io/jduimovich0/bootstrap!g" $SETUP_ENV
 sed -i "s!\${{ values.dockerfile }}!Dockerfile!g" $SETUP_ENV
 sed -i "s!\${{ values.buildContext }}!.!g" $SETUP_ENV
-sed -i "s!\${{ values.repoURL }}!!g" $SETUP_ENV
+sed -i "s!\${{ values.repoURL }}!$OPTIONAL_REPO_UPDATE!g" $SETUP_ENV
 source $SETUP_ENV 
 
 COUNT=0
