@@ -30,9 +30,7 @@ export SOURCE_BUILD_RESULT_FILE=
 
 # gather images params
 
-export TARGET_BRANCH=""
-export TARGET_BRANCH=""
-
+export TARGET_BRANCH="" 
 # needs to be generated and private and public key and put into the Jenkins secrets
 # TBD signing it 
 export PUBLIC_KEY= 
