@@ -19,5 +19,8 @@ mkdir -p $GITOPS_TEMPLATE/rhtap
 cp rhtap/env.template.sh $GITOPS_TEMPLATE/rhtap/env.sh  
 cp Jenkinsfile.gitops $GITOPS_TEMPLATE/Jenkinsfile
 
-# share lib portion 
+# shared lib portion 
 cp rhtap/*.sh $JENKINS_SHARED_LIB/resources
+# skip the env files, they will be in the templates as per above copy
+rm $JENKINS_SHARED_LIB/resources/env.sh
+rm $JENKINS_SHARED_LIB/resources/env.template.sh
