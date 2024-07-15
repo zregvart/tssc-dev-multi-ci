@@ -9,35 +9,45 @@ pipeline {
     stages { 
         stage('init.sh') {
             steps {
-                echo 'Initialize and check dependencies' 
-                sh "rhtap/init.sh"  
+                script { 
+                    rhtap.info ("Init")
+                    rhtap.init() 
+                }
             }
-        }
+        } 
         stage('build') {
             steps {
-                echo 'build-container..' 
-                sh "rhtap/buildah-rhtap.sh"  
+                script { 
+                    rhtap.info( 'build_container..') 
+                    rhtap.buildah_rhtap()  
+                }
             }
         }
         stage('scan') {
             steps {
-                echo 'acs-scans' 
-                sh "rhtap/acs-deploy-check.sh"  
-                sh "rhtap/acs-image-check.sh"  
-                sh "rhtap/acs-image-scan.sh"  
+                script { 
+                    rhtap.info('acs_scans' )
+                    rhtap.acs_deploy_check()  
+                    rhtap.acs_image_check()  
+                    rhtap.acs_image_scan()  
+                }
             }
         }
         stage('deploy') {
             steps {
-                echo 'deploy' 
-                sh "rhtap/update-deployment.sh"  
+                script { 
+                    rhtap.info('deploy' ) 
+                    rhtap.update_deployment()  
+                }
             }
         }
         stage('summary') {
             steps {
-                echo 'summary' 
-                sh "rhtap/show-sbom-rhdh.sh"  
-                sh "rhtap/summary.sh"  
+                script { 
+                    rhtap.info('summary' )  
+                    rhtap.show_sbom_rhdh()  
+                    rhtap.summary()  
+                }
             }
         }
     }
