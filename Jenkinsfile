@@ -1,3 +1,4 @@
+@Library('RHTAP_Jenkins') _
 pipeline { 
     agent any
     environment {
