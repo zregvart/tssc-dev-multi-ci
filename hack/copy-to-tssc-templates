@@ -1,12 +1,24 @@
 
 
-echo "This will copy to ../tssc-sample-templates and ../rhtap-jenkins"
-echo "You must manually push the changes to the templates files. "
-# src test 
-SRC_TEMPLATE=../tssc-sample-templates/skeleton/ci/source-repo/jenkins
+# src test
+TEMPLATES=../tssc-sample-templates
+SRC_TEMPLATE=$TEMPLATES/skeleton/ci/source-repo/jenkins
 GITOPS_TEMPLATE=../tssc-sample-templates/skeleton/ci/gitops-template/jenkins
 JENKINS_SHARED_LIB=../tssc-sample-jenkins
 
+echo
+if [ -d $TEMPLATES ]; then
+    echo "Updating $TEMPLATES"
+ else 
+    echo "$TEMPLATES missing, clone or fork  https://github.com/redhat-appstudio/tssc-sample-templates into $TEMPLATES"
+    exit 0
+fi 
+if [ -d $JENKINS_SHARED_LIB ]; then
+    echo "Updating $JENKINS_SHARED_LIB"
+else 
+    echo "$JENKINS_SHARED_LIB missing, clone or fork  https://github.com/redhat-appstudio/tssc-sample-templates into JENKINS_SHARED_LIB"
+    exit 0
+fi 
 # source repo part of template 
 rm -rf $SRC_TEMPLATE 
 mkdir -p $SRC_TEMPLATE/rhtap
@@ -24,3 +36,11 @@ cp rhtap/*.sh $JENKINS_SHARED_LIB/resources
 # skip the env files, they will be in the templates as per above copy
 rm $JENKINS_SHARED_LIB/resources/env.sh
 rm $JENKINS_SHARED_LIB/resources/env.template.sh
+
+echo "You will have to manually commit any changes to template or jenkins files"
+echo
+echo "Checking git status in $TEMPLATES"
+(cd $TEMPLATES;  git remote -v ; git status)
+echo
+echo "Checking git status in $JENKINS_SHARED_LIB"
+(cd $JENKINS_SHARED_LIB ;  git remote -v ; git status)
