@@ -6,13 +6,12 @@ export SKIP_CHECKS=true
 TAG=$(git rev-parse HEAD)
 export IMAGE_URL=${{ values.image }}:jenkins-$TAG
 export IMAGE=$IMAGE_URL
-export RESULT_PATH=$DIR/results/temp/files/sbom-url
-#export XDG_RUNTIME_DIR=/home/john/dev/auth-creds
+export RESULT_PATH=$DIR/results/temp/files/sbom-url 
  
 export DOCKERFILE=${{ values.dockerfile }}
 export CONTEXT=${{ values.buildContext }}
 export TLSVERIFY=false
-export BUILD_ARGS="--authfile /home/john/dev/auth-creds/auth.json" 
+export BUILD_ARGS="" 
 export BUILD_ARGS_FILE=""
 
 # from ACS_*.* 
