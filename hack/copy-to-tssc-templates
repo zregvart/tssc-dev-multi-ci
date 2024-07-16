@@ -16,7 +16,7 @@ fi
 if [ -d $JENKINS_SHARED_LIB ]; then
     echo "Updating $JENKINS_SHARED_LIB"
 else 
-    echo "$JENKINS_SHARED_LIB missing, clone or fork  https://github.com/redhat-appstudio/tssc-sample-templates into JENKINS_SHARED_LIB"
+    echo "$JENKINS_SHARED_LIB missing, clone or fork  https://github.com/redhat-appstudio/tssc-sample-jenkins into JENKINS_SHARED_LIB"
     exit 0
 fi 
 # source repo part of template 
