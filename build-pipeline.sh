@@ -8,7 +8,9 @@ export LOCAL_SHELL_RUN=true
 # optional set repo url and it will update this repo with the new image
 # this means you need to pull after a build to be in sync
 
-OPTIONAL_REPO_UPDATE=https://github.com/jduimovich/tssc-jenkins   	
+# get the URL of the repo, works for forks 
+OPTIONAL_REPO_UPDATE=$(git remote get-url origin)   
+# don't image gitops, good for testing build only	
 OPTIONAL_REPO_UPDATE=   	
 
 SETUP_ENV=rhtap/env.sh 
