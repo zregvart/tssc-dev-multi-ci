@@ -6,7 +6,7 @@
 export LOCAL_SHELL_RUN=true
 SETUP_ENV=rhtap/env.sh 
 cp rhtap/env.template.sh $SETUP_ENV
-sed -i "s!\${{ values.image }}!quay.io/jduimovich0/bootstrap!g" $SETUP_ENV
+sed -i "s!\${{ values.image }}!quay.io/$MY_QUAY_USER/bootstrap!g" $SETUP_ENV
 sed -i "s!\${{ values.dockerfile }}!Dockerfile!g" $SETUP_ENV
 sed -i "s!\${{ values.buildContext }}!.!g" $SETUP_ENV
 sed -i "s!\${{ values.repoURL }}!!g" $SETUP_ENV
