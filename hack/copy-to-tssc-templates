@@ -5,7 +5,7 @@ echo "You must manually push the changes to the templates files. "
 # src test 
 SRC_TEMPLATE=../tssc-sample-templates/skeleton/ci/source-repo/jenkins
 GITOPS_TEMPLATE=../tssc-sample-templates/skeleton/ci/gitops-template/jenkins
-JENKINS_SHARED_LIB=../rhtap-jenkins
+JENKINS_SHARED_LIB=../tssc-sample-jenkins
 
 # source repo part of template 
 rm -rf $SRC_TEMPLATE 
