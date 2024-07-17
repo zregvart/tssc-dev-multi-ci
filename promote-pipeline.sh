@@ -4,6 +4,18 @@
 # the env.template is copyed to the RHDH sample templates
 # into env.sh and is filled in by the template expansion
 export LOCAL_SHELL_RUN=true
+
+REQUIRED_ENV="MY_QUAY_USER "
+REQUIRED_BINARY="tree "
+rhtap/verify-deps-exist "$REQUIRED_ENV" "$REQUIRED_BINARY" 
+ERR=$?
+echo "Dependency Error $1 = $ERR" 
+if [ $ERR != 0 ]; then
+	echo "Fatal Error code for $1 = $ERR" 
+	exit $ERR
+fi
+
+
 SETUP_ENV=rhtap/env.sh 
 cp rhtap/env.template.sh $SETUP_ENV
 sed -i "s!\${{ values.image }}!quay.io/$MY_QUAY_USER/bootstrap!g" $SETUP_ENV

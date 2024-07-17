@@ -16,6 +16,12 @@ OPTIONAL_REPO_UPDATE=
 REQUIRED_ENV="MY_QUAY_USER "
 REQUIRED_BINARY="tree "
 rhtap/verify-deps-exist "$REQUIRED_ENV" "$REQUIRED_BINARY" 
+ERR=$?
+echo "Dependency Error $1 = $ERR" 
+if [ $ERR != 0 ]; then
+	echo "Fatal Error code for $1 = $ERR" 
+	exit $ERR
+fi
 
 SETUP_ENV=rhtap/env.sh 
 cp rhtap/env.template.sh $SETUP_ENV
