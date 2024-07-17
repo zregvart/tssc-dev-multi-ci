@@ -31,6 +31,14 @@ sed -i "s!\${{ values.buildContext }}!.!g" $SETUP_ENV
 sed -i "s!\${{ values.repoURL }}!$OPTIONAL_REPO_UPDATE!g" $SETUP_ENV
 source $SETUP_ENV 
 
+SIGNING_SECRET_ENV=rhtap/signing-secret-env.sh
+if [ ! -f $SIGNING_SECRET_ENV ]; then
+  # If the signing secret file doesn't exist already then generate one
+  hack/create-signing-secret > $SIGNING_SECRET_ENV
+fi
+# When running in Jenkins the secret values will be read from credentials
+source $SIGNING_SECRET_ENV
+
 COUNT=0
 
 function run () { 
