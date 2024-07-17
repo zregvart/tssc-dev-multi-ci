@@ -13,6 +13,10 @@ OPTIONAL_REPO_UPDATE=$(git remote get-url origin)
 # don't image gitops, good for testing build only	
 OPTIONAL_REPO_UPDATE=   	
 
+REQUIRED_ENV="MY_QUAY_USER "
+REQUIRED_BINARY="tree "
+rhtap/verify-deps-exist "$REQUIRED_ENV" "$REQUIRED_BINARY" 
+
 SETUP_ENV=rhtap/env.sh 
 cp rhtap/env.template.sh $SETUP_ENV
 sed -i "s!\${{ values.image }}!quay.io/$MY_QUAY_USER/bootstrap!g" $SETUP_ENV
