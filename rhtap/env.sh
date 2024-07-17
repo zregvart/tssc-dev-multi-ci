@@ -4,7 +4,7 @@ export SKIP_CHECKS=true
 
 # from buildah-rhtap
 TAG=$(git rev-parse HEAD)
-export IMAGE_URL=quay.io/jduimovich0/bootstrap:jenkins-$TAG
+export IMAGE_URL=quay.io/${MY_QUAY_USER:-jduimovich0}/bootstrap:jenkins-$TAG
 export IMAGE=$IMAGE_URL
 export RESULT_PATH=$DIR/results/temp/files/sbom-url 
  
@@ -33,10 +33,10 @@ export TARGET_BRANCH=""
 # enterprise contract 
 export POLICY_CONFIGURATION="enterprise-contract-service/default" 
 #internal, assumes jenkins is local openshift
-export REKOR_HOST=http://rekor-server.rhtap.svc
+export REKOR_HOST="${MY_REKOR_HOST:-http://rekor-server.rhtap.svc}"
 export IGNORE_REKOR=false
 export INFO=true
 export STRICT=true
 export EFFECTIVE_TIME=now 
 export HOMEDIR=$(pwd)
-export TUF_MIRROR=http://tuf.rhtap.svc 
+export TUF_MIRROR="${MY_TUF_MIRROR:-http://tuf.rhtap.svc}"

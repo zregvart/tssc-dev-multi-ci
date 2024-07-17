@@ -22,6 +22,12 @@ pipeline {
                 sh "rhtap/buildah-rhtap.sh"  
             }
         }
+        stage('sign-attest') {
+            steps {
+                echo "Sign image and add provenance"
+                sh "rhtap/cosign-sign-attest.sh"
+            }
+        }
         stage('scan') {
             steps {
                 echo 'acs-scans' 

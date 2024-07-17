@@ -31,6 +31,15 @@ pipeline {
                 }
             }
         }
+        stage('sign-attest') {
+            steps {
+                script {
+                    rhtap.info('sign_attest..')
+                    // Todo:
+                    // rhtap.cosign_sign_attest()
+                }
+            }
+        }
         stage('scan') {
             steps {
                 script { 

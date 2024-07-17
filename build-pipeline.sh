@@ -25,10 +25,15 @@ fi
 
 SETUP_ENV=rhtap/env.sh 
 cp rhtap/env.template.sh $SETUP_ENV
-sed -i "s!\${{ values.image }}!quay.io/$MY_QUAY_USER/bootstrap!g" $SETUP_ENV
+sed -i "s!\${{ values.image }}!quay.io/\${MY_QUAY_USER:-jduimovich0}/bootstrap!g" $SETUP_ENV
 sed -i "s!\${{ values.dockerfile }}!Dockerfile!g" $SETUP_ENV
 sed -i "s!\${{ values.buildContext }}!.!g" $SETUP_ENV
 sed -i "s!\${{ values.repoURL }}!$OPTIONAL_REPO_UPDATE!g" $SETUP_ENV
+
+# Set MY_REKOR_HOST and MY_TUF_MIRROR to 'none' if these services are not available
+sed -i 's!export REKOR_HOST=.*$!export REKOR_HOST="\${MY_REKOR_HOST:-http://rekor-server.rhtap.svc}"!' $SETUP_ENV
+sed -i 's!export TUF_MIRROR=.*$!export TUF_MIRROR="\${MY_TUF_MIRROR:-http://tuf.rhtap.svc}"!' $SETUP_ENV
+
 source $SETUP_ENV 
 
 SIGNING_SECRET_ENV=rhtap/signing-secret-env.sh
@@ -61,6 +66,7 @@ rm -rf ./results
 
 run  "rhtap/init.sh"  
 run  "rhtap/buildah-rhtap.sh"  
+run  "rhtap/cosign-sign-attest.sh"
 run  "rhtap/acs-deploy-check.sh"  
 run  "rhtap/acs-image-check.sh"  
 run  "rhtap/acs-image-scan.sh"  
