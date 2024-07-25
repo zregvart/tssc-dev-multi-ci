@@ -1,5 +1,8 @@
 pipeline { 
     agent any
+    environment {
+        COSIGN_PUBLIC_KEY = credentials('COSIGN_PUBLIC_KEY')
+    }
     stages {
         stage('Compute Image Changes') {
             steps {
@@ -9,7 +12,7 @@ pipeline {
         }
         stage('verify EC') {
             steps {
-                echo 'Validate Enteprise Contract.' 
+                echo 'Validate Enterprise Contract.'
                 sh "rhtap/verify-enterprise-contract.sh"  
             }
         }  

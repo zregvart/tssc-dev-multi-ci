@@ -18,12 +18,22 @@ fi
 
 SETUP_ENV=rhtap/env.sh 
 cp rhtap/env.template.sh $SETUP_ENV
-sed -i "s!\${{ values.image }}!quay.io/$MY_QUAY_USER/bootstrap!g" $SETUP_ENV
+sed -i "s!\${{ values.image }}!quay.io/\${MY_QUAY_USER:-jduimovich0}/bootstrap!g" $SETUP_ENV
 sed -i "s!\${{ values.dockerfile }}!Dockerfile!g" $SETUP_ENV
 sed -i "s!\${{ values.buildContext }}!.!g" $SETUP_ENV
 sed -i "s!\${{ values.repoURL }}!!g" $SETUP_ENV
+
+# Set MY_REKOR_HOST and MY_TUF_MIRROR to 'none' if these services are not available
+sed -i 's!export REKOR_HOST=.*$!export REKOR_HOST="\${MY_REKOR_HOST:-http://rekor-server.rhtap.svc}"!' $SETUP_ENV
+sed -i 's!export TUF_MIRROR=.*$!export TUF_MIRROR="\${MY_TUF_MIRROR:-http://tuf.rhtap.svc}"!' $SETUP_ENV
+
 source $SETUP_ENV
 cat $SETUP_ENV
+# When running in Jenkins the secret values will be read from credentials
+# Todo: We need to restrict access to the signing secret. Here we need only
+# the public key, the rest of the secret should not be visible at all.
+SIGNING_SECRET_ENV=rhtap/signing-secret-env.sh
+source $SIGNING_SECRET_ENV
 
 COUNT=0
 

@@ -1,0 +1,10 @@
+#!/bin/bash
+set -euo pipefail
+
+# For testing verify-enterprise-contract you can do this:
+#  $ export MY_IMAGES_TO_VERIFY=$(hack/show-image-ref.sh)
+#  $ bash promote-pipeline.sh
+
+IMAGE_URL=$(cat results/buildah-rhtap/IMAGE_URL)
+IMAGE_DIGEST=$(cat results/buildah-rhtap/IMAGE_DIGEST)
+echo "${IMAGE_URL%:*}@${IMAGE_DIGEST}"
