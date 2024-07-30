@@ -35,8 +35,7 @@ pipeline {
             steps {
                 script {
                     rhtap.info('sign_attest..')
-                    // Todo:
-                    // rhtap.cosign_sign_attest()
+                    rhtap.cosign_sign_attest()
                 }
             }
         }
