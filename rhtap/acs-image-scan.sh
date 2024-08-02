@@ -1,5 +1,5 @@
 #!/bin/bash
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # acs-image-scan
 source $SCRIPTDIR/common.sh
@@ -8,7 +8,7 @@ function rox-image-scan() {
 	echo "Running $TASK_NAME:rox-image-scan"
 	#!/usr/bin/env bash
 	set +x
-	
+
 	function set_test_output_result() {
 	  local date=$(date +%s)
 	  local result=${1:-ERROR}
@@ -19,12 +19,12 @@ function rox-image-scan() {
 	  echo "{\"result\":\"${result}\",\"timestamp\":\"${date}\",\"note\":\"${note}\",\"namespace\":\"default\",\"successes\":\"${successes}\",\"failures\":\"${failures}\",\"warnings\":\"${warnings}\"}" \
 	    | tee $RESULTS/TEST_OUTPUT
 	}
-	
+
 	if [ "$DISABLE_ACS" == "true" ]; then
 		echo "DISABLE_ACS is set. No scans will be produced"
 		exit_with_success_result
 	fi
-	
+
 	# Check if rox API enpoint is configured
 	if [ -z "$ROX_API_TOKEN" ]; then
 		echo "ROX_API_TOKEN is not set, demo will exit with success"
@@ -34,9 +34,9 @@ function rox-image-scan() {
 		echo "ROX_CENTRAL_ENDPOINT is not set, demo will exit with success"
 		exit_with_success_result
 	fi
-	
+
 	echo "Using rox central endpoint ${ROX_CENTRAL_ENDPOINT}"
-	
+
 	echo "Download roxctl cli"
 	if [ "${INSECURE_SKIP_TLS_VERIFY}" = "true" ] ; then
 	  curl_insecure='--insecure'
@@ -52,9 +52,9 @@ function rox-image-scan() {
 	  exit_with_fail_result
 	fi
 	chmod +x ./roxctl  > /dev/null
-	
+
 	echo "roxctl image scan"
-	
+
 	IMAGE=${PARAM_IMAGE}@${PARAM_IMAGE_DIGEST}
 	./roxctl image scan \
 	  $( [ "${INSECURE_SKIP_TLS_VERIFY}" = "true" ] && \
@@ -62,7 +62,7 @@ function rox-image-scan() {
 	  -e "${ROX_CENTRAL_ENDPOINT}" --image "$IMAGE" --output json --force \
 	  > roxctl_image_scan_output.json
 	image_scan_err_code=$?
-	cp roxctl_image_scan_output.json /steps-shared-folder/acs-image-scan.json
+	cp roxctl_image_scan_output.json acs-image-scan.json
 	if [ $image_scan_err_code -ne 0 ]; then
 	  cat roxctl_image_scan_output.json
 	  note='ACS image scan failed to process the image. See the task logs for more details.'
@@ -70,14 +70,14 @@ function rox-image-scan() {
 	  set_test_output_result ERROR "$note"
 	  exit 2
 	fi
-	
+
 	# Set SCAN_OUTPUT result
 	critical=$(cat roxctl_image_scan_output.json | grep -oP '(?<="CRITICAL": )\d+')
 	high=$(cat roxctl_image_scan_output.json | grep -oP '(?<="IMPORTANT": )\d+')
 	medium=$(cat roxctl_image_scan_output.json | grep -oP '(?<="MODERATE": )\d+')
 	low=$(cat roxctl_image_scan_output.json | grep -oP '(?<="LOW": )\d+')
 	echo "{\"vulnerabilities\":{\"critical\":${critical},\"high\":${high},\"medium\":${medium},\"low\":${low}}}" | tee $RESULTS/SCAN_OUTPUT
-	
+
 	# Set TEST_OUTPUT result
 	if [[ -n "$critical" && "$critical" -eq 0 && "$high" -eq 0 && "$medium" -eq 0 && "$low" -eq 0 ]]; then
 	  note="Task $(context.task.name) completed. No vulnerabilities found."
@@ -85,19 +85,17 @@ function rox-image-scan() {
 	  note="Task $(context.task.name) completed: Refer to Tekton task result SCAN_OUTPUT for found vulnerabilities."
 	fi
 	set_test_output_result SUCCESS "$note"
-	
 }
 
 function report() {
 	echo "Running $TASK_NAME:report"
 	#!/usr/bin/env bash
 	echo "ACS_IMAGE_SCAN_EYECATCHER_BEGIN"
-	cat /steps-shared-folder/acs-image-scan.json
+	cat acs-image-scan.json
 	echo "ACS_IMAGE_SCAN_EYECATCHER_END"
-	
 }
 
-# Task Steps 
+# Task Steps
 rox-image-scan
 report
 exit_with_success_result

@@ -1,14 +1,14 @@
 #!/bin/bash
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # acs-image-check
-source $SCRIPTDIR/common.sh 
+source $SCRIPTDIR/common.sh
 
 function rox-image-check() {
 	echo "Running $TASK_NAME:rox-image-check"
 	#!/usr/bin/env bash
 	set +x
-	
+
 	if [ "$DISABLE_ACS" == "true" ]; then
 		echo "DISABLE_ACS is set. No scans will be produced"
 		exit_with_success_result
@@ -21,9 +21,9 @@ function rox-image-check() {
 		echo "ROX_CENTRAL_ENDPOINT is not set, demo will exit with success"
 		exit_with_success_result
 	fi
-	
+
 	echo "Using rox central endpoint ${ROX_CENTRAL_ENDPOINT}"
-	
+
 	echo "Download roxctl cli"
 	if [ "${INSECURE_SKIP_TLS_VERIFY}" = "true" ]; then
 	  curl_insecure='--insecure'
@@ -44,7 +44,7 @@ function rox-image-check() {
 	  exit 2
 	fi
 	chmod +x ./roxctl  > /dev/null
-	
+
 	echo "roxctl image check"
 	IMAGE=${PARAM_IMAGE}@${PARAM_IMAGE_DIGEST}
 	./roxctl image check \
@@ -52,20 +52,18 @@ function rox-image-check() {
 	  echo -n "--insecure-skip-tls-verify") \
 	  -e "${ROX_CENTRAL_ENDPOINT}" --image "$IMAGE" --output json --force \
 	  > roxctl_image_check_output.json
-	cp roxctl_image_check_output.json /steps-shared-folder/acs-image-check.json
-	
+	cp roxctl_image_check_output.json acs-image-check.json
 }
 
 function report() {
 	echo "Running $TASK_NAME:report"
 	#!/usr/bin/env bash
 	echo "ACS_IMAGE_CHECK_EYECATCHER_BEGIN"
-	cat /steps-shared-folder/acs-image-check.json
+	cat acs-image-check.json
 	echo "ACS_IMAGE_CHECK_EYECATCHER_END"
-	
 }
 
-# Task Steps 
+# Task Steps
 rox-image-check
 report
 exit_with_success_result
