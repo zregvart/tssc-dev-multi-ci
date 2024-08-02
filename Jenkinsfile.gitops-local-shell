@@ -1,20 +1,20 @@
-pipeline { 
+pipeline {
     agent any
     stages {
         stage('Compute Image Changes') {
             steps {
-                echo 'Compute Image Changes' 
-                sh "rhtap/gather-deploy-images.sh"  
+                echo 'gather_deploy_images'
+                sh "rhtap/gather-deploy-images.sh"
             }
         }
-        stage('verify EC') {
+        stage('Verify EC') {
             environment {
                 COSIGN_PUBLIC_KEY = credentials('COSIGN_PUBLIC_KEY')
             }
             steps {
-                echo 'Validate Enterprise Contract.'
-                sh "rhtap/verify-enterprise-contract.sh"  
+                echo 'verify_enterprise_contract'
+                sh "rhtap/verify-enterprise-contract.sh"
             }
-        }  
+        }
     }
 }

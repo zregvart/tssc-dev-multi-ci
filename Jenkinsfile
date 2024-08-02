@@ -2,7 +2,6 @@ library identifier: 'RHTAP_Jenkins@main', retriever: modernSCM(
   [$class: 'GitSCMSource',
    remote: 'https://github.com/redhat-appstudio/tssc-sample-jenkins.git'])
 
-
 pipeline {
     agent any
     environment {
@@ -12,10 +11,10 @@ pipeline {
         QUAY_IO_CREDS = credentials('QUAY_IO_CREDS')
     }
     stages {
-        stage('init.sh') {
+        stage('init') {
             steps {
                 script {
-                    rhtap.info ("Init")
+                    rhtap.info('init')
                     rhtap.init()
                 }
             }
@@ -23,7 +22,7 @@ pipeline {
         stage('build') {
             steps {
                 script {
-                    rhtap.info( 'build_container..')
+                    rhtap.info('buildah_rhtap')
                     rhtap.buildah_rhtap()
                 }
             }
@@ -36,7 +35,7 @@ pipeline {
             }
             steps {
                 script {
-                    rhtap.info('sign_attest..')
+                    rhtap.info('cosign_sign_attest')
                     rhtap.cosign_sign_attest()
                 }
             }
@@ -44,9 +43,11 @@ pipeline {
         stage('scan') {
             steps {
                 script {
-                    rhtap.info('acs_scans' )
+                    rhtap.info('acs_deploy_check')
                     rhtap.acs_deploy_check()
+                    rhtap.info('acs_image_check')
                     rhtap.acs_image_check()
+                    rhtap.info('acs_image_scan' )
                     rhtap.acs_image_scan()
                 }
             }
@@ -54,7 +55,7 @@ pipeline {
         stage('deploy') {
             steps {
                 script {
-                    rhtap.info('deploy' )
+                    rhtap.info('update_deployment')
                     rhtap.update_deployment()
                 }
             }
@@ -62,8 +63,9 @@ pipeline {
         stage('summary') {
             steps {
                 script {
-                    rhtap.info('summary' )
+                    rhtap.info('show_sbom_rhdh')
                     rhtap.show_sbom_rhdh()
+                    rhtap.info('summary')
                     rhtap.summary()
                 }
             }
