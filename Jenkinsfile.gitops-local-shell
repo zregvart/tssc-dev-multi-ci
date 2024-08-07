@@ -1,5 +1,12 @@
 pipeline {
     agent any
+    environment {
+        // Not used but init.sh will fail if they're missing
+        COSIGN_SECRET_PASSWORD = 'dummy'
+        COSIGN_SECRET_KEY = 'dummy'
+        // Used to verify the image signature and attestation
+        COSIGN_PUBLIC_KEY = credentials('COSIGN_PUBLIC_KEY')
+    }
     stages {
         stage('Compute Image Changes') {
             steps {
@@ -8,9 +15,6 @@ pipeline {
             }
         }
         stage('Verify EC') {
-            environment {
-                COSIGN_PUBLIC_KEY = credentials('COSIGN_PUBLIC_KEY')
-            }
             steps {
                 echo 'verify_enterprise_contract'
                 sh "rhtap/verify-enterprise-contract.sh"
