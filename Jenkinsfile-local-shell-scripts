@@ -1,43 +1,55 @@
-pipeline { 
+pipeline {
     agent any
     environment {
-        ROX_API_TOKEN     = credentials('ROX_API_TOKEN')
+        ROX_API_TOKEN = credentials('ROX_API_TOKEN')
         ROX_CENTRAL_ENDPOINT = credentials('ROX_CENTRAL_ENDPOINT')
         GITOPS_AUTH_PASSWORD = credentials('GITOPS_AUTH_PASSWORD')
         QUAY_IO_CREDS = credentials('QUAY_IO_CREDS')
-    }   
-    stages { 
-        stage('init.sh') {
+        COSIGN_SECRET_PASSWORD = credentials('COSIGN_SECRET_PASSWORD')
+        COSIGN_SECRET_KEY = credentials('COSIGN_SECRET_KEY')
+        COSIGN_PUBLIC_KEY = credentials('COSIGN_PUBLIC_KEY')
+    }
+    stages {
+        stage('init') {
             steps {
-                echo 'Initialize and check dependencies' 
-                sh "rhtap/init.sh"  
+                echo 'init'
+                sh "rhtap/init.sh"
             }
         }
         stage('build') {
             steps {
-                echo 'build-container..' 
-                sh "rhtap/buildah-rhtap.sh"  
+                echo 'buildah_rhtap'
+                sh "rhtap/buildah-rhtap.sh"
+            }
+        }
+        stage('sign-attest') {
+            steps {
+                echo 'cosign_sign_attest'
+                sh "rhtap/cosign-sign-attest.sh"
             }
         }
         stage('scan') {
             steps {
-                echo 'acs-scans' 
-                sh "rhtap/acs-deploy-check.sh"  
-                sh "rhtap/acs-image-check.sh"  
-                sh "rhtap/acs-image-scan.sh"  
+                echo 'acs_deploy_check'
+                sh "rhtap/acs-deploy-check.sh"
+                echo 'acs_image_check'
+                sh "rhtap/acs-image-check.sh"
+                echo 'acs_image_scan'
+                sh "rhtap/acs-image-scan.sh"
             }
         }
         stage('deploy') {
             steps {
-                echo 'deploy' 
-                sh "rhtap/update-deployment.sh"  
+                echo 'update_deployment'
+                sh "rhtap/update-deployment.sh"
             }
         }
         stage('summary') {
             steps {
-                echo 'summary' 
-                sh "rhtap/show-sbom-rhdh.sh"  
-                sh "rhtap/summary.sh"  
+                echo 'show_sbom_rhdh'
+                sh "rhtap/show-sbom-rhdh.sh"
+                echo 'summary'
+                sh "rhtap/summary.sh"
             }
         }
     }

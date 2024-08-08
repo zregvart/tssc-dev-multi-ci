@@ -17,6 +17,10 @@ function exit_with_fail_result () {
     exit 1
 }
  
+timestamp() {
+    date -u +"%Y-%m-%dT%H:%M:%SZ"
+}
+
 DIR=$(pwd)
 export TASK_NAME=$(basename $0 .sh)
 export BASE_RESULTS=$DIR/results 

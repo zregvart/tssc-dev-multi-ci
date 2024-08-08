@@ -36,6 +36,7 @@ cp rhtap/*.sh $JENKINS_SHARED_LIB/resources
 # skip the env files, they will be in the templates as per above copy
 rm $JENKINS_SHARED_LIB/resources/env.sh
 rm $JENKINS_SHARED_LIB/resources/env.template.sh
+rm $JENKINS_SHARED_LIB/resources/signing-secret-env.sh
 
 echo "You will have to manually commit any changes to template or jenkins files"
 echo

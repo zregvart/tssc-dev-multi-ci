@@ -1,5 +1,5 @@
 #!/bin/bash
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # acs-deploy-check
 source $SCRIPTDIR/common.sh
@@ -22,9 +22,9 @@ function rox-deploy-check() {
 		echo "ROX_CENTRAL_ENDPOINT is not set, demo will exit with success"
 		exit_with_success_result
 	fi
-	
+
 	echo "Using rox central endpoint ${ROX_CENTRAL_ENDPOINT}"
-	
+
 	# Clone gitops repository
 	echo "Using gitops repository: ${GITOPS_REPO_URL}"
 	git clone "${GITOPS_REPO_URL}" --single-branch --depth 1 gitops
@@ -33,7 +33,7 @@ function rox-deploy-check() {
 	ls -al
 	echo "List of components in the gitops repository:"
 	ls -l components/
-	
+
 	echo "Download roxctl cli"
 	if [ "${INSECURE_SKIP_TLS_VERIFY}" = "true" ] ; then
 	  curl_insecure='--insecure'
@@ -47,7 +47,7 @@ function rox-deploy-check() {
 	  exit_with_fail_result
 	fi
 	chmod +x ./roxctl  > /dev/null
-	
+
 	component_name=$(yq .metadata.name application.yaml)
 	echo "Performing scan for ${component_name} component"
 	file_to_check="components/${component_name}/base/deployment.yaml"
@@ -57,23 +57,22 @@ function rox-deploy-check() {
 	    $( [ "${INSECURE_SKIP_TLS_VERIFY}" = "true" ] && echo -n "--insecure-skip-tls-verify") \
 	    -e "${ROX_CENTRAL_ENDPOINT}" --file "$file_to_check" --output json \
 	    > $TEMP_DIR/roxctl_deployment_check_output.json
-	  cp $TEMP_DIR/roxctl_deployment_check_output.json /workspace/repository/acs-deploy-check.json
+	  cp $TEMP_DIR/roxctl_deployment_check_output.json acs-deploy-check.json
 	else
 	  echo "Failed to find file to check: $file_to_check"
 	  exit 2
 	fi
-	
 }
 
 function report() {
 	echo "Running $TASK_NAME:report"
 	#!/usr/bin/env bash
 	echo "ACS_DEPLOY_EYECATCHER_BEGIN"
-	cat /workspace/repository/acs-deploy-check.json
+	cat acs-deploy-check.json
 	echo "ACS_DEPLOY_EYECATCHER_END"
 }
 
-# Task Steps  
+# Task Steps
 rox-deploy-check
 report
 exit_with_success_result
