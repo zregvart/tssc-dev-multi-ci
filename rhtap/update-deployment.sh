@@ -18,7 +18,7 @@ function patch-gitops() {
 	  remote_without_protocol=${gitops_repo_url#'https://'} 
 	  password=$GITOPS_AUTH_PASSWORD 
 	  if [[ -n "$GITOPS_AUTH_USERNAME" ]]; then
-	    username=$(cat /gitops-auth-secret/username)
+	    username=$GITOPS_AUTH_USERNAME
 	    echo "https://${username}:${password})@${hostname}" > "${HOME}/.git-credentials"
 	    origin_with_auth=https://${username}:${password}@${remote_without_protocol}.git
 	  else
