@@ -12,6 +12,11 @@ function build() {
 	echo "Running Login"
 	IMAGE_REGISTRY="${IMAGE%%/*}"
 	buildah login -u $QUAY_IO_CREDS_USR -p $QUAY_IO_CREDS_PSW $IMAGE_REGISTRY
+	ERR=$? 
+	if [ $ERR != 0 ]; then
+		echo "Failed login $IMAGE_REGISTRY for user $QUAY_IO_CREDS_USR " 
+		exit $ERR
+	fi
 
 	# Check if the Dockerfile exists
 	SOURCE_CODE_DIR=.
