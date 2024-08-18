@@ -88,6 +88,14 @@ Env vars and binaries ok
 
 The library requires some secrets to be defined in your Jenkins cluster
 
+There are utility scripts in the hack directory which allow automated setting of the Jenkins Secrets. You will need local env vars, and your Jenkins access token configured. Run the script and it will tell you what you are missing.
+It will set the credentials required for the Jenkins pipeline to work.
+
+To set the secrets, run `hack/jenkins-set-secrets`
+To validate secrets are set  run `hack/jenkins-get-secrets`
+
+You can also check the credentials view in your Jenkins instance. 
+
 ![alt text](creds.png "Title")
 
 
