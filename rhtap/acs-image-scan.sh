@@ -80,9 +80,9 @@ function rox-image-scan() {
 
 	# Set TEST_OUTPUT result
 	if [[ -n "$critical" && "$critical" -eq 0 && "$high" -eq 0 && "$medium" -eq 0 && "$low" -eq 0 ]]; then
-	  note="Task $(context.task.name) completed. No vulnerabilities found."
+	  note="Task completed. No vulnerabilities found."
 	else
-	  note="Task $(context.task.name) completed: Refer to Tekton task result SCAN_OUTPUT for found vulnerabilities."
+	  note="Task completed: Refer to Tekton task result SCAN_OUTPUT for found vulnerabilities."
 	fi
 	set_test_output_result SUCCESS "$note"
 }
