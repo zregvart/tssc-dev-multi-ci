@@ -82,6 +82,13 @@ generate-sboms
 delim
 echo "RUNNING PYTHON "
 python3 $SCRIPTDIR/merge-sboms.sh
+# check error from python
+ERR=$? 
+if [ $ERR != 0 ]; then
+	echo "Failed in step merge-sboms.sh" 
+	exit $ERR
+fi
+
 delim
 upload-sbom
 delim
