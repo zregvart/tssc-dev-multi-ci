@@ -1,0 +1,8 @@
+BEGIN=$2_EYECATCHER_BEGIN
+END=$2_EYECATCHER_END
+cat $1  | awk "/$BEGIN/{flag=1; next} /$END/{flag=0} flag"
+
+
+
+
+
