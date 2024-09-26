@@ -72,8 +72,19 @@ jobs:
       run: |
         git clone  https://github.com/redhat-appstudio/tssc-sample-jenkins.git tssc-sample-jenkins
         export CI_TYPE=gitlab    
-        cp rhtap/env.sh tssc-sample-jenkins/resources/env.sh
-        sudo apt install cosign syft 
+        cp rhtap/env.sh tssc-sample-jenkins/resources/env.sh 
+        mkdir -p local-bin
+        cd local-bin
+        wget https://github.com/sigstore/cosign/releases/download/v2.4.0/cosign-linux-amd64 
+       
+        wget https://github.com/anchore/syft/releases/download/v1.13.0/syft_1.13.0_linux_amd64.tar.gz
+        tar zxvf syft_1.13.0_linux_amd64.tar.gz
+        ls -al
+        sudo mv cosign-linux-amd64 /usr/bin/cosign
+        sudo mv syft /usr/bin/syft
+        syft
+        cosign
+        
         echo "Init" 
         bash tssc-sample-jenkins/resources/init.sh 
     - name: Build 
