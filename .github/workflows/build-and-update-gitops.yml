@@ -80,6 +80,12 @@ jobs:
         echo "Build" 
         bash tssc-sample-jenkins/resources/buildah-rhtap.sh  
         bash tssc-sample-jenkins/resources/cosign-sign-attest.sh 
+    - name: Scan 
+      run: | 
+        echo "Scan"  
+        bash tssc-sample-jenkins/resources/acs-deploy-check.sh 
+        bash tssc-sample-jenkins/resources/acs-image-check.sh 
+        bash tssc-sample-jenkins/resources/acs-image-scan.sh   
     - name: Done 
       run: | 
         echo "Done"   
