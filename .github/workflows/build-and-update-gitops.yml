@@ -74,6 +74,7 @@ jobs:
         git clone  https://github.com/redhat-appstudio/tssc-sample-jenkins.git tssc-sample-jenkins
         export CI_TYPE=gitlab    
         cp rhtap/env.sh tssc-sample-jenkins/resources/env.sh
+        apt install cosign syft 
         echo "Init" 
         bash tssc-sample-jenkins/resources/init.sh 
     - name: Build 
