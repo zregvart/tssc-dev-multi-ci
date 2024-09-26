@@ -1,9 +1,9 @@
 
 # 💁 The Gitops Starter workflow will:
 # - Checkout your repository
-# - Perform a container image build
-# - Push the built image to the GitHub Container Registry (GHCR)
-# - Send a pull request to this repo to update the deployment yaml
+# - Perform a TSSC container image build
+# - Push the built image to the users provided registry
+# - Update the deployment yaml
 
 name: TSSC-Build-Attest-Scan-Deploy
 env:
