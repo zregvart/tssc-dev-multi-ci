@@ -75,7 +75,11 @@ jobs:
         cp rhtap/env.sh tssc-sample-jenkins/resources/env.sh
         echo "Init" 
         bash tssc-sample-jenkins/resources/init.sh 
-
+    - name: Build 
+      run: | 
+        echo "Build" 
+        bash tssc-sample-jenkins/resources/buildah-rhtap.sh  
+        bash tssc-sample-jenkins/resources/cosign-sign-attest.sh 
     - name: Done 
       run: | 
         echo "Done"   
