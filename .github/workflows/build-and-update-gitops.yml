@@ -86,6 +86,10 @@ jobs:
         bash tssc-sample-jenkins/resources/acs-deploy-check.sh 
         bash tssc-sample-jenkins/resources/acs-image-check.sh 
         bash tssc-sample-jenkins/resources/acs-image-scan.sh   
+     - name: Deploy 
+      run: | 
+        echo "Deploy"  
+        bash tssc-sample-jenkins/resources/acs-deploy-check.sh  
     - name: Done 
       run: | 
         echo "Done"   
