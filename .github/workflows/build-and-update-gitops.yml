@@ -12,6 +12,14 @@ env:
   IMAGE_REGISTRY: ${{ secrets.IMAGE_REGISTRY }}
   IMAGE_REGISTRY_USER: ${{ secrets.IMAGE_REGISTRY_USER }}
   IMAGE_REGISTRY_PASSWORD: ${{ secrets.IMAGE_REGISTRY_PASSWORD }}
+ 
+  QUAY_IO_CREDS_USR: ${{ secrets.QUAY_IO_CREDS_USR }}
+  QUAY_IO_CREDS_PSW: ${{ secrets.QUAY_IO_CREDS_PSW }}
+  COSIGN_SECRET_PASSWORD: ${{ secrets.COSIGN_SECRET_PASSWORD }}
+  COSIGN_SECRET_KEY: ${{ secrets.COSIGN_SECRET_KEY }}
+  COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
+  GITOPS_AUTH_PASSWORD: ${{ secrets.GITOPS_AUTH_PASSWORD }}
+
   # 🖊️ EDIT to specify custom tags for the container image, or default tags will be generated below.
   IMAGE_TAGS: ""
   IMAGE_TAG: ""
