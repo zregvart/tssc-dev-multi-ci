@@ -85,7 +85,7 @@ jobs:
         sudo mv syft /usr/bin/syft
         sudo chmod +x /usr/bin/syft
         syft --version 
-        cosign versopm
+        cosign version
         buildah --version
         popd
         
