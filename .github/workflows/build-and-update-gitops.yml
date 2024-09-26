@@ -27,7 +27,7 @@ jobs:
   tssc-ci-cd:
     name: Build and send Image Update PR
     # ubuntu-20.04 can also be used.
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     environment: production
 
     steps:
