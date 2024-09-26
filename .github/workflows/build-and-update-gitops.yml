@@ -81,7 +81,9 @@ jobs:
         tar zxvf syft_1.13.0_linux_amd64.tar.gz
         ls -al
         sudo mv cosign-linux-amd64 /usr/bin/cosign
+        sudo chmod +x /usr/bin/cosign
         sudo mv syft /usr/bin/syft
+        sudo chmod +x /usr/bin/syft
         syft --help 
         cosign --help 
         popd
