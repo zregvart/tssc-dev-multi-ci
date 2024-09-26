@@ -18,10 +18,12 @@ env:
   IMAGE_TAGS: ""
   IMAGE_TAG: ""
   DEFAULT_UPDATE_VIA_PUSH: "true"
-  # 🖊️ EDIT to set a name for your OpenShift app, or a default one will be generated below.
-  APP_NAME: "" 
   
-on: [ workflow_dispatch] 
+on: 
+  workflow_dispatch:
+    # Edit to the branch(es) you want to build and deploy on each push.
+    branches: [ "main" ]
+    
 jobs:
   tssc-build:
     name: Build and Update Gitops 
