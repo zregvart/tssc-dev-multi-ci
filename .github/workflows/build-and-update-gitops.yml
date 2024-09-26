@@ -67,4 +67,6 @@ jobs:
         cp rhtap/env.sh tssc-sample-jenkins/resources/env.sh
         echo "Init" 
         bash tssc-sample-jenkins/resources/init.sh 
- 
+    - name: Done 
+      run: | 
+        echo "Done"   
