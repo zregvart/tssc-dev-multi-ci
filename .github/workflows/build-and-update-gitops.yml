@@ -59,5 +59,12 @@ jobs:
     - name: Check out repository
       uses: actions/checkout@v3
       with:
-        fetch-depth: '2' 
+        fetch-depth: '2'
+    - name: Init 
+      run: |
+        git clone  https://github.com/redhat-appstudio/tssc-sample-jenkins.git 
+        export CI_TYPE=gitlab    
+        cp rhtap/env.sh tssc-sample-jenkins/resources/env.sh
+        echo "Init" 
+        bash tssc-sample-jenkins/resources/init.sh 
  
