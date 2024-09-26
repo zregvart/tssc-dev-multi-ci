@@ -1,7 +1,3 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
 
 # 💁 The Gitops Starter workflow will:
 # - Checkout your repository
@@ -9,7 +5,7 @@
 # - Push the built image to the GitHub Container Registry (GHCR)
 # - Send a pull request to this repo to update the deployment yaml
 
-name: Build-Gitops-Workflow 
+name: TSSC-Build-Attest-Scan-Deploy
 env:
   # 🖊️ EDIT to change the image registry settings.
   # Registries such as GHCR, Quay.io, and Docker Hub are supported.
