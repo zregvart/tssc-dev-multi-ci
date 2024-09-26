@@ -62,7 +62,7 @@ jobs:
         fetch-depth: '2'
     - name: Init 
       run: |
-        git clone  https://github.com/redhat-appstudio/tssc-sample-jenkins.git 
+        git clone  https://github.com/redhat-appstudio/tssc-sample-jenkins.git tssc-sample-jenkins
         export CI_TYPE=gitlab    
         cp rhtap/env.sh tssc-sample-jenkins/resources/env.sh
         echo "Init" 
