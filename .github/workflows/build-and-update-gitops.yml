@@ -23,9 +23,9 @@ on:
   workflow_dispatch:
     # Edit to the branch(es) you want to build and deploy on each push.
     branches: [ "main" ]
-    
+
 jobs:
-  tssc-build:
+  openshift-ci-cd:
     name: Build and Update Gitops 
     runs-on: ubuntu-24.04
     environment: production
