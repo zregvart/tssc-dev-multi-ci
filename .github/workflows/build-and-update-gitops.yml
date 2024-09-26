@@ -1,11 +1,13 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
 
-
-# 💁 This is the sample TSSC Workflow:
-# - Checkout the repository
-# - Perform a container image build with Attestations
-# - Push the built image to the defined registry below
-# - Send a pull request or directly to this repo to update the deployment yaml
-# - uses the scripts - todo - need to convert to actions
+# 💁 The Gitops Starter workflow will:
+# - Checkout your repository
+# - Perform a container image build
+# - Push the built image to the GitHub Container Registry (GHCR)
+# - Send a pull request to this repo to update the deployment yaml
 
 name: Build-Gitops-Workflow 
 env:
@@ -31,7 +33,6 @@ jobs:
     # ubuntu-20.04 can also be used.
     runs-on: ubuntu-18.04
     environment: production
-
     steps:
     - name: Check for required secrets
       uses: actions/github-script@v6
