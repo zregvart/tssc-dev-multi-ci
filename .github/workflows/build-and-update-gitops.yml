@@ -89,7 +89,12 @@ jobs:
     - name: Deploy 
       run: | 
         echo "Deploy"  
-        bash tssc-sample-jenkins/resources/acs-deploy-check.sh  
+        bash tssc-sample-jenkins/resources/acs-deploy-check.sh
+    - name: Summary 
+      run: | 
+        echo "Summary"   
+        bash tssc-sample-jenkins/resources/show-sbom-rhdh.sh 
+        bash tssc-sample-jenkins/resources/summary.sh  
     - name: Done 
       run: | 
         echo "Done"   

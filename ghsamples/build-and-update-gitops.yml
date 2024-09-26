@@ -92,11 +92,11 @@ jobs:
         bash tssc-sample-jenkins/resources/acs-deploy-check.sh 
         bash tssc-sample-jenkins/resources/acs-image-check.sh 
         bash tssc-sample-jenkins/resources/acs-image-scan.sh    
-     - name: Deploy 
+    - name: Deploy 
       run: | 
         echo "Deploy"  
         bash tssc-sample-jenkins/resources/acs-deploy-check.sh  
-     - name: Summary 
+    - name: Summary 
       run: | 
         echo "Summary"   
         bash tssc-sample-jenkins/resources/show-sbom-rhdh.sh 
