@@ -71,8 +71,9 @@ jobs:
     - name: Init 
       run: |
         git clone  https://github.com/redhat-appstudio/tssc-sample-jenkins.git tssc-sample-jenkins
-        export CI_TYPE=gitlab    
-        cp rhtap/env.sh tssc-sample-jenkins/resources/env.sh 
+        echo "export CI_TYPE=github " > tssc-sample-jenkins/resources/env.sh 
+        cat rhtap/env.sh >> tssc-sample-jenkins/resources/env.sh 
+        cat tssc-sample-jenkins/resources/env.sh  
         # syft and cosign install 
         mkdir -p local-bin
         pushd local-bin

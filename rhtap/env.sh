@@ -4,6 +4,8 @@ export SKIP_CHECKS=true
 
 CI_TYPE=${CI_TYPE:-jenkins}  
 
+echo "CI_TYPE set to $CI_TYPE"
+
 # from buildah-rhtap
 TAG=$(git rev-parse HEAD)
 export IMAGE_URL=quay.io/${MY_QUAY_USER:-jduimovich0}/bootstrap:$CI_TYPE-$TAG
