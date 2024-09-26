@@ -75,6 +75,26 @@ jobs:
         cp rhtap/env.sh tssc-sample-jenkins/resources/env.sh
         echo "Init" 
         bash tssc-sample-jenkins/resources/init.sh 
+    - name: Build 
+      run: | 
+        echo "Build" 
+        bash tssc-sample-jenkins/resources/buildah-rhtap.sh  
+        bash tssc-sample-jenkins/resources/cosign-sign-attest.sh 
+    - name: Scan 
+      run: | 
+        echo "Scan"  
+        bash tssc-sample-jenkins/resources/acs-deploy-check.sh 
+        bash tssc-sample-jenkins/resources/acs-image-check.sh 
+        bash tssc-sample-jenkins/resources/acs-image-scan.sh    
+     - name: Deploy 
+      run: | 
+        echo "Deploy"  
+        bash tssc-sample-jenkins/resources/acs-deploy-check.sh  
+     - name: Summary 
+      run: | 
+        echo "Summary"   
+        bash tssc-sample-jenkins/resources/show-sbom-rhdh.sh 
+        bash tssc-sample-jenkins/resources/summary.sh  
     - name: Done 
       run: | 
         echo "Done"   
