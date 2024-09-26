@@ -2,9 +2,11 @@
 export REBUILD=true
 export SKIP_CHECKS=true
 
+CI_TYPE=${CI_TYPE:-jenkins}  
+
 # from buildah-rhtap
 TAG=$(git rev-parse HEAD)
-export IMAGE_URL=${{ values.image }}:jenkins-$TAG
+export IMAGE_URL=${{ values.image }}:$CI_TYPE-$TAG
 export IMAGE=$IMAGE_URL
 export RESULT_PATH=$DIR/results/temp/files/sbom-url
 
