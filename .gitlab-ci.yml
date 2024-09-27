@@ -12,7 +12,8 @@ after_script:
 build:
   stage: build
   script:
-    - git clone  https://github.com/redhat-appstudio/tssc-sample-jenkins.git 
+    - echo "WARNING Cloning pre-1.3 of https://github.com/jduimovich/tssc-sample-jenkins"
+    - git clone -b pre-1.3 https://github.com/redhat-appstudio/tssc-sample-jenkins.git 
     - export CI_TYPE=gitlab    
     - cp rhtap/env.sh tssc-sample-jenkins/resources/env.sh
     - echo "Init" 

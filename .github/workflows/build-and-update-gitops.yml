@@ -86,7 +86,8 @@ jobs:
         fetch-depth: '2'
     - name: Init 
       run: |
-        git clone  https://github.com/redhat-appstudio/tssc-sample-jenkins.git tssc-sample-jenkins
+        echo "WARNING Cloning pre-1.3 of https://github.com/jduimovich/tssc-sample-jenkins"
+        git clone -b pre-1.3  https://github.com/jduimovich/tssc-sample-jenkins.git tssc-sample-jenkins
         echo "export CI_TYPE=github " > tssc-sample-jenkins/resources/env.sh 
         cat rhtap/env.sh >> tssc-sample-jenkins/resources/env.sh 
         cat tssc-sample-jenkins/resources/env.sh  
