@@ -59,6 +59,9 @@ rm -rf $GITHUB_SRC_TEMPLATE
 mkdir -p $GITHUB_SRC_TEMPLATE/rhtap  
 cp rhtap/env.template.sh $GITHUB_SRC_TEMPLATE/rhtap/env.sh  
 cp -r .github $GITHUB_SRC_TEMPLATE
+
+#sed -i s/workflow_dispatch/push/  $GITHUB_SRC_TEMPLATE/.github/worflows
+
 rm -rf $GITHUB_GITOPS_TEMPLATE 
 mkdir -p $GITHUB_GITOPS_TEMPLATE/rhtap  
 cp rhtap/env.template.sh $GITHUB_GITOPS_TEMPLATE/rhtap/env.sh  
