@@ -122,7 +122,7 @@ jobs:
     - name: Deploy 
       run: | 
         echo "Deploy"  
-        bash tssc-sample-jenkins/resources/update-deployment.sh" 
+        bash tssc-sample-jenkins/resources/update-deployment.sh 
     - name: Summary 
       run: | 
         echo "Summary"   
