@@ -59,13 +59,19 @@ rm -rf $GITHUB_SRC_TEMPLATE
 mkdir -p $GITHUB_SRC_TEMPLATE/rhtap  
 cp rhtap/env.template.sh $GITHUB_SRC_TEMPLATE/rhtap/env.sh  
 cp -r .github $GITHUB_SRC_TEMPLATE
-
-#sed -i s/workflow_dispatch/push/  $GITHUB_SRC_TEMPLATE/.github/worflows
+ 
 
 rm -rf $GITHUB_GITOPS_TEMPLATE 
 mkdir -p $GITHUB_GITOPS_TEMPLATE/rhtap  
 cp rhtap/env.template.sh $GITHUB_GITOPS_TEMPLATE/rhtap/env.sh  
 cp -r .github  $GITHUB_GITOPS_TEMPLATE
+
+for wf in $GITHUB_GITOPS_TEMPLATE/.github/workflows/* $GITHUB_SRC_TEMPLATE/.github/workflows/*
+do  
+    echo "Fix WF $wf" 
+    sed -i 's/workflow_dispatch/push, workflow_dispatch/g'  $wf 
+    echo "-" 
+done
 
 echo "You will have to manually commit any changes to template or jenkins files"
 echo
