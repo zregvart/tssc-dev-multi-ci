@@ -1,5 +1,12 @@
 SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
  
+if [ $# -eq 1 ];  then
+  REPO=$1
+  DIR=$(mktemp -d)
+  pushd $DIR
+  git clone $1 set-vars
+  cd set-vars 
+fi
 
 REPO=$(git config --get remote.origin.url) 
 

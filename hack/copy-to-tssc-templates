@@ -38,6 +38,32 @@ rm $JENKINS_SHARED_LIB/resources/env.sh
 rm $JENKINS_SHARED_LIB/resources/env.template.sh
 rm $JENKINS_SHARED_LIB/resources/signing-secret-env.sh
 
+# gitlab
+GITLAB_SRC_TEMPLATE=$TEMPLATES/skeleton/ci/source-repo/gitlabci
+GITLAB_GITOPS_TEMPLATE=../tssc-sample-templates/skeleton/ci/gitops-template/gitlabci
+
+rm -rf $GITLAB_SRC_TEMPLATE 
+mkdir -p $GITLAB_SRC_TEMPLATE/rhtap  
+cp rhtap/env.template.sh $GITLAB_SRC_TEMPLATE/rhtap/env.sh  
+cp .gitlab-ci.yml $GITLAB_SRC_TEMPLATE
+rm -rf $GITLAB_GITOPS_TEMPLATE 
+mkdir -p $GITLAB_GITOPS_TEMPLATE/rhtap  
+cp rhtap/env.template.sh $GITLAB_GITOPS_TEMPLATE/rhtap/env.sh  
+cp .gitlab-ci.yml $GITLAB_GITOPS_TEMPLATE
+
+
+GITHUB_SRC_TEMPLATE=$TEMPLATES/skeleton/ci/source-repo/githubactions
+GITHUB_GITOPS_TEMPLATE=../tssc-sample-templates/skeleton/ci/gitops-template/githubactions
+
+rm -rf $GITHUB_SRC_TEMPLATE 
+mkdir -p $GITHUB_SRC_TEMPLATE/rhtap  
+cp rhtap/env.template.sh $GITHUB_SRC_TEMPLATE/rhtap/env.sh  
+cp -r .github $GITHUB_SRC_TEMPLATE
+rm -rf $GITHUB_GITOPS_TEMPLATE 
+mkdir -p $GITHUB_GITOPS_TEMPLATE/rhtap  
+cp rhtap/env.template.sh $GITHUB_GITOPS_TEMPLATE/rhtap/env.sh  
+cp -r .github  $GITHUB_GITOPS_TEMPLATE
+
 echo "You will have to manually commit any changes to template or jenkins files"
 echo
 echo "Checking git status in $TEMPLATES"
