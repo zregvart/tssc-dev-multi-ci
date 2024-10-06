@@ -39,11 +39,9 @@ library identifier: 'RHTAP_Jenkins@main', retriever: modernSCM(
 
 To update forks, in preparation for sending pull requests to the official library locations, you can run ` bash hack/copy-to-tssc-templates` to update your local forked repos and then manually check and push to your branch. 
 
+
 ### TODO - update to include gitlab and gihub 
 
-## Jenkins mode
-
-This repository is a Jenkins buildable repository. You manually create a `pipeline` project in Jenkins, and reference the Jenkinsfile in Jenkins.  You can then run a build.
 
 ## Creating a cosign signing secret
 
@@ -61,6 +59,11 @@ export MY_REKOR_HOST=none MY_TUF_MIRROR=none
 ```
 
 Note that the MY_IMAGES_TO_VERIFY is a workaround so that the image being verified is the image that was just built. This is only for development purposes. If MY_IMAGES_TO_VERIFY is not set then the image list will be produced by the `gather-deploy-images` script as per usual.
+
+
+## Jenkins mode
+
+This repository is a Jenkins buildable repository. You manually create a `pipeline` project in Jenkins, and reference the Jenkinsfile in Jenkins.  You can then run a build.
 
 To test in Jenkins, `MY_QUAY_USER`, `MY_REKOR_HOST`, `MY_TUF_MIRROR` and `MY_IMAGES_TO_VERIFY` should be set as environment variables in Jenkins.
 
@@ -113,7 +116,10 @@ You can also check the credentials view in your Jenkins instance.
 
 ### Gitlab CI
 TO DO
+## Configuring Gitlab CI
+
 ### Github Action
 TO DO 
+## Configuring Actions
 
 
