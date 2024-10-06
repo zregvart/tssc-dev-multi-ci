@@ -1,20 +1,30 @@
 
-# Jenkins and RHTAP
+# TSSC Multi-CI Development for RHTAP
 
-This repository contains the innerloop development environment for the Jenkins translations from the RHTAP Pipelines.
+This repository contains the innerloop development environment for the Multi-CI translations from the RHTAP Pipelines. This repository can also be directly tested in the CI system as it includes a copy of a sample source app for RHTAP (node.js) as well as a gitops repo for that deployment. This may be moved to a separate repo in future dev mode builds.
 
-The tasks appear in the `rhtap` directory and are updated manually. Once updated they can be tested locally in shell or pushed to the shared library and template repositories and tested in Jenkins as well as Developer Hub as part of RHTAP. 
+
+ This repo includes Jenkins, Gitlab and Github Actions tests of the scripts
+
+The tasks appear in the `rhtap` directory and are updated manually. Once updated they can be tested locally in the shell or pushed to the appropriate CI system and tested in that CI.
+
+This includes:
+  1. A Jenkins shared library to be tested in Jenkins as well as Developer Hub as part of RHTAP. 
+  2. A gitlab CI file which can be pushed to gitlab in a fork of this repo to test it
+  3. A github actions workflow which can be run manually in this repo or pushed to a test repo to validate. When github actions are created for some of the tasks, this will require publishing to github individual to test. 
 
 ## Development Mode 
 
-In development mode, the pipeline script can be tested using local shell scripts.
+In development mode, the pipeline scripts can be tested using local shell scripts.
 
-`bash build-pipeline.sh` to run a build which will create the Image, SBOM and other artifacts 
-`bash promote-pipeline` to run a promotion shell which will run Enterprise Contract.
+`bash build-pipeline.sh` to run a build which will create the Image, SBOM and other artifacts from your local shell. 
+`bash promote-pipeline` to run a promotion script which will run the promotion flow, upload SBOM (some systems) and validate  Enterprise Contract.
 
-The local exection requires binaries to be installed in your cluster on your path. The shell will print error message if any binaries are missing. 
+The local execution requires binaries to be installed in your cluster on your path. The shell scripts will print error message if any binaries are missing. 
 
-## Release to Templates and Jenkins Library 
+## Releasing to Templates and Jenkins Library 
+
+### Jenkins 
 
 In order to run in RHTAP via software templates, you need to release to a fork of templates https://github.com/redhat-appstudio/tssc-sample-templates and install these into RHTAP. When validated in a fork, send a pull request to the release templates repo. 
 
@@ -28,6 +38,8 @@ library identifier: 'RHTAP_Jenkins@main', retriever: modernSCM(
 ```
 
 To update forks, in preparation for sending pull requests to the official library locations, you can run ` bash hack/copy-to-tssc-templates` to update your local forked repos and then manually check and push to your branch. 
+
+### TODO - update to include gitlab and gihub 
 
 ## Jenkins mode
 
@@ -98,5 +110,10 @@ You can also check the credentials view in your Jenkins instance.
 
 ![alt text](creds.png "Title")
 
+
+### Gitlab CI
+TO DO
+### Github Action
+TO DO 
 
 
