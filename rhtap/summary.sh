@@ -1,5 +1,5 @@
 #!/bin/bash
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 # summary
 source $SCRIPTDIR/common.sh
@@ -22,10 +22,10 @@ function appstudio-summary() {
 	fi
 	echo
 	echo End Summary
-	
+
 }
 
-# Task Steps 
+# Task Steps
 appstudio-summary
 tree $BASE_RESULTS
 exit_with_success_result
