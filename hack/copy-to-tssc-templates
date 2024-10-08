@@ -9,29 +9,29 @@ JENKINS_SHARED_LIB=../tssc-sample-jenkins
 echo
 if [ -d $TEMPLATES ]; then
     echo "Updating $TEMPLATES"
- else 
+ else
     echo "$TEMPLATES missing, clone or fork  https://github.com/redhat-appstudio/tssc-sample-templates into $TEMPLATES"
     exit 0
-fi 
+fi
 if [ -d $JENKINS_SHARED_LIB ]; then
     echo "Updating $JENKINS_SHARED_LIB"
-else 
+else
     echo "$JENKINS_SHARED_LIB missing, clone or fork  https://github.com/redhat-appstudio/tssc-sample-jenkins into JENKINS_SHARED_LIB"
     exit 0
-fi 
-# source repo part of template 
-rm -rf $SRC_TEMPLATE 
+fi
+# source repo part of template
+rm -rf $SRC_TEMPLATE
 mkdir -p $SRC_TEMPLATE/rhtap
-cp rhtap/env.template.sh $SRC_TEMPLATE/rhtap/env.sh 
+cp rhtap/env.template.sh $SRC_TEMPLATE/rhtap/env.sh
 cp Jenkinsfile $SRC_TEMPLATE/Jenkinsfile
 
-# gitops repo part of template 
-rm -rf $GITOPS_TEMPLATE 
+# gitops repo part of template
+rm -rf $GITOPS_TEMPLATE
 mkdir -p $GITOPS_TEMPLATE/rhtap
-cp rhtap/env.template.sh $GITOPS_TEMPLATE/rhtap/env.sh  
+cp rhtap/env.template.sh $GITOPS_TEMPLATE/rhtap/env.sh
 cp Jenkinsfile.gitops $GITOPS_TEMPLATE/Jenkinsfile
 
-# shared lib portion 
+# shared lib portion
 cp rhtap/*.sh $JENKINS_SHARED_LIB/resources
 # skip the env files, they will be in the templates as per above copy
 rm $JENKINS_SHARED_LIB/resources/env.sh
@@ -42,35 +42,35 @@ rm $JENKINS_SHARED_LIB/resources/signing-secret-env.sh
 GITLAB_SRC_TEMPLATE=$TEMPLATES/skeleton/ci/source-repo/gitlabci
 GITLAB_GITOPS_TEMPLATE=../tssc-sample-templates/skeleton/ci/gitops-template/gitlabci
 
-rm -rf $GITLAB_SRC_TEMPLATE 
-mkdir -p $GITLAB_SRC_TEMPLATE/rhtap  
-cp rhtap/env.template.sh $GITLAB_SRC_TEMPLATE/rhtap/env.sh  
+rm -rf $GITLAB_SRC_TEMPLATE
+mkdir -p $GITLAB_SRC_TEMPLATE/rhtap
+cp rhtap/env.template.sh $GITLAB_SRC_TEMPLATE/rhtap/env.sh
 cp .gitlab-ci.yml $GITLAB_SRC_TEMPLATE
-rm -rf $GITLAB_GITOPS_TEMPLATE 
-mkdir -p $GITLAB_GITOPS_TEMPLATE/rhtap  
-cp rhtap/env.template.sh $GITLAB_GITOPS_TEMPLATE/rhtap/env.sh  
+rm -rf $GITLAB_GITOPS_TEMPLATE
+mkdir -p $GITLAB_GITOPS_TEMPLATE/rhtap
+cp rhtap/env.template.sh $GITLAB_GITOPS_TEMPLATE/rhtap/env.sh
 cp .gitlab-ci.yml $GITLAB_GITOPS_TEMPLATE
 
 
 GITHUB_SRC_TEMPLATE=$TEMPLATES/skeleton/ci/source-repo/githubactions
 GITHUB_GITOPS_TEMPLATE=../tssc-sample-templates/skeleton/ci/gitops-template/githubactions
 
-rm -rf $GITHUB_SRC_TEMPLATE 
-mkdir -p $GITHUB_SRC_TEMPLATE/rhtap  
-cp rhtap/env.template.sh $GITHUB_SRC_TEMPLATE/rhtap/env.sh  
+rm -rf $GITHUB_SRC_TEMPLATE
+mkdir -p $GITHUB_SRC_TEMPLATE/rhtap
+cp rhtap/env.template.sh $GITHUB_SRC_TEMPLATE/rhtap/env.sh
 cp -r .github $GITHUB_SRC_TEMPLATE
- 
 
-rm -rf $GITHUB_GITOPS_TEMPLATE 
-mkdir -p $GITHUB_GITOPS_TEMPLATE/rhtap  
-cp rhtap/env.template.sh $GITHUB_GITOPS_TEMPLATE/rhtap/env.sh  
+
+rm -rf $GITHUB_GITOPS_TEMPLATE
+mkdir -p $GITHUB_GITOPS_TEMPLATE/rhtap
+cp rhtap/env.template.sh $GITHUB_GITOPS_TEMPLATE/rhtap/env.sh
 cp -r .github  $GITHUB_GITOPS_TEMPLATE
 
 for wf in $GITHUB_GITOPS_TEMPLATE/.github/workflows/* $GITHUB_SRC_TEMPLATE/.github/workflows/*
-do  
-    echo "Fix WF $wf" 
-    sed -i 's/workflow_dispatch/push, workflow_dispatch/g'  $wf 
-    echo "-" 
+do
+    echo "Fix WF $wf"
+    sed -i 's/workflow_dispatch/push, workflow_dispatch/g'  $wf
+    echo "-"
 done
 
 echo "You will have to manually commit any changes to template or jenkins files"

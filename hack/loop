@@ -5,6 +5,6 @@ do
     for i in json/*.json
     do
         scriptname=$(basename $i .json)
-        node ../hack/convert.js $i > $scriptname.sh 
+        node ../hack/convert.js $i > $scriptname.sh
     done
 done

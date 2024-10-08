@@ -1,10 +1,10 @@
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" 
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-SHELL_SCRIPTS=$SCRIPTDIR/../tasks  
+SHELL_SCRIPTS=$SCRIPTDIR/../tasks
 for i in $SHELL_SCRIPTS/json/*.json
 do
     scriptname=$(basename $i .json)
-    node $SCRIPTDIR/convert.js $i > $SHELL_SCRIPTS/$scriptname.sh 
+    node $SCRIPTDIR/convert.js $i > $SHELL_SCRIPTS/$scriptname.sh
 done
 
 chmod +x tasks/*.sh

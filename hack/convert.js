@@ -8,15 +8,15 @@ var out = function (d) {
 var log = function (d) {
     process.stderr.write(d + '\n');
   };
- 
-log ( process.argv[2]) 
+
+log ( process.argv[2])
 
 
 function expandStep(steps, replacements) {
     var lines = steps.script
     if (lines) {
         for (replace of Object.keys(replacements)) {
-            const replaceText = "\$(" + replace + ")" 
+            const replaceText = "\$(" + replace + ")"
             lines = lines.replaceAll(replaceText, replacements[replace])
         }
         return lines
@@ -27,17 +27,17 @@ function expandStep(steps, replacements) {
 }
 
 
-function convert_task(task) { 
+function convert_task(task) {
     const task_name= task.metadata.name
     const params=task.spec.params
     const results=task.spec.results
 
-    // replace results with local file path 
-    
+    // replace results with local file path
+
     const replacements = new Object()
     if (results) {
         for (r of results) {
-            const key = "results." + r.name + ".path" 
+            const key = "results." + r.name + ".path"
             replacements[key] = "$RESULTS/" + r.name
         }
     }
@@ -49,7 +49,7 @@ function convert_task(task) {
     out ("# Top level parameters ")
     // for(  p of params) {
     //     exp= (p.name).toUpperCase().replaceAll ("-", "_").replaceAll(".", "_")
-    //     out ("export " + exp + "=") 
+    //     out ("export " + exp + "=")
     // }
     // out ("")
     steps=task.spec.steps
@@ -89,5 +89,5 @@ fs.readFile(process.argv[2], function(err, data) {
             console.log('Error parsing scriptfile.json: '+e);
             process.exit(1);
         }
-    } 
+    }
 });

@@ -2,11 +2,11 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: initialize-namespace-tssc-jenkins-gitops
-spec:  
-  template:         
+spec:
+  template:
     metadata:
       name: initialize-namespace-tssc-jenkins-gitops
-    spec:  
+    spec:
       serviceAccountName: pipeline
       containers:
       - name: initialize-namespace
@@ -15,14 +15,14 @@ spec:
         - /bin/bash
         - -c
         - |
-          NS=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace) 
-          echo "Initialize RHTAP Namespace: $NS"  
-          cat <<CONFIGURE_PIPELINE | oc create -f - 
+          NS=$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)
+          echo "Initialize RHTAP Namespace: $NS"
+          cat <<CONFIGURE_PIPELINE | oc create -f -
           apiVersion: tekton.dev/v1
           kind: PipelineRun
           metadata:
             generateName: rhtap-dev-namespace-setup-
-            namespace: $NS 
+            namespace: $NS
           spec:
             pipelineSpec:
               tasks:
@@ -36,7 +36,7 @@ spec:
                         value: rhtap-dev-namespace-setup
                       - name: namespace
                         value: rhtap
-                    resolver: cluster 
+                    resolver: cluster
           CONFIGURE_PIPELINE
-          
+
       restartPolicy: Never
