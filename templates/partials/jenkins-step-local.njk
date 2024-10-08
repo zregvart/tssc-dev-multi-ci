@@ -1,0 +1,8 @@
+stage('{{ step.name }}') {
+            steps {
+                {%- for substep in step.substeps %}
+                echo '{{ substep | replace("-", "_") }}'
+                sh "rhtap/{{ substep }}.sh"
+                {%- endfor %}
+            }
+        }
