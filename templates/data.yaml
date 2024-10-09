@@ -3,9 +3,7 @@ build_steps:
   - name: init
     substeps: [init]
   - name: build
-    substeps: [buildah-rhtap]
-  - name: sign-attest
-    substeps: [cosign-sign-attest]
+    substeps: [buildah-rhtap, cosign-sign-attest]
   - name: scan
     substeps: [acs-deploy-check, acs-image-check, acs-image-scan]
   - name: deploy

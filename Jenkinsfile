@@ -32,13 +32,6 @@ pipeline {
                 script {
                     rhtap.info('buildah_rhtap')
                     rhtap.buildah_rhtap()
-                }
-            }
-        }
-
-        stage('sign-attest') {
-            steps {
-                script {
                     rhtap.info('cosign_sign_attest')
                     rhtap.cosign_sign_attest()
                 }

@@ -1,4 +1,4 @@
-# Generated from templates/build-and-update-gitops.yml.njk. Do not edit directly.
+{%- include "do-not-edit.njk" -%}
 
 # 💁 The Gitops Starter workflow will:
 # - Checkout your repository
@@ -8,21 +8,24 @@
 
 name: TSSC-Build-Attest-Scan-Deploy
 env:
+  {#-
+    Todo: Use the secret list in data/data.yaml here
+  #}
   # 🖊️ EDIT to change the image registry settings.
   # Registries such as GHCR, Quay.io, and Docker Hub are supported.
-  IMAGE_REGISTRY: quay.io/jduimovich0   # ${{ secrets.IMAGE_REGISTRY }}
-  IMAGE_REGISTRY_USER: jduimovich0    # ${{ secrets.IMAGE_REGISTRY_USER }}
-  IMAGE_REGISTRY_PASSWORD: ${{ secrets.IMAGE_REGISTRY_PASSWORD }}
+  IMAGE_REGISTRY: quay.io/jduimovich0   # ${{ "secrets.IMAGE_REGISTRY" | inCurlies }}
+  IMAGE_REGISTRY_USER: jduimovich0    # ${{ "secrets.IMAGE_REGISTRY_USER" | inCurlies }}
+  IMAGE_REGISTRY_PASSWORD: ${{ "secrets.IMAGE_REGISTRY_PASSWORD" | inCurlies }}
 
-  ROX_CENTRAL_ENDPOINT: ${{ secrets.ROX_CENTRAL_ENDPOINT }}
-  ROX_API_TOKEN: ${{ secrets.ROX_API_TOKEN }}
+  ROX_CENTRAL_ENDPOINT: ${{ "secrets.ROX_CENTRAL_ENDPOINT" | inCurlies }}
+  ROX_API_TOKEN: ${{ "secrets.ROX_API_TOKEN" | inCurlies }}
 
-  QUAY_IO_CREDS_USR: ${{ secrets.QUAY_IO_CREDS_USR }}
-  QUAY_IO_CREDS_PSW: ${{ secrets.QUAY_IO_CREDS_PSW }}
-  COSIGN_SECRET_PASSWORD: ${{ secrets.COSIGN_SECRET_PASSWORD }}
-  COSIGN_SECRET_KEY: ${{ secrets.COSIGN_SECRET_KEY }}
-  COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
-  GITOPS_AUTH_PASSWORD: ${{ secrets.GITOPS_AUTH_PASSWORD }}
+  QUAY_IO_CREDS_USR: ${{ "secrets.QUAY_IO_CREDS_USR" | inCurlies }}
+  QUAY_IO_CREDS_PSW: ${{ "secrets.QUAY_IO_CREDS_PSW" | inCurlies }}
+  COSIGN_SECRET_PASSWORD: ${{ "secrets.COSIGN_SECRET_PASSWORD" | inCurlies }}
+  COSIGN_SECRET_KEY: ${{ "secrets.COSIGN_SECRET_KEY" | inCurlies }}
+  COSIGN_PUBLIC_KEY: ${{ "secrets.COSIGN_PUBLIC_KEY" | inCurlies }}
+  GITOPS_AUTH_PASSWORD: ${{ "secrets.GITOPS_AUTH_PASSWORD" | inCurlies }}
 
   # 🖊️ EDIT to specify custom tags for the container image, or default tags will be generated below.
   IMAGE_TAGS: ""
@@ -44,22 +47,25 @@ jobs:
       uses: actions/github-script@v6
       with:
         script: |
+          {#-
+            Perhaps this could use the bash var/secret checker too for consistency
+          #}
           const secrets = {
-            IMAGE_REGISTRY: `${{ secrets.IMAGE_REGISTRY }}`,
-            IMAGE_REGISTRY_USER: `${{ secrets.IMAGE_REGISTRY_USER }}`,
-            IMAGE_REGISTRY_PASSWORD: `${{ secrets.IMAGE_REGISTRY_PASSWORD }}`,
+            IMAGE_REGISTRY: `${{ "secrets.IMAGE_REGISTRY" | inCurlies }}`,
+            IMAGE_REGISTRY_USER: `${{ "secrets.IMAGE_REGISTRY_USER" | inCurlies }}`,
+            IMAGE_REGISTRY_PASSWORD: `${{ "secrets.IMAGE_REGISTRY_PASSWORD" | inCurlies }}`,
 
-            ROX_CENTRAL_ENDPOINT: `${{ secrets.ROX_CENTRAL_ENDPOINT }}`,
-            ROX_API_TOKEN: `${{ secrets.ROX_API_TOKEN }}`,
+            ROX_CENTRAL_ENDPOINT: `${{ "secrets.ROX_CENTRAL_ENDPOINT" | inCurlies }}`,
+            ROX_API_TOKEN: `${{ "secrets.ROX_API_TOKEN" | inCurlies }}`,
 
-            QUAY_IO_CREDS_USR: `${{ secrets.QUAY_IO_CREDS_USR }}`,
-            QUAY_IO_CREDS_PSW: `${{ secrets.QUAY_IO_CREDS_PSW }}`,
+            QUAY_IO_CREDS_USR: `${{ "secrets.QUAY_IO_CREDS_USR" | inCurlies }}`,
+            QUAY_IO_CREDS_PSW: `${{ "secrets.QUAY_IO_CREDS_PSW" | inCurlies }}`,
 
-            COSIGN_SECRET_PASSWORD: `${{ secrets.COSIGN_SECRET_PASSWORD }}`,
-            COSIGN_SECRET_KEY: `${{ secrets.COSIGN_SECRET_KEY }}`,
-            COSIGN_PUBLIC_KEY: `${{ secrets.COSIGN_PUBLIC_KEY }}`,
+            COSIGN_SECRET_PASSWORD: `${{ "secrets.COSIGN_SECRET_PASSWORD" | inCurlies }}`,
+            COSIGN_SECRET_KEY: `${{ "secrets.COSIGN_SECRET_KEY" | inCurlies }}`,
+            COSIGN_PUBLIC_KEY: `${{ "secrets.COSIGN_PUBLIC_KEY" | inCurlies }}`,
 
-            GITOPS_AUTH_PASSWORD: `${{ secrets.GITOPS_AUTH_PASSWORD }}`,
+            GITOPS_AUTH_PASSWORD: `${{ "secrets.GITOPS_AUTH_PASSWORD" | inCurlies }}`,
 
           };
           const missingSecrets = Object.entries(secrets).filter(([ name, value ]) => {
@@ -106,30 +112,15 @@ jobs:
         cosign version
         buildah --version
         popd
-    - name: Init
+
+{%- for step in build_steps %}
+    - name: {{ step.name | title }}
       run: |
-        echo "Init"
-        bash tssc-sample-jenkins/resources/init.sh
-    - name: Build
-      run: |
-        echo "Build"
-        bash tssc-sample-jenkins/resources/buildah-rhtap.sh
-        bash tssc-sample-jenkins/resources/cosign-sign-attest.sh
-    - name: Scan
-      run: |
-        echo "Scan"
-        bash tssc-sample-jenkins/resources/acs-deploy-check.sh
-        bash tssc-sample-jenkins/resources/acs-image-check.sh
-        bash tssc-sample-jenkins/resources/acs-image-scan.sh
-    - name: Deploy
-      run: |
-        echo "Deploy"
-        bash tssc-sample-jenkins/resources/update-deployment.sh
-    - name: Summary
-      run: |
-        echo "Summary"
-        bash tssc-sample-jenkins/resources/show-sbom-rhdh.sh
-        bash tssc-sample-jenkins/resources/summary.sh
+        echo "{{ step.name | title }}"
+{%- for substep in step.substeps %}
+        bash tssc-sample-jenkins/resources/{{ substep }}.sh
+{%- endfor -%}
+{%- endfor %}
     - name: Done
       run: |
         echo "Done"
