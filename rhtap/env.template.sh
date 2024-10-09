@@ -21,6 +21,11 @@ export DISABLE_ACS=false
 # Optionally set ROX_CENTRAL_ENDPOINT here instead of configuring a Jenkins secret
 # export ROX_CENTRAL_ENDPOINT=central-acs.apps.user.cluster.domain.com:443
 export INSECURE_SKIP_TLS_VERIFY=true
+
+# for gitops, if acs scans are set, we still may not want that repo 
+# to be updates so include an option to disable
+
+export DISABLE_GITOPS_UPDATE="${DISABLE_GITOPS_UPDATE:-true}"
 export GITOPS_REPO_URL=${{ values.repoURL }}
 
 export PARAM_IMAGE=$IMAGE

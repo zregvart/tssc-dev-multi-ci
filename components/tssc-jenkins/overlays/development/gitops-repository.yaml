@@ -1,6 +1,0 @@
-apiVersion: "pipelinesascode.tekton.dev/v1alpha1"
-kind: Repository
-metadata:
-  name: tssc-jenkins-gitops-repository
-spec:
-  url: https://github.com/northdepot/tssc-jenkins-gitops

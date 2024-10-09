@@ -8,6 +8,12 @@ source $SCRIPTDIR/common.sh
 
 function patch-gitops() {
 	echo "Running  patch-gitops"
+	
+	if [ "$DISABLE_GITOPS_UPDATE" == "true" ]; then
+		echo "DISABLE_GITOPS_UPDATE is set. No repo update will occur"
+		exit_with_success_result
+	fi
+
 	if [ -z "$GITOPS_REPO_URL" ]; then
 		echo "GITOPS_REPO_URL not set to a value, deployment will not be updated"
 		exit_with_success_result
