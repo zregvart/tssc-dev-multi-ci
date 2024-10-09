@@ -25,11 +25,6 @@ pipeline {
             steps {
                 echo 'buildah_rhtap'
                 sh "rhtap/buildah-rhtap.sh"
-            }
-        }
-
-        stage('sign-attest') {
-            steps {
                 echo 'cosign_sign_attest'
                 sh "rhtap/cosign-sign-attest.sh"
             }
