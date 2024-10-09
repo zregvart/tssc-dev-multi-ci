@@ -4,7 +4,8 @@ FILES=\
   Jenkinsfile \
   Jenkinsfile-local-shell-scripts \
   Jenkinsfile.gitops \
-  Jenkinsfile.gitops-local-shell
+  Jenkinsfile.gitops-local-shell \
+  .github/workflows/build-and-update-gitops.yml
 
 # Node stuff
 RENDER_DIR=./render/
@@ -19,11 +20,19 @@ refresh: clean build
 .PHONY: build
 build: $(FILES)
 
-# Generate one file from its template
-%: templates/%.njk
+define build_recipe
 	@echo "Building $@"
 	@mkdir -p $$(dirname $@)
 	@$(RENDER) $< templates/data.yaml targetFile=$@ templateFile=$< > $@
+endef
+
+# Generate one file from its template
+%: templates/%.njk
+	$(build_recipe)
+
+# (Extra pattern needed because % won't match a / char)
+.github/workflows/%: templates/%.njk
+	$(build_recipe)
 
 # This should produce a non-zero exit code if there are
 # generated files that are not in sync with the templates
