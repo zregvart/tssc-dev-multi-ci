@@ -1,7 +1,8 @@
+/* Generated from templates/Jenkinsfile.njk. Do not edit directly. */
+
 library identifier: 'RHTAP_Jenkins@main', retriever: modernSCM(
   [$class: 'GitSCMSource',
    remote: 'https://github.com/redhat-appstudio/tssc-sample-jenkins.git'])
-
 
 pipeline {
     agent any
@@ -9,7 +10,8 @@ pipeline {
         ROX_API_TOKEN = credentials('ROX_API_TOKEN')
         ROX_CENTRAL_ENDPOINT = credentials('ROX_CENTRAL_ENDPOINT')
         GITOPS_AUTH_PASSWORD = credentials('GITOPS_AUTH_PASSWORD')
-        /* GITOPS_AUTH_USERNAME = credentials('GITOPS_AUTH_USERNAME') Uncomment this when using GitLab */
+        /* Uncomment this when using Gitlab */
+        /* GITOPS_AUTH_USERNAME = credentials('GITOPS_AUTH_USERNAME') */
         QUAY_IO_CREDS = credentials('QUAY_IO_CREDS')
         COSIGN_SECRET_PASSWORD = credentials('COSIGN_SECRET_PASSWORD')
         COSIGN_SECRET_KEY = credentials('COSIGN_SECRET_KEY')
@@ -24,6 +26,7 @@ pipeline {
                 }
             }
         }
+
         stage('build') {
             steps {
                 script {
@@ -32,6 +35,7 @@ pipeline {
                 }
             }
         }
+
         stage('sign-attest') {
             steps {
                 script {
@@ -40,6 +44,7 @@ pipeline {
                 }
             }
         }
+
         stage('scan') {
             steps {
                 script {
@@ -47,11 +52,12 @@ pipeline {
                     rhtap.acs_deploy_check()
                     rhtap.info('acs_image_check')
                     rhtap.acs_image_check()
-                    rhtap.info('acs_image_scan' )
+                    rhtap.info('acs_image_scan')
                     rhtap.acs_image_scan()
                 }
             }
         }
+
         stage('deploy') {
             steps {
                 script {
@@ -60,6 +66,7 @@ pipeline {
                 }
             }
         }
+
         stage('summary') {
             steps {
                 script {
@@ -70,5 +77,6 @@ pipeline {
                 }
             }
         }
+
     }
 }

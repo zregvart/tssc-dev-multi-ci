@@ -1,9 +1,13 @@
+/* Generated from templates/Jenkinsfile-local-shell-scripts.njk. Do not edit directly. */
+
 pipeline {
     agent any
     environment {
         ROX_API_TOKEN = credentials('ROX_API_TOKEN')
         ROX_CENTRAL_ENDPOINT = credentials('ROX_CENTRAL_ENDPOINT')
         GITOPS_AUTH_PASSWORD = credentials('GITOPS_AUTH_PASSWORD')
+        /* Uncomment this when using Gitlab */
+        /* GITOPS_AUTH_USERNAME = credentials('GITOPS_AUTH_USERNAME') */
         QUAY_IO_CREDS = credentials('QUAY_IO_CREDS')
         COSIGN_SECRET_PASSWORD = credentials('COSIGN_SECRET_PASSWORD')
         COSIGN_SECRET_KEY = credentials('COSIGN_SECRET_KEY')
@@ -16,18 +20,21 @@ pipeline {
                 sh "rhtap/init.sh"
             }
         }
+
         stage('build') {
             steps {
                 echo 'buildah_rhtap'
                 sh "rhtap/buildah-rhtap.sh"
             }
         }
+
         stage('sign-attest') {
             steps {
                 echo 'cosign_sign_attest'
                 sh "rhtap/cosign-sign-attest.sh"
             }
         }
+
         stage('scan') {
             steps {
                 echo 'acs_deploy_check'
@@ -38,12 +45,14 @@ pipeline {
                 sh "rhtap/acs-image-scan.sh"
             }
         }
+
         stage('deploy') {
             steps {
                 echo 'update_deployment'
                 sh "rhtap/update-deployment.sh"
             }
         }
+
         stage('summary') {
             steps {
                 echo 'show_sbom_rhdh'
@@ -52,5 +61,6 @@ pipeline {
                 sh "rhtap/summary.sh"
             }
         }
+
     }
 }

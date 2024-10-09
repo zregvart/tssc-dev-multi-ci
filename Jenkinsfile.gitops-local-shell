@@ -1,10 +1,12 @@
+/* Generated from templates/Jenkinsfile.gitops-local-shell.njk. Do not edit directly. */
+
 pipeline {
     agent any
     environment {
-        // Not used but init.sh will fail if they're missing
+        /* Not used but init.sh will fail if they're missing */
         COSIGN_SECRET_PASSWORD = 'dummy'
         COSIGN_SECRET_KEY = 'dummy'
-        // Used to verify the image signature and attestation
+        /* Used to verify the image signature and attestation */
         COSIGN_PUBLIC_KEY = credentials('COSIGN_PUBLIC_KEY')
     }
     stages {
@@ -14,11 +16,13 @@ pipeline {
                 sh "rhtap/gather-deploy-images.sh"
             }
         }
+
         stage('Verify EC') {
             steps {
                 echo 'verify_enterprise_contract'
                 sh "rhtap/verify-enterprise-contract.sh"
             }
         }
+
     }
 }

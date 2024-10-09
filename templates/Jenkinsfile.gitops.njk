@@ -1,0 +1,20 @@
+{%- include "do-not-edit.njk" -%}
+
+{%- include "jenkins-library-source.njk" -%}
+
+pipeline {
+    agent any
+    environment {
+        /* Not used but init.sh will fail if they're missing */
+        COSIGN_SECRET_PASSWORD = 'dummy'
+        COSIGN_SECRET_KEY = 'dummy'
+        {%- for secret in gitops_secrets -%}
+        {%- include "jenkins-secret.njk" -%}
+        {%- endfor %}
+    }
+    stages {
+        {%- for step in gitops_steps %}
+        {% include "jenkins-step.njk" %}
+        {%- endfor %}
+    }
+}
