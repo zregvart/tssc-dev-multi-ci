@@ -1,6 +1,44 @@
 #!/usr/bin/env bash
 set -o errexit -o nounset -o pipefail
 
+# Get the SBOM for an image by downloading the OCI blob referenced in the image attestation.
+#
+# The input to this script (The `IMAGES` env var) is a JSON string in the same format as the output
+# of the gather-deploy-images.sh script:
+#
+#     {
+#       "components": [
+#         {"containerImage": "<image reference>"},
+#         {"containerImage": "<image reference>"}
+#         ...
+#       ]
+#     }
+#
+# For each image, the task will:
+# * Download the provenance attestation using `cosign verify-attestation`
+# * Find the SBOM_BLOB_URL Tekton result in the attestation
+# * Download the OCI blob referenced by the url.
+#
+# The task saves the SBOMs to `${SBOMS_DIR}/${image_reference}/sbom.json`. The image references
+# are taken verbatim from the input object. For example, the output files could be:
+#
+#     sboms-workspace/registry.example.org/namespace/foo:v1.0.0/sbom.json
+#     sboms-workspace/registry.example.org/namespace/bar@sha256:<checksum>/sbom.json
+
+# Check required variables
+: "${IMAGES:?}"
+
+# Set defaults for unset optional variables
+: "${SBOMS_DIR=.}"  # TODO: in the Tekton task, this is relative to a shared workspace. Where should this go?
+: "${HTTP_RETRIES=3}"
+: "${PUBLIC_KEY=}"
+: "${REKOR_HOST=}"
+: "${IGNORE_REKOR=false}"
+: "${TUF_MIRROR=}"
+
+# Set script-local variables
+WORKDIR=$(mktemp -d --tmpdir "download-sbom-workdir.XXXXXX")
+
 if [[ -z "$PUBLIC_KEY" ]]; then
     echo "No public key set, cannot verify attestation." >&2
     exit 1
