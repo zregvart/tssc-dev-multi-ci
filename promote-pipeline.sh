@@ -5,6 +5,8 @@
 # into env.sh and is filled in by the template expansion
 export LOCAL_SHELL_RUN=true
 
+source setup-local-dev-repos.sh
+
 REQUIRED_ENV="MY_QUAY_USER "
 REQUIRED_BINARY="tree "
 rhtap/verify-deps-exist "$REQUIRED_ENV" "$REQUIRED_BINARY" 
@@ -15,8 +17,9 @@ if [ $ERR != 0 ]; then
 	exit $ERR
 fi
 
-
-SETUP_ENV=rhtap/env.sh 
+# RHTAP gitops directory for local test
+cp -r rhtap $GITOPS/rhtap
+SETUP_ENV=$GITOPS/rhtap/env.sh 
 cp rhtap/env.template.sh $SETUP_ENV
 sed -i "s!\${{ values.image }}!quay.io/\${MY_QUAY_USER:-jduimovich0}/bootstrap!g" $SETUP_ENV
 sed -i "s!\${{ values.dockerfile }}!Dockerfile!g" $SETUP_ENV
@@ -32,8 +35,12 @@ cat $SETUP_ENV
 # When running in Jenkins the secret values will be read from credentials
 # Todo: We need to restrict access to the signing secret. Here we need only
 # the public key, the rest of the secret should not be visible at all.
-SIGNING_SECRET_ENV=rhtap/signing-secret-env.sh
+SIGNING_SECRET_ENV=$GITOPS/rhtap/signing-secret-env.sh
 source $SIGNING_SECRET_ENV
+
+
+# switch to working gitops repo
+cd $GITOPS
 
 COUNT=0
 
