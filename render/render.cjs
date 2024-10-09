@@ -36,6 +36,7 @@ const env = nunjucks.configure('templates/partials', {
 const filters = {
   // For putting literal {{ }} chars in the output
   'inCurlies': (str) => `\{{ ${str} }}`,
+  'concat': (arr1, arr2) => arr1.concat(arr2),
 }
 
 function setupFilters(env, filters) {
@@ -62,7 +63,7 @@ function setupGlobals(env, contextFile, extraData) {
   const targetFile = contextData.targetFile
 
   const fileNameMatchers = {
-    'Jenkins': /Jenkins/,
+    'Jenkins': /Jenkins|groovy/,
     'GitHub': /github/,
     'GitLab': /gitlab/,
     'Azure': /azure/,
