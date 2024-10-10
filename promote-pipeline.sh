@@ -62,8 +62,10 @@ function run () {
 }
 rm -rf ./results
 
+# Do we need this?
 run  "rhtap/init.sh"  
-run  "rhtap/gather-deploy-images.sh"  
-run  "rhtap/verify-enterprise-contract.sh"   
+
+# See templates/promote-pipeline-steps.sh.njk
+source promote-pipeline-steps.sh
 
 tree ./results 

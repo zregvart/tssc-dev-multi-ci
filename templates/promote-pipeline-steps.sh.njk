@@ -1,0 +1,7 @@
+{%- include "do-not-edit.njk" -%}
+
+{%- for step in gitops_steps -%}
+{%- for substep in step.substeps -%}
+run rhtap/{{ substep }}.sh
+{% endfor -%}
+{%- endfor -%}

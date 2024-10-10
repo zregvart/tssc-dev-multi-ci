@@ -1,3 +1,5 @@
+# Disable built in rule for .sh files
+MAKEFLAGS += -r
 
 # A list of files that are built from templates
 FILES=\
@@ -6,7 +8,10 @@ FILES=\
   Jenkinsfile.gitops \
   Jenkinsfile.gitops-local-shell \
   .github/workflows/build-and-update-gitops.yml \
-  rhtap.groovy
+  rhtap.groovy \
+  build-pipeline-steps.sh \
+  promote-pipeline-steps.sh \
+  \
 
 # Node stuff
 RENDER_DIR=./render/
