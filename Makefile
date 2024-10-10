@@ -5,7 +5,8 @@ FILES=\
   Jenkinsfile-local-shell-scripts \
   Jenkinsfile.gitops \
   Jenkinsfile.gitops-local-shell \
-  .github/workflows/build-and-update-gitops.yml
+  .github/workflows/build-and-update-gitops.yml \
+  rhtap.groovy
 
 # Node stuff
 RENDER_DIR=./render/
