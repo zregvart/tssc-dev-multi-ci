@@ -1,0 +1,7 @@
+{%- include "do-not-edit.njk" -%}
+
+{%- for step in build_steps -%}
+{%- for substep in step.substeps -%}
+run rhtap/{{ substep }}.sh
+{% endfor -%}
+{%- endfor -%}

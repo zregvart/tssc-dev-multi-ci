@@ -9,17 +9,17 @@ source setup-local-dev-repos.sh
 
 REQUIRED_ENV="MY_QUAY_USER "
 REQUIRED_BINARY="tree "
-rhtap/verify-deps-exist "$REQUIRED_ENV" "$REQUIRED_BINARY" 
+rhtap/verify-deps-exist "$REQUIRED_ENV" "$REQUIRED_BINARY"
 ERR=$?
-echo "Dependency Error $1 = $ERR" 
+echo "Dependency Error $1 = $ERR"
 if [ $ERR != 0 ]; then
-	echo "Fatal Error code for $1 = $ERR" 
+	echo "Fatal Error code for $1 = $ERR"
 	exit $ERR
 fi
 
 # RHTAP gitops directory for local test
 cp -r rhtap $GITOPS/rhtap
-SETUP_ENV=$GITOPS/rhtap/env.sh 
+SETUP_ENV=$GITOPS/rhtap/env.sh
 cp rhtap/env.template.sh $SETUP_ENV
 sed -i "s!\${{ values.image }}!quay.io/\${MY_QUAY_USER:-jduimovich0}/bootstrap!g" $SETUP_ENV
 sed -i "s!\${{ values.dockerfile }}!Dockerfile!g" $SETUP_ENV
@@ -44,7 +44,7 @@ cd $GITOPS
 
 COUNT=0
 
-function run () { 
+function run () {
     let "COUNT++"
     printf "\n"
     printf '=%.0s' {1..31}
@@ -54,16 +54,18 @@ function run () {
     ERR=$?
     echo "Error code for $1 = $ERR"
     printf '_%.0s' {1..64}
-    printf "\n" 
+    printf "\n"
     if [ $ERR != 0 ]; then
-        echo "Fatal Error code for $1 = $ERR" 
+        echo "Fatal Error code for $1 = $ERR"
         exit 1
     fi
 }
 rm -rf ./results
 
-run  "rhtap/init.sh"  
-run  "rhtap/gather-deploy-images.sh"  
-run  "rhtap/verify-enterprise-contract.sh"   
+# Do we need this?
+run  "rhtap/init.sh"
 
-tree ./results 
+# See templates/promote-pipeline-steps.sh.njk
+source promote-pipeline-steps.sh
+
+tree ./results
