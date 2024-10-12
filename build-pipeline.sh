@@ -79,7 +79,7 @@ function run () {
 rm -rf ./results
 
 # See templates/build-pipeline-steps.sh.njk
-source build-pipeline-steps.sh
+source rhtap/build-pipeline-steps.sh
 
 tree ./results
 

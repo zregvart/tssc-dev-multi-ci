@@ -9,8 +9,8 @@ FILES=\
   Jenkinsfile.gitops-local-shell \
   .github/workflows/build-and-update-gitops.yml \
   rhtap.groovy \
-  build-pipeline-steps.sh \
-  promote-pipeline-steps.sh \
+  rhtap/build-pipeline-steps.sh \
+  rhtap/promote-pipeline-steps.sh \
   \
 
 # Node stuff
@@ -33,10 +33,13 @@ define build_recipe
 endef
 
 # Generate one file from its template
+# (Need multiple patterns because % won't match a / char)
 %: templates/%.njk
 	$(build_recipe)
 
-# (Extra pattern needed because % won't match a / char)
+rhtap/%: templates/%.njk
+	$(build_recipe)
+
 .github/workflows/%: templates/%.njk
 	$(build_recipe)
 
