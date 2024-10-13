@@ -28,4 +28,5 @@ function appstudio-summary() {
 # Task Steps
 appstudio-summary
 tree $BASE_RESULTS
+cosign tree $IMAGE_URL
 exit_with_success_result
