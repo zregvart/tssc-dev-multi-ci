@@ -50,14 +50,24 @@ function run () {
     printf '=%.0s' {1..31}
     printf " %d " $COUNT
     printf '=%.0s' {1..32}
-    bash $1
-    ERR=$?
-    echo "Error code for $1 = $ERR"
-    printf '_%.0s' {1..64}
-    printf "\n"
-    if [ $ERR != 0 ]; then
-        echo "Fatal Error code for $1 = $ERR"
-        exit 1
+
+    # Set a env var to skip a step, for example:
+    #   export SKIP_acs_image_scan=1
+    STEP_NAME=$(basename $1 .sh)
+    SKIP_VAR="SKIP_${STEP_NAME//-/_}"
+
+    if [ "${!SKIP_VAR}" == "1" ]; then
+        echo "Skipping $1"
+    else
+        bash $1
+        ERR=$?
+        echo "Error code for $1 = $ERR"
+        printf '_%.0s' {1..64}
+        printf "\n"
+        if [ $ERR != 0 ]; then
+            echo "Fatal Error code for $1 = $ERR"
+            exit 1
+        fi
     fi
 }
 rm -rf ./results
