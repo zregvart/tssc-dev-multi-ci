@@ -14,12 +14,9 @@ function build() {
 	buildah login -u $QUAY_IO_CREDS_USR -p $QUAY_IO_CREDS_PSW $IMAGE_REGISTRY
 	ERR=$?
 	if [ $ERR != 0 ]; then
-		echo "Failed login $IMAGE_REGISTRY for user $QUAY_IO_CREDS_USR "
+		echo "Failed buildah login $IMAGE_REGISTRY for user $QUAY_IO_CREDS_USR "
 		exit $ERR
 	fi
-	echo "Mirror buildah login info into ~/.docker/config.json for cosign"
-	echo "cat ${XDG_RUNTIME_DIR}/containers/auth.json > ~/.docker/config.json"
-	cat ${XDG_RUNTIME_DIR}/containers/auth.json > ~/.docker/config.json
 
 	# Check if the Dockerfile exists
 	SOURCE_CODE_DIR=.
@@ -73,6 +70,12 @@ function generate-sboms() {
 
 function upload-sbom() {
 	echo "Running $TASK_NAME:upload-sbom"
+	cosign login -u $QUAY_IO_CREDS_USR -p $QUAY_IO_CREDS_PSW $IMAGE_REGISTRY
+	ERR=$?
+	if [ $ERR != 0 ]; then
+		echo "Failed cosign login $IMAGE_REGISTRY for user $QUAY_IO_CREDS_USR "
+		exit $ERR
+	fi
 	cosign attach sbom --sbom $TEMP_DIR/files/sbom-cyclonedx.json --type cyclonedx "$IMAGE"
 }
 function delim() {
