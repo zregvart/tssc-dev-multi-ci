@@ -48,7 +48,7 @@ function cosign-cmd() {
     # verifying with cosign, or --skip-rekor when verifying with ec.
     # (If you really want to use the upstream public Rekor then set your REKOR_HOST
     # environment var to "https://rekor.sigstore.dev".)
-    REKOR_OPT="--no-tlog-upload=true"
+    REKOR_OPT="--tlog-upload=false"
   fi
 
   FULL_IMAGE_REF=$(full-image-ref)
