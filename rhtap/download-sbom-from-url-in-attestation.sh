@@ -25,11 +25,15 @@ set -o errexit -o nounset -o pipefail
 #     sboms-workspace/registry.example.org/namespace/foo:v1.0.0/sbom.json
 #     sboms-workspace/registry.example.org/namespace/bar@sha256:<checksum>/sbom.json
 
-# Check required variables
-: "${IMAGES:?}"
+SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+# shellcheck source=rhtap/common.sh
+source "$SCRIPTDIR"/common.sh
+
+# Load IMAGES from the results of the gather-deploy-images script (unless the var is already set)
+: "${IMAGES=$(cat "$BASE_RESULTS"/gather-deploy-images/IMAGES_TO_VERIFY)}"
 
 # Set defaults for unset optional variables
-: "${SBOMS_DIR=.}"  # TODO: in the Tekton task, this is relative to a shared workspace. Where should this go?
+: "${SBOMS_DIR=./.sboms}"
 : "${HTTP_RETRIES=3}"
 : "${PUBLIC_KEY=}"
 : "${REKOR_HOST=}"
@@ -89,8 +93,10 @@ cosign_verify_multiple_attestation_types() {
 }
 
 if [[ -z "$PUBLIC_KEY" ]]; then
-    echo "No public key set, cannot verify attestation." >&2
-    exit 1
+    PUBLIC_KEY="$WORKDIR/cosign.pub"
+    base64 -d \
+        <<< "${COSIGN_PUBLIC_KEY?If PUBLIC_KEY is unset, this needs to be the base64-encoded key}" \
+        > "$PUBLIC_KEY"
 fi
 
 cosign_args=(--key "$PUBLIC_KEY")
