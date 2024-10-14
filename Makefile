@@ -58,3 +58,27 @@ clean:
 .PHONY: install-deps
 install-deps:
 	@npm --prefix $(RENDER_DIR) install --frozen-lockfile
+
+#-----------------------------------------------------------------------------
+
+.PHONY: push-images
+push-images: push-image-gitlab
+
+.PHONY: push-images
+build-images: build-image-gitlab
+
+# Todo: Find a proper home for these, and add unique tags
+RUNNER_IMAGE_REPO=quay.io/$(USER)/rhtap-ci-images
+TAG_PREFIX=rhtap-runner
+
+.PHONY: push-image-%
+push-image-%: build-image-%
+	podman push $(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*
+
+.PHONY: build-image-%
+build-image-%:
+	podman build -f Dockerfile.$* -t $(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*
+
+.PHONY: run-image-%
+run-image-%:
+	podman run --rm -i -t $(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*

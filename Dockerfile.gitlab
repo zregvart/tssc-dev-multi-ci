@@ -1,0 +1,19 @@
+#
+# For use as a step runner for RHTAP GitLab CI pipelines
+#
+
+FROM docker.io/alpine:3
+
+# Todo: Specify versions on these dependencies
+RUN apk upgrade --no-cache && apk add --no-cache \
+  git bash jq yq curl python3 buildah cosign syft podman fuse-overlayfs
+
+# Todo: Don't hard code the arch and platform and maybe use a RH build instead of an upstream build
+RUN curl -sL https://github.com/enterprise-contract/ec-cli/releases/download/v0.6.61/ec_linux_amd64 \
+  -o /usr/bin/ec && chmod 755 /usr/bin/ec
+
+WORKDIR /work
+
+COPY ./rhtap ./rhtap/
+
+CMD ["/bin/bash"]
