@@ -76,6 +76,6 @@ rm -rf ./results
 run  "rhtap/init.sh"
 
 # See templates/promote-pipeline-steps.sh.njk
-source promote-pipeline-steps.sh
+source rhtap/promote-pipeline-steps.sh
 
 tree ./results

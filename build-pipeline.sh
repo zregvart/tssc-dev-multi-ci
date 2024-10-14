@@ -89,12 +89,9 @@ function run () {
 rm -rf ./results
 
 # See templates/build-pipeline-steps.sh.njk
-source build-pipeline-steps.sh
-
-tree ./results
+source rhtap/build-pipeline-steps.sh
 
 # cleanup
-
 rm -rf roxctl
 rm -rf roxctl_image_check_output.json  roxctl_image_scan_output.json
 rm -rf acs-deploy-check.json  acs-image-check.json  acs-image-scan.json
