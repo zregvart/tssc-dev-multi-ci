@@ -68,8 +68,8 @@ push-images: push-image-gitlab
 .PHONY: push-images
 build-images: build-image-gitlab
 
-# Todo: Find a proper home for these, and add unique tags
-RUNNER_IMAGE_REPO=quay.io/$(USER)/rhtap-ci-images
+# Todo: Should probably add a unique tag also
+RUNNER_IMAGE_REPO=quay.io/redhat-appstudio/dance-bootstrap-app
 TAG_PREFIX=rhtap-runner
 
 .PHONY: push-image-%

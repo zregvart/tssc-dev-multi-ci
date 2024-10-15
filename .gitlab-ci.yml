@@ -1,6 +1,6 @@
 # Generated from templates/.gitlab-ci.yml.njk. Do not edit directly.
 
-image: quay.io/sbaird/rhtap-ci-images:rhtap-runner-gitlab
+image: quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-gitlab
 
 variables:
   CI_TYPE: gitlab
