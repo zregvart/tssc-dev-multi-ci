@@ -9,6 +9,7 @@ FILES=\
   Jenkinsfile.gitops-local-shell \
   .github/workflows/build-and-update-gitops.yml \
   .gitlab-ci.yml \
+  .gitlab-ci.gitops.yml \
   rhtap.groovy \
   rhtap/build-pipeline-steps.sh \
   rhtap/promote-pipeline-steps.sh \

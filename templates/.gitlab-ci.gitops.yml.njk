@@ -1,0 +1,28 @@
+{%- include "do-not-edit.njk" -%}
+
+image: quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-gitlab
+
+variables:
+  CI_TYPE: gitlab
+
+stages:
+{%- for step in gitops_steps %}
+  - {{ step.name }}
+{%- endfor -%}
+
+{%- for step in gitops_steps -%}
+{%- for substep in step.substeps %}
+
+{{ substep }}:
+  stage: {{ step.name }}
+  script:
+    - echo "{{ substep }}"
+    - bash /work/rhtap/{{ substep }}.sh
+  artifacts:
+    paths:
+      - results/
+  rules:
+    {# We're gating the merge so run when we're in a merge request -#}
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+{%- endfor -%}
+{%- endfor %}

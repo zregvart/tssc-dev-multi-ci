@@ -1,0 +1,32 @@
+# Generated from templates/.gitlab-ci.gitops.yml.njk. Do not edit directly.
+
+image: quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-gitlab
+
+variables:
+  CI_TYPE: gitlab
+
+stages:
+  - Compute Image Changes
+  - Verify EC
+
+gather-deploy-images:
+  stage: Compute Image Changes
+  script:
+    - echo "gather-deploy-images"
+    - bash /work/rhtap/gather-deploy-images.sh
+  artifacts:
+    paths:
+      - results/
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+
+verify-enterprise-contract:
+  stage: Verify EC
+  script:
+    - echo "verify-enterprise-contract"
+    - bash /work/rhtap/verify-enterprise-contract.sh
+  artifacts:
+    paths:
+      - results/
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
