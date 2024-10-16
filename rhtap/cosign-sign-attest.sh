@@ -25,7 +25,7 @@ function image-registry() {
 # Cosign can use the same credentials as buildah
 function cosign-login() {
   local image_registry="$(image-registry)"
-  cosign login -u "$QUAY_IO_CREDS_USR" -p "$QUAY_IO_CREDS_PSW" "$image_registry"
+  cosign login --username="$QUAY_IO_CREDS_USR" --password="$QUAY_IO_CREDS_PSW" "$image_registry"
 }
 
 # A wrapper for running cosign used for both sign and attest.
