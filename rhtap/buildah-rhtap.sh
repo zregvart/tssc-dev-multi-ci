@@ -87,11 +87,11 @@ delim
 generate-sboms
 delim
 echo "RUNNING PYTHON "
-RESULT_PATH="$RESULTS/SBOM_BLOB_URL" python3 $SCRIPTDIR/merge-sboms.sh
+RESULT_PATH="$RESULTS/SBOM_BLOB_URL" python3 $SCRIPTDIR/merge_sboms.py
 # check error from python
 ERR=$?
 if [ $ERR != 0 ]; then
-	echo "Failed in step merge-sboms.sh"
+	echo "Failed in step merge_sboms.py"
 	exit $ERR
 fi
 
