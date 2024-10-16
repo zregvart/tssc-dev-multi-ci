@@ -25,5 +25,10 @@ stages:
   artifacts:
     paths:
       - results/
+  {#- The update-deployment should run only after changes are merged -#}
+  {% if substep == "update-deployment" %}
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+  {%- endif %}
 {%- endfor -%}
 {%- endfor %}

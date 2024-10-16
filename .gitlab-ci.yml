@@ -75,6 +75,8 @@ update-deployment:
   artifacts:
     paths:
       - results/
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
 
 show-sbom-rhdh:
   stage: summary
