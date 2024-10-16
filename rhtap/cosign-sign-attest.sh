@@ -95,7 +95,9 @@ runDetails:
     startedOn: "$(cat $BASE_RESULTS/init/START_TIME)"
     # Inaccurate, but not sure what else to do here
     finishedOn: "$(timestamp)"
-  byproducts: {}
+  byproducts:
+    - name: SBOM_BLOB
+      uri: "$(cat "$BASE_RESULTS"/buildah-rhtap/SBOM_BLOB_URL)"
 EOT
 }
 
