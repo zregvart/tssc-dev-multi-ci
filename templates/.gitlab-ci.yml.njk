@@ -1,0 +1,29 @@
+{%- include "do-not-edit.njk" -%}
+
+image: quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-gitlab
+
+variables:
+  CI_TYPE: gitlab
+
+stages:
+{%- for step in build_steps %}
+  - {{ step.name }}
+{%- endfor -%}
+
+{%- for step in build_steps -%}
+{%- for substep in step.substeps %}
+
+{{ substep }}:
+  stage: {{ step.name }}
+  {#- By default they run in parallel but this one can't -#}
+  {%- if substep == "cosign-sign-attest" %}
+  needs: [buildah-rhtap]
+  {%- endif %}
+  script:
+    - echo "{{ step.name }}:{{ substep }}"
+    - bash /work/rhtap/{{ substep }}.sh
+  artifacts:
+    paths:
+      - results/
+{%- endfor -%}
+{%- endfor %}
