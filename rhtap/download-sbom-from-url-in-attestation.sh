@@ -261,8 +261,11 @@ find_blob_url() {
 
     jq -r --slurp < "$attestation_file" '
       map(
-        .payload | @base64d | fromjson |
-        .. | select(.name? == "SBOM_BLOB_URL") | .value // empty
+        .payload | @base64d | fromjson | .. |
+          if .name? == "SBOM_BLOB_URL" then .value
+          elif .name? == "SBOM_BLOB" then .uri
+          else null
+          end // empty
       ) |
       unique |
       if length == 1 then
