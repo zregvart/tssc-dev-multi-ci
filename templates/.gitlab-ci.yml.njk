@@ -20,7 +20,7 @@ stages:
   needs: [buildah-rhtap]
   {%- endif %}
   script:
-    - echo "{{ step.name }}:{{ substep }}"
+    - echo "{{ substep }}"
     - bash /work/rhtap/{{ substep }}.sh
   artifacts:
     paths:
