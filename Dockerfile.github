@@ -1,0 +1,7 @@
+#
+# For use as a step runner for RHTAP GitHub CI pipelines
+#
+# (Currently we're using the exact same image as GitLab. That might change
+# in the future, so that's why there's a separate Dockerfile and tag.)
+#
+FROM quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-gitlab

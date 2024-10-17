@@ -61,10 +61,11 @@ install-deps:
 #-----------------------------------------------------------------------------
 
 .PHONY: push-images
-push-images: push-image-gitlab
+push-images: push-image-gitlab push-image-github
+	@echo https://quay.io/repository/redhat-appstudio/dance-bootstrap-app?tab=tags
 
-.PHONY: push-images
-build-images: build-image-gitlab
+.PHONY: build-images
+build-images: build-image-gitlab build-image-github
 
 # Todo: Should probably add a unique tag also
 RUNNER_IMAGE_REPO=quay.io/redhat-appstudio/dance-bootstrap-app
