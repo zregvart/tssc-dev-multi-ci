@@ -16,13 +16,13 @@ FILES=\
 
 RENDER=node ./render/render.cjs
 
-# Force a rebuild
-.PHONY: refresh
-refresh: clean build
-
 # Build
 .PHONY: build
 build: $(FILES)
+
+# Force a rebuild
+.PHONY: refresh
+refresh: clean build
 
 define build_recipe
 	@echo "Building $@"
