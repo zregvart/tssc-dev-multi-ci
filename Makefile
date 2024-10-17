@@ -67,18 +67,28 @@ push-images: push-image-gitlab push-image-github
 .PHONY: build-images
 build-images: build-image-gitlab build-image-github
 
-# Todo: Should probably add a unique tag also
 RUNNER_IMAGE_REPO=quay.io/redhat-appstudio/dance-bootstrap-app
 TAG_PREFIX=rhtap-runner
 
+define floating-tag
+	$(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*
+endef
+
+define unique-tag
+	$(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*-$$(git rev-parse --short HEAD)
+endef
+
+# Todo: Check for uncommited changes before pushing
 .PHONY: push-image-%
 push-image-%: build-image-%
-	podman push $(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*
+	podman push $(floating-tag)
+	podman push $(unique-tag)
 
 .PHONY: build-image-%
 build-image-%:
-	podman build -f Dockerfile.$* -t $(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*
+	podman build -f Dockerfile.$* -t $(floating-tag)
+	podman tag $(floating-tag) $(unique-tag)
 
 .PHONY: run-image-%
 run-image-%:
-	podman run --rm -i -t $(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*
+	podman run --rm -i -t $(floating-tag)
