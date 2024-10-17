@@ -9,23 +9,21 @@ FILES=\
   Jenkinsfile.gitops-local-shell \
   .github/workflows/build-and-update-gitops.yml \
   .gitlab-ci.yml \
+  .gitlab-ci.gitops.yml \
   rhtap.groovy \
   rhtap/build-pipeline-steps.sh \
   rhtap/promote-pipeline-steps.sh \
   \
 
-# Node stuff
-RENDER_DIR=./render/
-RENDER_JS=render.cjs
-RENDER=npx --prefix $(RENDER_DIR) node $(RENDER_DIR)/$(RENDER_JS)
-
-# Force a rebuild
-.PHONY: refresh
-refresh: clean build
+RENDER=node ./render/render.cjs
 
 # Build
 .PHONY: build
 build: $(FILES)
+
+# Force a rebuild
+.PHONY: refresh
+refresh: clean build
 
 define build_recipe
 	@echo "Building $@"
@@ -58,28 +56,39 @@ clean:
 # Install required node modules
 .PHONY: install-deps
 install-deps:
-	@npm --prefix $(RENDER_DIR) install --frozen-lockfile
+	@npm --prefix ./render install --frozen-lockfile
 
 #-----------------------------------------------------------------------------
 
 .PHONY: push-images
-push-images: push-image-gitlab
+push-images: push-image-gitlab push-image-github
+	@echo https://quay.io/repository/redhat-appstudio/dance-bootstrap-app?tab=tags
 
-.PHONY: push-images
-build-images: build-image-gitlab
+.PHONY: build-images
+build-images: build-image-gitlab build-image-github
 
-# Todo: Should probably add a unique tag also
 RUNNER_IMAGE_REPO=quay.io/redhat-appstudio/dance-bootstrap-app
 TAG_PREFIX=rhtap-runner
 
+define floating-tag
+	$(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*
+endef
+
+define unique-tag
+	$(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*-$$(git rev-parse --short HEAD)
+endef
+
+# Todo: Check for uncommited changes before pushing
 .PHONY: push-image-%
 push-image-%: build-image-%
-	podman push $(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*
+	podman push $(floating-tag)
+	podman push $(unique-tag)
 
 .PHONY: build-image-%
 build-image-%:
-	podman build -f Dockerfile.$* -t $(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*
+	podman build -f Dockerfile.$* -t $(floating-tag)
+	podman tag $(floating-tag) $(unique-tag)
 
 .PHONY: run-image-%
 run-image-%:
-	podman run --rm -i -t $(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*
+	podman run --rm -i -t $(floating-tag)
