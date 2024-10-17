@@ -14,10 +14,7 @@ FILES=\
   rhtap/promote-pipeline-steps.sh \
   \
 
-# Node stuff
-RENDER_DIR=./render/
-RENDER_JS=render.cjs
-RENDER=npx --prefix $(RENDER_DIR) node $(RENDER_DIR)/$(RENDER_JS)
+RENDER=node ./render/render.cjs
 
 # Force a rebuild
 .PHONY: refresh
@@ -58,7 +55,7 @@ clean:
 # Install required node modules
 .PHONY: install-deps
 install-deps:
-	@npm --prefix $(RENDER_DIR) install --frozen-lockfile
+	@npm --prefix ./render install --frozen-lockfile
 
 #-----------------------------------------------------------------------------
 
