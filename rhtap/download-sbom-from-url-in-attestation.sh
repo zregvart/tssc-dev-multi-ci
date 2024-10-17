@@ -39,6 +39,55 @@ set -o errexit -o nounset -o pipefail
 # Set script-local variables
 WORKDIR=$(mktemp -d --tmpdir "download-sbom-workdir.XXXXXX")
 
+# Same as `cosign verify-attestation`, but supports multiple --type arguments.
+# Returns 0 if at least one attestation type is downloaded successfully, 1 otherwise.
+# Outputs all successfully downloaded attestations to stdout.
+cosign_verify_multiple_attestation_types() {
+    local cosign_args=()
+    local type_args=()
+
+    local error_log
+    error_log=$(mktemp --tmpdir cosign-verify-error.XXXXXX)
+    trap 'rm "$error_log"' RETURN
+
+    while [[ $# -gt 0 ]]; do
+        case $1 in
+            --type=*)
+                type_args+=("$1")
+                ;;
+            --type)
+                shift
+                type_args+=(--type="$1")
+                ;;
+            *)
+                cosign_args+=("$1")
+                ;;
+        esac
+        shift
+    done
+
+    if [[ ${#type_args[@]} -eq 0 ]]; then
+        echo "cosign_verify_multiple_attestation_types: need at least one --type argument" >&2
+        return 1
+    fi
+
+    local any_success=false
+
+    for type_arg in "${type_args[@]}"; do
+        cmd=(cosign verify-attestation "$type_arg" "${cosign_args[@]}")
+        { printf "\nCommand:"; printf " %q" "${cmd[@]}"; printf "\n\n"; } >>"$error_log"
+
+        # This cmd is what prints the main output of this function on success (the attestation)
+        "${cmd[@]}" 2>>"$error_log" && any_success=true
+    done
+
+    if [[ $any_success = false ]]; then
+        echo "Failed to verify any attestation type. Errors:"
+        sed 's/^/  /' "$error_log"
+        return 1
+    fi >&2
+}
+
 if [[ -z "$PUBLIC_KEY" ]]; then
     echo "No public key set, cannot verify attestation." >&2
     exit 1
@@ -62,10 +111,11 @@ fi
 jq -r '.components[].containerImage' <<< "$IMAGES" | while read -r image; do
     echo "Getting attestation for $image"
     mkdir -p "$WORKDIR/$image"
-    cosign verify-attestation \
-        --type slsaprovenance \
+    cosign_verify_multiple_attestation_types \
+        --type slsaprovenance02 \
+        --type slsaprovenance1 \
         "${cosign_args[@]}" \
-        "$image" > "$WORKDIR/$image/attestation.json"
+        "$image" > "$WORKDIR/$image/attestations.json"
 done
 
 get_from_www_auth_header() {
@@ -224,7 +274,7 @@ find_blob_url() {
 
 jq -r '.components[].containerImage' <<< "$IMAGES" | while read -r image; do
     echo "Looking for SBOM_BLOB_URL result in the attestation for $image"
-    attestation_file="$WORKDIR/$image/attestation.json"
+    attestation_file="$WORKDIR/$image/attestations.json"
     sbom_blob_url=$(find_blob_url "$attestation_file")
     mkdir -p "$SBOMS_DIR/$image"
     download_blob "$sbom_blob_url" "$SBOMS_DIR/$image/sbom.json"
