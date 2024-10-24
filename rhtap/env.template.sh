@@ -28,7 +28,9 @@ export DISABLE_GITOPS_UPDATE=${DISABLE_GITOPS_UPDATE-true}
 export GITOPS_REPO_URL=${GITOPS_REPO_URL-${{ values.repoURL }}}
 
 export PARAM_IMAGE=${PARAM_IMAGE-$IMAGE}
-export PARAM_IMAGE_DIGEST=${PARAM_IMAGE_DIGEST-$(cat "$BASE_RESULTS/buildah-rhtap/IMAGE_DIGEST" 2>/dev/null || echo "latest")}
+# Recompute this every time, otherwise it will be set BEFORE the file exists
+# and be stuck at latest
+export PARAM_IMAGE_DIGEST=$(cat "$BASE_RESULTS/buildah-rhtap/IMAGE_DIGEST" 2>/dev/null || echo "latest")
 
 # From Summary
 export SOURCE_BUILD_RESULT_FILE=${SOURCE_BUILD_RESULT_FILE-""}
