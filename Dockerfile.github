@@ -5,3 +5,6 @@
 # in the future, so that's why there's a separate Dockerfile and tag.)
 #
 FROM quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-gitlab
+COPY copy-scripts.sh /work/copy-scripts.sh
+RUN  chmod 755 /work/copy-scripts.sh
+

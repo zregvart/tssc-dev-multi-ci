@@ -14,7 +14,7 @@ function setVars() {
     NAME=$1
     VALUE=$2
     echo "setting Secret $NAME in $REPO"
-    gh secret set $NAME -b $VALUE --org northdepot
+    gh secret set $NAME -b $VALUE  
 }
 
 setVars  IMAGE_REGISTRY quay.io/$QUAY_IO_CREDS_USR

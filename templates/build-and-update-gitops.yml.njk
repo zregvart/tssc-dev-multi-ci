@@ -13,8 +13,8 @@ env:
   #}
   # 🖊️ EDIT to change the image registry settings.
   # Registries such as GHCR, Quay.io, and Docker Hub are supported.
-  IMAGE_REGISTRY: quay.io/jduimovich0   # ${{ "secrets.IMAGE_REGISTRY" | inCurlies }}
-  IMAGE_REGISTRY_USER: jduimovich0    # ${{ "secrets.IMAGE_REGISTRY_USER" | inCurlies }}
+  IMAGE_REGISTRY: ${{ "secrets.IMAGE_REGISTRY" | inCurlies }}
+  IMAGE_REGISTRY_USER: ${{ "secrets.IMAGE_REGISTRY_USER" | inCurlies }}
   IMAGE_REGISTRY_PASSWORD: ${{ "secrets.IMAGE_REGISTRY_PASSWORD" | inCurlies }}
 
   ROX_CENTRAL_ENDPOINT: ${{ "secrets.ROX_CENTRAL_ENDPOINT" | inCurlies }}
@@ -91,34 +91,27 @@ jobs:
       with:
         fetch-depth: '2'
     - name: Pre-init
-      run: |
-        echo "WARNING Cloning pre-1.3 of https://github.com/jduimovich/tssc-sample-jenkins"
-        git clone -b pre-1.3  https://github.com/jduimovich/tssc-sample-jenkins.git tssc-sample-jenkins
-        echo "export CI_TYPE=github " > tssc-sample-jenkins/resources/env.sh
-        cat rhtap/env.sh >> tssc-sample-jenkins/resources/env.sh
-        cat tssc-sample-jenkins/resources/env.sh
-        # syft and cosign install
-        mkdir -p local-bin
-        pushd local-bin
-        wget -q https://github.com/sigstore/cosign/releases/download/v2.4.0/cosign-linux-amd64
-        wget -q https://github.com/anchore/syft/releases/download/v1.13.0/syft_1.13.0_linux_amd64.tar.gz
-        tar zxvf syft_1.13.0_linux_amd64.tar.gz
-        ls -al
-        sudo mv cosign-linux-amd64 /usr/bin/cosign
-        sudo chmod +x /usr/bin/cosign
-        sudo mv syft /usr/bin/syft
-        sudo chmod +x /usr/bin/syft
+      run: | 
+        echo "Using  quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-github"
+        mkdir -p out
+        docker run -v $(pwd)/out:/out quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-github bash /work/copy-scripts.sh
+        tree out 
+        sudo chmod +x out/binaries/*
+        sudo mv out/binaries/* /usr/bin
+        cp out/rhtap/* rhtap
+        export CI_TYPE=github   
+        cat  rhtap/env.sh 
         syft --version
         cosign version
         buildah --version
-        popd
+        ec version 
 
 {%- for step in build_steps %}
     - name: {{ step.name | title }}
       run: |
         echo "{{ step.name | title }}"
 {%- for substep in step.substeps %}
-        bash tssc-sample-jenkins/resources/{{ substep }}.sh
+        bash rhtap/{{ substep }}.sh
 {%- endfor -%}
 {%- endfor %}
     - name: Done

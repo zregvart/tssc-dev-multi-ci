@@ -32,12 +32,12 @@ cp rhtap/env.template.sh $GITOPS_TEMPLATE/rhtap/env.sh
 cp Jenkinsfile.gitops $GITOPS_TEMPLATE/Jenkinsfile
 
 # shared lib portion
-cp rhtap/*.sh $JENKINS_SHARED_LIB/resources
+cp rhtap/* $JENKINS_SHARED_LIB/resources
 cp rhtap.groovy $JENKINS_SHARED_LIB/vars
 # skip the env files, they will be in the templates as per above copy
-rm $JENKINS_SHARED_LIB/resources/env.sh
-rm $JENKINS_SHARED_LIB/resources/env.template.sh
-rm $JENKINS_SHARED_LIB/resources/signing-secret-env.sh
+rm -rf $JENKINS_SHARED_LIB/resources/env.sh
+rm -rf $JENKINS_SHARED_LIB/resources/env.template.sh
+rm -rf $JENKINS_SHARED_LIB/resources/signing-secret-env.sh
 
 # gitlab
 GITLAB_SRC_TEMPLATE=$TEMPLATES/skeleton/ci/source-repo/gitlabci

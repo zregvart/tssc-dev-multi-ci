@@ -20,8 +20,8 @@ fi
 # RHTAP gitops directory for local test
 cp -r rhtap $GITOPS/rhtap
 SETUP_ENV=$GITOPS/rhtap/env.sh
-cp rhtap/env.template.sh $SETUP_ENV
-sed -i "s!\${{ values.image }}!quay.io/\${MY_QUAY_USER:-jduimovich0}/bootstrap!g" $SETUP_ENV
+cp rhtap/env.template.sh $SETUP_ENV 
+sed -i "s!\${{ values.image }}!quay.io/$MY_QUAY_USER/bootstrap!g" $SETUP_ENV
 sed -i "s!\${{ values.dockerfile }}!Dockerfile!g" $SETUP_ENV
 sed -i "s!\${{ values.buildContext }}!.!g" $SETUP_ENV
 sed -i "s!\${{ values.repoURL }}!!g" $SETUP_ENV
