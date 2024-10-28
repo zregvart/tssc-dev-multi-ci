@@ -24,7 +24,7 @@ export INSECURE_SKIP_TLS_VERIFY=${INSECURE_SKIP_TLS_VERIFY-true}
 # for gitops, if acs scans are set, we still may not want that repo 
 # to be updates so include an option to disable
 
-export DISABLE_GITOPS_UPDATE=${DISABLE_GITOPS_UPDATE-true}
+export DISABLE_GITOPS_UPDATE=${DISABLE_GITOPS_UPDATE-false}
 export GITOPS_REPO_URL=${{ values.repoURL }}
 
 export PARAM_IMAGE=${PARAM_IMAGE-$IMAGE}
