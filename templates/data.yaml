@@ -24,10 +24,10 @@ build_secrets:
   - name: COSIGN_PUBLIC_KEY
 
 gitops_steps:
-  - name: Compute Image Changes
-    substeps: [gather-deploy-images]
   - name: Verify EC
-    substeps: [verify-enterprise-contract]
+    substeps: [gather-deploy-images, verify-enterprise-contract]
+  - name: Upload SBOM
+    substeps: [gather-images-to-upload-sbom, download-sbom-from-url-in-attestation]
 
 gitops_secrets:
   - name: COSIGN_PUBLIC_KEY
