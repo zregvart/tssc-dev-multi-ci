@@ -60,14 +60,16 @@ install-deps:
 
 #-----------------------------------------------------------------------------
 
+# Let's not push the common base image
 .PHONY: push-images
 push-images: push-image-gitlab push-image-github
 	@echo https://quay.io/repository/redhat-appstudio/dance-bootstrap-app?tab=tags
 
 .PHONY: build-images
-build-images: build-image-gitlab build-image-github
+build-images: build-image-base build-image-gitlab build-image-github
 
 RUNNER_IMAGE_REPO=quay.io/redhat-appstudio/dance-bootstrap-app
+#RUNNER_IMAGE_REPO=quay.io/$(USER)/dance-bootstrap-app
 TAG_PREFIX=rhtap-runner
 
 define floating-tag

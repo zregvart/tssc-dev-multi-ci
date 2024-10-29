@@ -1,10 +1,6 @@
-#
-# For use as a step runner for RHTAP GitHub CI pipelines
-#
-# (Currently we're using the exact same image as GitLab. That might change
-# in the future, so that's why there's a separate Dockerfile and tag.)
-#
-FROM quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-gitlab
+FROM quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-base
+
+# Currently we're not actually running inside in the container.
+# Instead we copy the scripts from this image and run them directly.
 COPY copy-scripts.sh /work/copy-scripts.sh
 RUN  chmod 755 /work/copy-scripts.sh
-
