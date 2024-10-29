@@ -10,11 +10,16 @@ function get-images-per-env() {
     #!/bin/bash
     set -euo pipefail
 
+    ENVIRONMENTS=("$@")
+    if [[ "${#ENVIRONMENTS[@]}" -eq 0 ]]; then
+        ENVIRONMENTS=(development stage prod)
+    fi
+
     IMAGE_PATH='.spec.template.spec.containers[0].image'
     IMAGES_FILE=$HOMEDIR/all-images.txt
     component_name=$(yq .metadata.name application.yaml)
 
-    for env in development stage prod; do
+    for env in "${ENVIRONMENTS[@]}"; do
         yaml_path=components/${component_name}/overlays/${env}/deployment-patch.yaml
         image=$(yq "$IMAGE_PATH" "$yaml_path")
 
@@ -62,4 +67,4 @@ function get-images-per-env() {
 }
 
 # Task Steps
-get-images-per-env
+get-images-per-env "$@"
