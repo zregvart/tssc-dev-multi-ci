@@ -38,7 +38,7 @@ function patch-gitops() {
 	fi
 
 	_GIT_NAME="gitops-update"
-	_GIT_EMAIL="rhtap@noreplay.com"
+	_GIT_EMAIL="noreply+rhtap@redhat.com"
 
 	gitops_repo_name=$(basename ${gitops_repo_url})
 	rm -rf $gitops_repo_name
