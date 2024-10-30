@@ -40,10 +40,10 @@ TARGET_DIRS=\
   gitlabci
 
 define targets_for_ci_type
-generated/source-repo/$(1)/%: templates/source-repo/%.njk
+generated/source-repo/$(1)/%: templates/source-repo/%.njk templates/data.yaml
 	$$(build_recipe)
 
-generated/gitops-template/$(1)/%: templates/gitops-template/%.njk
+generated/gitops-template/$(1)/%: templates/gitops-template/%.njk templates/data.yaml
 	$$(build_recipe)
 
 endef
@@ -52,11 +52,11 @@ endef
 $(foreach target_dir,$(TARGET_DIRS),$(eval $(call targets_for_ci_type,$(target_dir))))
 
 # For the two pipeline-steps.sh files
-rhtap/%: templates/%.njk
+rhtap/%: templates/%.njk templates/data.yaml
 	$(build_recipe)
 
 # For rhtap.groovy
-%: templates/%.njk
+%: templates/%.njk templates/data.yaml
 	$(build_recipe)
 
 # This should produce a non-zero exit code if there are
