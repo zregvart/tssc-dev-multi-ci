@@ -63,42 +63,10 @@ function cosign-cmd() {
     cosign "$cmd" -y --key=env://COSIGN_KEY $REKOR_OPT "${opts[@]}" "$FULL_IMAGE_REF"
 }
 
-# The content of this is mostly placeholder for now, we'll add more to it later.
-# Useful references:
-# - https://slsa.dev/spec/v1.0/provenance
-# - http://localhost:8080/env-vars.html/
-#   (Replace localhost with your Jenkins instance)
+# Generates data for an attestation predicate
+# (CI_TYPE is expected to be one of: jenkins, gitlab, github)
 function create-att-predicate() {
-  yq -o=json -I=0 <<EOT
-buildDefinition:
-  buildType: "https://redhat.com/rhtap/slsa-build-types/jenkins-build/v1"
-  externalParameters: {}
-  internalParameters: {}
-  resolvedDependencies:
-    - uri: "git+${GIT_URL}"
-      digest:
-        gitCommit: "${GIT_COMMIT}"
-runDetails:
-  builder:
-    id: "${NODE_NAME}"
-    builderDependencies: {}
-    version:
-      # Not sure if this is the right place for these...
-      buildNumber: "${BUILD_NUMBER}"
-      jobName: "${JOB_NAME}"
-      executorNumber: "${EXECUTOR_NUMBER}"
-      jenkinsHome: "${JENKINS_HOME}"
-      buildUrl: "${BUILD_URL}"
-      jobUrl: "${JOB_URL}"
-  metadata:
-    invocationID: "${BUILD_TAG}"
-    startedOn: "$(cat $BASE_RESULTS/init/START_TIME)"
-    # Inaccurate, but not sure what else to do here
-    finishedOn: "$(timestamp)"
-  byproducts:
-    - name: SBOM_BLOB
-      uri: "$(cat "$BASE_RESULTS"/buildah-rhtap/SBOM_BLOB_URL)"
-EOT
+  source "$SCRIPTDIR/att-predicate-$CI_TYPE.sh"
 }
 
 # Sign the image using cosign.
