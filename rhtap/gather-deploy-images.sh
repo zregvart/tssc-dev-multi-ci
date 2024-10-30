@@ -44,7 +44,8 @@ function get-images-per-env() {
 
     if [ ! -s "$IMAGES_FILE" ]; then
         echo "No images to verify"
-        touch $RESULTS/IMAGES_TO_VERIFY
+        # create or truncate the IMAGES_TO_VERIFY file
+        true > $RESULTS/IMAGES_TO_VERIFY
         exit 0
     fi
 
