@@ -37,8 +37,8 @@ function patch-gitops() {
 	  exit_with_success_result
 	fi
 
-	git config --global user.email "rhtap@noreplay.com"
-	git config --global user.name "gitops-update"
+	_GIT_NAME="gitops-update"
+	_GIT_EMAIL="noreply+rhtap@redhat.com"
 
 	gitops_repo_name=$(basename ${gitops_repo_url})
 	rm -rf $gitops_repo_name
@@ -52,7 +52,9 @@ function patch-gitops() {
 	yq e -i "${IMAGE_PATH} |= \"${PARAM_IMAGE}\"" "${deployment_patch_filepath}"
 
 	git add .
-	git commit -m "Update '${component_name}' component image to: ${PARAM_IMAGE}"
+	GIT_COMMITTER_NAME="${_GIT_NAME}" GIT_COMMITTER_EMAIL="${_GIT_EMAIL}" \
+	GIT_AUTHOR_NAME="${_GIT_NAME}" GIT_AUTHOR_EMAIL="${_GIT_EMAIL}" \
+	  git commit -m "Update '${component_name}' component image to: ${PARAM_IMAGE}"
 	git remote set-url origin $origin_with_auth
 	git push 2> /dev/null || \
 	{
