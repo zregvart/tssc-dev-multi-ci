@@ -1,5 +1,7 @@
 FROM quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-base
 
+ENV CI_TYPE=github
+
 # Currently we're not actually running inside in the container.
 # Instead we copy the scripts from this image and run them directly.
 COPY copy-scripts.sh /work/copy-scripts.sh
