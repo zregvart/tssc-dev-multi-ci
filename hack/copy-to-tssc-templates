@@ -77,8 +77,8 @@ update-tssc-templates $CI_ROOT_GITOPS gitlabci rhtap/env.template.sh .gitlab-ci.
 
 
 # github actions templates
-update-tssc-templates $CI_ROOT_SRC githubactions rhtap/env.template.sh .github
-update-tssc-templates $CI_ROOT_GITOPS githubactions rhtap/env.template.sh .github  
+update-tssc-templates $CI_ROOT_SRC githubactions rhtap/env.template.sh generated/source-repo/githubactions/.github
+update-tssc-templates $CI_ROOT_GITOPS githubactions rhtap/env.template.sh generated/gitops-template/githubactions/.github
 
 # temp fixup
 for wf in $CI_ROOT_SRC/githubactions/.github/workflows/* $CI_ROOT_GITOPS/githubactions/.github/workflows/*  

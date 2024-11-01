@@ -2,12 +2,14 @@
 MAKEFLAGS += -r
 
 # A list of files that are built from templates
+# Note - new generated directory for github
 FILES=\
   Jenkinsfile \
   Jenkinsfile-local-shell-scripts \
   Jenkinsfile.gitops \
   Jenkinsfile.gitops-local-shell \
-  .github/workflows/build-and-update-gitops.yml \
+  generated/source-repo/githubactions/.github/workflows/build-and-update-gitops.yml \
+  generated/gitops-template/githubactions/.github/workflows/gitops-promotion.yml \
   .gitlab-ci.yml \
   .gitlab-ci.gitops.yml \
   rhtap.groovy \
@@ -41,6 +43,14 @@ rhtap/%: templates/%.njk
 
 .github/workflows/%: templates/%.njk
 	$(build_recipe)
+
+# first file that is in the generated output format.
+generated/gitops-template/githubactions/.github/workflows/%: templates/%.njk
+	$(build_recipe)
+# first file that is in the generated output format.
+generated/source-repo/githubactions/.github/workflows/%: templates/%.njk
+	$(build_recipe)
+
 
 # This should produce a non-zero exit code if there are
 # generated files that are not in sync with the templates
