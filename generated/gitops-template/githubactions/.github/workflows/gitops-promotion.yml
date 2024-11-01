@@ -30,7 +30,7 @@ env:
   DEFAULT_UPDATE_VIA_PUSH: "true"
   # 🖊️ EDIT to set a name for your OpenShift app, or a default one will be generated below.
   APP_NAME: ""
-on: [workflow_dispatch]
+on: [pull_request, workflow_dispatch]
 
 jobs:
   tssc-ci-cd:

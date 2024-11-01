@@ -80,14 +80,6 @@ update-tssc-templates $CI_ROOT_GITOPS gitlabci rhtap/env.template.sh .gitlab-ci.
 update-tssc-templates $CI_ROOT_SRC githubactions rhtap/env.template.sh generated/source-repo/githubactions/.github
 update-tssc-templates $CI_ROOT_GITOPS githubactions rhtap/env.template.sh generated/gitops-template/githubactions/.github
 
-# temp fixup
-for wf in $CI_ROOT_SRC/githubactions/.github/workflows/* $CI_ROOT_GITOPS/githubactions/.github/workflows/*  
-do
-    echo "Fix WF $wf"
-    sed -i 's/workflow_dispatch/push, workflow_dispatch/g'  $wf
-    echo "-"
-done
-
 echo "You will have to manually commit any changes to template or jenkins files"
 echo "Validate the changes, and create a PR to update the templates and library files"
 echo
