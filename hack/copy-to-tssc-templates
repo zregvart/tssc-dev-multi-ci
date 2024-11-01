@@ -1,73 +1,87 @@
+SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
+# Assumes local copies of the repos
+# https://github.com/redhat-appstudio/tssc-sample-templates or user fork in ../
+# https://github.com/redhat-appstudio/tssc-sample-jenkins or user fork in ../
+# This will not commit to user or redhat-appstudio, that step is manual.
+# release process is to create a branch in your fork, or in the redhat-appstudio directly
+# and copy the files into the relevant locations for that CI
 
-# src test
-TEMPLATES=../tssc-sample-templates
-SRC_TEMPLATE=$TEMPLATES/skeleton/ci/source-repo/jenkins
-GITOPS_TEMPLATE=../tssc-sample-templates/skeleton/ci/gitops-template/jenkins
+TEMPLATES=../tssc-sample-templates 
 JENKINS_SHARED_LIB=../tssc-sample-jenkins
-
 echo
 if [ -d $TEMPLATES ]; then
-    echo "Updating $TEMPLATES"
+    echo "Updating Software Templates $TEMPLATES"
  else
     echo "$TEMPLATES missing, clone or fork  https://github.com/redhat-appstudio/tssc-sample-templates into $TEMPLATES"
     exit 0
 fi
 if [ -d $JENKINS_SHARED_LIB ]; then
-    echo "Updating $JENKINS_SHARED_LIB"
+    echo "Updating Jenkins Library $JENKINS_SHARED_LIB"
 else
-    echo "$JENKINS_SHARED_LIB missing, clone or fork  https://github.com/redhat-appstudio/tssc-sample-jenkins into JENKINS_SHARED_LIB"
+    echo "$JENKINS_SHARED_LIB missing, clone or fork  https://github.com/redhat-appstudio/tssc-sample-jenkins into $JENKINS_SHARED_LIB"
     exit 0
-fi
-# source repo part of template
-rm -rf $SRC_TEMPLATE
-mkdir -p $SRC_TEMPLATE/rhtap
-cp rhtap/env.template.sh $SRC_TEMPLATE/rhtap/env.sh
-cp Jenkinsfile $SRC_TEMPLATE/Jenkinsfile
+fi 
 
-# gitops repo part of template
-rm -rf $GITOPS_TEMPLATE
-mkdir -p $GITOPS_TEMPLATE/rhtap
-cp rhtap/env.template.sh $GITOPS_TEMPLATE/rhtap/env.sh
-cp Jenkinsfile.gitops $GITOPS_TEMPLATE/Jenkinsfile
+# Function that can update the tssc-templates folder for Multi-CI
+# Templates use the ciType to copy the correct CI to the generated repos from the folder
+# Locations are:
+# Source CI  <template-repo>/skeleton/ci/source-repo/CI_TYPE
+# GITOPS CI  <template-repo>/skeleton/ci/gitops-template/CI_TYPE
+# CI type will be jenkins, gitlabci, githubactions
+# Note. the .tekton directory in the repo is not generated from here 
+# arg1   root-ci (pass source or gitops here)
+# arg2   ciType  - jenkins, gitlabci, githubactions
+# arg3   rhtap env.sh file -- allows different defaults if you want for local test
+# arg4   files-or-dir to copy to template dir (root-ci + ciType)
+# arg5   option rename for arg4  (ie Jenkinsfile.gitop -> Jenkinsfile)
+# WARNING - this will WIPE the CI directory and copy the files there
+function update-tssc-templates () { 
+    ROOT_CI_LOCATION=$1
+    CI_TYPE=$2
+    RHTAP_ENV=$3
+    TEMPLATE_FILES=$4
+    DEST_FOLDER=$ROOT_CI_LOCATION/$CI_TYPE
+    echo "Updating $DEST_FOLDER"
+    rm -rf $DEST_FOLDER
+    mkdir -p $DEST_FOLDER/rhtap 
+    cp $RHTAP_ENV $DEST_FOLDER/rhtap/env.sh
+    if [ -d $TEMPLATE_FILES ]; then  
+        cp -r $TEMPLATE_FILES $DEST_FOLDER
+    else  
+        cp $TEMPLATE_FILES $DEST_FOLDER/$5
+    fi 
+}
 
-# shared lib portion
+CI_ROOT_SRC=$TEMPLATES/skeleton/ci/source-repo
+CI_ROOT_GITOPS=$TEMPLATES/skeleton/ci/gitops-template
+# Jenkins templates
+update-tssc-templates $CI_ROOT_SRC jenkins rhtap/env.template.sh Jenkinsfile Jenkinsfile
+update-tssc-templates $CI_ROOT_GITOPS jenkins rhtap/env.template.sh Jenkinsfile.gitops Jenkinsfile
+ 
+# shared lib for Jenkins
+# copy scripts and groovy files in to proper locations
+# delete extra files - We should move these outside of ./rhtap 
+# so we don't copy extra files by mistake
 cp rhtap/* $JENKINS_SHARED_LIB/resources
 cp rhtap.groovy $JENKINS_SHARED_LIB/vars
-# skip the env files, they will be in the templates as per above copy
-rm -rf $JENKINS_SHARED_LIB/resources/env.sh
+# skip the env.template.sh files, they are not for the library
+# we should consider copying the Jenkins files for gitops and src into a jenkinsfile-samples
+# so the lates Jenkinsfile is up to date in the library 
 rm -rf $JENKINS_SHARED_LIB/resources/env.template.sh
 rm -rf $JENKINS_SHARED_LIB/resources/signing-secret-env.sh
 
-# gitlab
-GITLAB_SRC_TEMPLATE=$TEMPLATES/skeleton/ci/source-repo/gitlabci
-GITLAB_GITOPS_TEMPLATE=../tssc-sample-templates/skeleton/ci/gitops-template/gitlabci
-
-rm -rf $GITLAB_SRC_TEMPLATE
-mkdir -p $GITLAB_SRC_TEMPLATE/rhtap
-cp rhtap/env.template.sh $GITLAB_SRC_TEMPLATE/rhtap/env.sh
-cp .gitlab-ci.yml $GITLAB_SRC_TEMPLATE
-rm -rf $GITLAB_GITOPS_TEMPLATE
-mkdir -p $GITLAB_GITOPS_TEMPLATE/rhtap
-cp rhtap/env.template.sh $GITLAB_GITOPS_TEMPLATE/rhtap/env.sh
-cp .gitlab-ci.yml $GITLAB_GITOPS_TEMPLATE
+# gitlab templates
+update-tssc-templates $CI_ROOT_SRC gitlabci rhtap/env.template.sh .gitlab-ci.yml .gitlab-ci.yml
+update-tssc-templates $CI_ROOT_GITOPS gitlabci rhtap/env.template.sh .gitlab-ci.gitops.yml .gitlab-ci.yml
 
 
-GITHUB_SRC_TEMPLATE=$TEMPLATES/skeleton/ci/source-repo/githubactions
-GITHUB_GITOPS_TEMPLATE=../tssc-sample-templates/skeleton/ci/gitops-template/githubactions
+# github actions templates
+update-tssc-templates $CI_ROOT_SRC githubactions rhtap/env.template.sh .github
+update-tssc-templates $CI_ROOT_GITOPS githubactions rhtap/env.template.sh .github  
 
-rm -rf $GITHUB_SRC_TEMPLATE
-mkdir -p $GITHUB_SRC_TEMPLATE/rhtap
-cp rhtap/env.template.sh $GITHUB_SRC_TEMPLATE/rhtap/env.sh
-cp -r .github $GITHUB_SRC_TEMPLATE
-
-
-rm -rf $GITHUB_GITOPS_TEMPLATE
-mkdir -p $GITHUB_GITOPS_TEMPLATE/rhtap
-cp rhtap/env.template.sh $GITHUB_GITOPS_TEMPLATE/rhtap/env.sh
-cp -r .github  $GITHUB_GITOPS_TEMPLATE
-
-for wf in $GITHUB_GITOPS_TEMPLATE/.github/workflows/* $GITHUB_SRC_TEMPLATE/.github/workflows/*
+# temp fixup
+for wf in $CI_ROOT_SRC/githubactions/.github/workflows/* $CI_ROOT_GITOPS/githubactions/.github/workflows/*  
 do
     echo "Fix WF $wf"
     sed -i 's/workflow_dispatch/push, workflow_dispatch/g'  $wf
@@ -75,9 +89,10 @@ do
 done
 
 echo "You will have to manually commit any changes to template or jenkins files"
+echo "Validate the changes, and create a PR to update the templates and library files"
 echo
 echo "Checking git status in $TEMPLATES"
-(cd $TEMPLATES;  git remote -v ; git status)
+(cd $TEMPLATES;  echo "Repo: $(git config --get remote.origin.url)" ; git status)
 echo
 echo "Checking git status in $JENKINS_SHARED_LIB"
-(cd $JENKINS_SHARED_LIB ;  git remote -v ; git status)
+(cd $JENKINS_SHARED_LIB ;  echo "Repo: $(git config --get remote.origin.url)"  ; git status)
