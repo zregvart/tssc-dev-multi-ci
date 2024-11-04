@@ -1,4 +1,4 @@
-# Generated from templates/gitops-template/.gitlab-ci.gitops.yml.njk. Do not edit directly.
+# Generated from templates/gitops-template/.gitlab-ci.yml.njk. Do not edit directly.
 
 image: quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-gitlab
 
