@@ -84,7 +84,7 @@ function attest() {
   # Put the predicate file in the results also for debugging purposes
   create-att-predicate > "$RESULTS/att-predicate.json"
   # (Assume we did cosign login already)
-  cosign-cmd attest --predicate "$RESULTS/att-predicate.json" --type "https://slsa.dev/provenance/v1"
+  cosign-cmd attest --predicate "$RESULTS/att-predicate.json" --type slsaprovenance1
 }
 
 function show-rekor-url() {
