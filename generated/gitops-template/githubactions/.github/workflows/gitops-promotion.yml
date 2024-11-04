@@ -1,4 +1,4 @@
-# Generated from templates/gitops-promotion.yml.njk. Do not edit directly.
+# Generated from templates/gitops-template/gitops-promotion.yml.njk. Do not edit directly.
 
 # 💁 The Promotion Pipeline will:
 # - Checkout your repository

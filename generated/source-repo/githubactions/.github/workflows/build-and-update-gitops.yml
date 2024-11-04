@@ -1,4 +1,4 @@
-# Generated from templates/build-and-update-gitops.yml.njk. Do not edit directly.
+# Generated from templates/source-repo/build-and-update-gitops.yml.njk. Do not edit directly.
 
 # 💁 The Gitops Starter workflow will:
 # - Checkout your repository
