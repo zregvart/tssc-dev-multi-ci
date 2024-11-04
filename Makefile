@@ -80,21 +80,38 @@ install-deps:
 # Let's not push the common base image
 .PHONY: push-images
 push-images: push-image-gitlab push-image-github
-	@echo https://quay.io/repository/redhat-appstudio/dance-bootstrap-app?tab=tags
+	@echo https://quay.io/repository/$(RUNNER_IMAGE_ORG)/$(RUNNER_IMAGE_REPO)?tab=tags
 
 .PHONY: build-images
 build-images: build-image-base build-image-gitlab build-image-github
 
-RUNNER_IMAGE_REPO=quay.io/redhat-appstudio/dance-bootstrap-app
-#RUNNER_IMAGE_REPO=quay.io/$(USER)/dance-bootstrap-app
+#
+# The default quay org is your current user, or MY_QUAY_USER if that is present.
+# To set it to something else do this for example:
+#
+#   export RUNNER_IMAGE_ORG=myorg
+#   make push-images
+#
+# or:
+#   RUNNER_IMAGE_QUAY_ORG=myorg make push-images
+#
+# You can set RUNNER_IMAGE_REPO similarly if you want to use a
+# different repo.
+#
+# (Note that the real production quay org is redhat-appstudio.)
+#
+MY_QUAY_USER ?= $(USER)
+RUNNER_IMAGE_ORG ?= $(MY_QUAY_USER)
+RUNNER_IMAGE_REPO ?= dance-bootstrap-app
+
 TAG_PREFIX=rhtap-runner
 
 define floating-tag
-	$(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*
+	quay.io/$(RUNNER_IMAGE_ORG)/$(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*
 endef
 
 define unique-tag
-	$(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*-$$(git rev-parse --short HEAD)
+	quay.io/$(RUNNER_IMAGE_ORG)/$(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*-$$(git rev-parse --short HEAD)
 endef
 
 # Todo: Check for uncommited changes before pushing
@@ -105,7 +122,7 @@ push-image-%: build-image-%
 
 .PHONY: build-image-%
 build-image-%:
-	podman build -f Dockerfile.$* -t $(floating-tag)
+	podman build --build-arg QUAY_ORG=$(RUNNER_IMAGE_ORG) --build-arg QUAY_REPO=$(RUNNER_IMAGE_REPO) -f Dockerfile.$* -t $(floating-tag)
 	podman tag $(floating-tag) $(unique-tag)
 
 .PHONY: run-image-%
