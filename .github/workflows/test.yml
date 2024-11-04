@@ -1,0 +1,34 @@
+name: Test
+on: [workflow_dispatch]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-24.04
+    env:
+      MY_QUAY_USER: zregvart_redhat
+      QUAY_IO_CREDS_USR: ${{ secrets.QUAY_IO_CREDS_USR }}
+      QUAY_IO_CREDS_PSW: ${{ secrets.QUAY_IO_CREDS_PSW }}
+      DISABLE_GITOPS_UPDATE: true
+      GITOPS_AUTH_PASSWORD: wat
+      DISABLE_ACS: true
+      REKOR_HOST: https://rekor.sigstore.dev/
+      CI_TYPE: github
+      COSIGN_PASSWORD: ${{ secrets.COSIGN_SECRET_PASSWORD }}
+      COSIGN_KEY: ${{ secrets.COSIGN_SECRET_KEY }}
+      COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
+    - name: Tools
+      run: |
+        curl -sLO https://github.com/anchore/syft/releases/download/v1.15.0/syft_1.15.0_linux_amd64.deb
+        sudo apt-get install ./syft_1.15.0_linux_amd64.deb
+        curl -sLO https://github.com/sigstore/cosign/releases/download/v2.4.1/cosign_2.4.1_amd64.deb
+        sudo apt-get install ./cosign_2.4.1_amd64.deb
+        curl -sLO https://github.com/enterprise-contract/ec-cli/releases/download/snapshot/ec_linux_amd64
+        sudo mv ec_linux_amd64 /usr/bin/ec
+        sudo chmod +x /usr/bin /usr/bin/ec
+    - name: Test
+      run: bash build-pipeline.sh
