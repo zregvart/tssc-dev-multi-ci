@@ -9,21 +9,28 @@ yq -o=json -I=0 <<EOT
 ---
 buildDefinition:
   buildType: "https://redhat.com/rhtap/slsa-build-types/${CI_TYPE}-build/v1"
-  externalParameters: {}
-  internalParameters: {}
+  externalParameters:
+    workflow:
+      ref: "${GITHUB_REF}"
+      repository: "https://${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
+      path: ".github/${GITHUB_WORKFLOW_REF#*.github/}"
+  internalParameters:
+    github:
+      event_name: "${GITHUB_EVENT_NAME}"
+      repository_id: "${GITHUB_REPOSITORY_ID}"
+      repository_owner_id: "${GITHUB_REPOSITORY_OWNER_ID}"
+      runner_environment: "${RUNNER_ENVIRONMENT}"
   resolvedDependencies:
-    - uri: "git+${GIT_URL}"
+    - uri: "git+https://${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}.git"
       digest:
-        gitCommit: "${GIT_COMMIT}"
+        gitCommit: "${GITHUB_SHA}"
 
 runDetails:
   builder:
-    # Todo:
-    id: ~
-    builderDependencies: []
-    version: {}
+    id: "https://${GITHUB_SERVER_URL}/${GITHUB_WORKFLOW_REF}"
 
   metadata:
+    invocationId: "https://${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/attempts/${GITHUB_RUN_ATTEMPT}"
     startedOn: "$(cat $BASE_RESULTS/init/START_TIME)"
     # Inaccurate, but maybe close enough
     finishedOn: "$(timestamp)"
