@@ -2,16 +2,17 @@
 MAKEFLAGS += -r
 
 # A list of files that are built from templates
-# Note - new generated directory for github
 FILES=\
-  Jenkinsfile \
-  Jenkinsfile-local-shell-scripts \
-  Jenkinsfile.gitops \
-  Jenkinsfile.gitops-local-shell \
+  generated/source-repo/jenkins/Jenkinsfile \
+  generated/source-repo/jenkins/Jenkinsfile-local-shell-scripts \
   generated/source-repo/githubactions/.github/workflows/build-and-update-gitops.yml \
+  generated/source-repo/gitlabci/.gitlab-ci.yml \
+  \
+  generated/gitops-template/jenkins/Jenkinsfile.gitops \
+  generated/gitops-template/jenkins/Jenkinsfile.gitops-local-shell \
   generated/gitops-template/githubactions/.github/workflows/gitops-promotion.yml \
-  .gitlab-ci.yml \
-  .gitlab-ci.gitops.yml \
+  generated/gitops-template/gitlabci/.gitlab-ci.gitops.yml \
+  \
   rhtap.groovy \
   rhtap/build-pipeline-steps.sh \
   rhtap/promote-pipeline-steps.sh \
@@ -27,30 +28,38 @@ build: $(FILES)
 .PHONY: refresh
 refresh: clean build
 
+# Shared build recipe for generated a file from a template
 define build_recipe
 	@echo "Building $@"
 	@mkdir -p $$(dirname $@)
 	@$(RENDER) $< templates/data.yaml targetFile=$@ templateFile=$< > $@
 endef
 
-# Generate one file from its template
-# (Need multiple patterns because % won't match a / char)
-%: templates/%.njk
-	$(build_recipe)
+# Reduce repetition in this file by creating a template
+TARGET_DIRS=\
+  jenkins \
+  githubactions/.github/workflows \
+  gitlabci
 
+define targets_for_ci_type
+generated/source-repo/$(1)/%: templates/source-repo/%.njk
+	$$(build_recipe)
+
+generated/gitops-template/$(1)/%: templates/gitops-template/%.njk
+	$$(build_recipe)
+
+endef
+
+# Create the targets each CI type
+$(foreach target_dir,$(TARGET_DIRS),$(eval $(call targets_for_ci_type,$(target_dir))))
+
+# For the two pipeline-steps.sh files
 rhtap/%: templates/%.njk
 	$(build_recipe)
 
-.github/workflows/%: templates/%.njk
+# For rhtap.groovy
+%: templates/%.njk
 	$(build_recipe)
-
-# first file that is in the generated output format.
-generated/gitops-template/githubactions/.github/workflows/%: templates/%.njk
-	$(build_recipe)
-# first file that is in the generated output format.
-generated/source-repo/githubactions/.github/workflows/%: templates/%.njk
-	$(build_recipe)
-
 
 # This should produce a non-zero exit code if there are
 # generated files that are not in sync with the templates

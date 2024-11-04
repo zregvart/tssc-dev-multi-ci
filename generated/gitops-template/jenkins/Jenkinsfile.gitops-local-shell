@@ -1,4 +1,4 @@
-/* Generated from templates/Jenkinsfile.gitops-local-shell.njk. Do not edit directly. */
+/* Generated from templates/gitops-template/Jenkinsfile.gitops-local-shell.njk. Do not edit directly. */
 
 pipeline {
     agent any

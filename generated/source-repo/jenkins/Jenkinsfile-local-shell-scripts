@@ -1,4 +1,4 @@
-/* Generated from templates/Jenkinsfile-local-shell-scripts.njk. Do not edit directly. */
+/* Generated from templates/source-repo/Jenkinsfile-local-shell-scripts.njk. Do not edit directly. */
 
 pipeline {
     agent any
