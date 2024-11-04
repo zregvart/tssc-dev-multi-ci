@@ -4,12 +4,10 @@ MAKEFLAGS += -r
 # A list of files that are built from templates
 FILES=\
   generated/source-repo/jenkins/Jenkinsfile \
-  generated/source-repo/jenkins/Jenkinsfile-local-shell-scripts \
   generated/source-repo/githubactions/.github/workflows/build-and-update-gitops.yml \
   generated/source-repo/gitlabci/.gitlab-ci.yml \
   \
   generated/gitops-template/jenkins/Jenkinsfile.gitops \
-  generated/gitops-template/jenkins/Jenkinsfile.gitops-local-shell \
   generated/gitops-template/githubactions/.github/workflows/gitops-promotion.yml \
   generated/gitops-template/gitlabci/.gitlab-ci.gitops.yml \
   \
