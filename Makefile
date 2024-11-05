@@ -77,6 +77,9 @@ install-deps:
 
 #-----------------------------------------------------------------------------
 
+.PHONY: build-push-images
+build-push-images: build-images push-images
+
 # Let's not push the common base image
 .PHONY: push-images
 push-images: push-image-gitlab push-image-github
@@ -116,7 +119,7 @@ endef
 
 # Todo: Check for uncommited changes before pushing
 .PHONY: push-image-%
-push-image-%: build-image-%
+push-image-%:
 	podman push $(floating-tag)
 	podman push $(unique-tag)
 
