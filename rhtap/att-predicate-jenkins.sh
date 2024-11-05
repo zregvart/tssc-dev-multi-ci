@@ -21,7 +21,7 @@ buildDefinition:
 runDetails:
   builder:
     id: "${NODE_NAME}"
-    builderDependencies: {}
+    builderDependencies: []
     version:
       # Not sure if this is the right place for these...
       buildNumber: "${BUILD_NUMBER}"

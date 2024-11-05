@@ -20,7 +20,7 @@ runDetails:
   builder:
     # Todo:
     id: ~
-    builderDependencies: {}
+    builderDependencies: []
     version: {}
 
   metadata:
