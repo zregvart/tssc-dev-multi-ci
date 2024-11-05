@@ -4,6 +4,10 @@
 
 FROM docker.io/redhat/ubi9-minimal:9.4
 
+# These are not used but naming them prevents a "build args not consumed" warning
+ARG QUAY_ORG
+ARG QUAY_REPO
+
 # Todo:
 # - Pin all the versions (maybe)
 # - Don't hard code the arch and platform in curl downloads
