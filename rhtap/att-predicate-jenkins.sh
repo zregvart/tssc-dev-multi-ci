@@ -7,7 +7,7 @@
 # - http://localhost:8080/env-vars.html/
 #   (Replace localhost with your Jenkins instance)
 #
-yq -o=json -I=0 <<EOT
+yq -o=json -I=0 << EOT
 ---
 buildDefinition:
   buildType: "https://redhat.com/rhtap/slsa-build-types/${CI_TYPE}-build/v1"

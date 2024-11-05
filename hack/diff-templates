@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # src test
 
 SRC_TEMPLATE=../tssc-sample-templates/skeleton/ci/source-repo/jenkins

@@ -3,9 +3,9 @@ set -euo pipefail
 
 # This works when you're testing locally with bash
 if [ -f results/buildah-rhtap/IMAGE_URL ]; then
-  LOCAL_IMAGE="$(cat results/buildah-rhtap/IMAGE_URL)@$(cat results/buildah-rhtap/IMAGE_DIGEST)"
-  LOCAL_KEY="results/cosign-sign-attest/cosign.pub"
-  LOCAL_REKOR_HOST="$(cat results/cosign-sign-attest/REKOR_URL)"
+    LOCAL_IMAGE="$(cat results/buildah-rhtap/IMAGE_URL)@$(cat results/buildah-rhtap/IMAGE_DIGEST)"
+    LOCAL_KEY="results/cosign-sign-attest/cosign.pub"
+    LOCAL_REKOR_HOST="$(cat results/cosign-sign-attest/REKOR_URL)"
 fi
 
 # Otherwise provide the image, public key file, and the rekor host as arguments
@@ -14,9 +14,9 @@ PUBLIC_KEY="${2:-"$LOCAL_KEY"}"
 REKOR_HOST="${3:-"$LOCAL_REKOR_HOST"}"
 
 if [ -n "$REKOR_HOST" -a "$REKOR_HOST" != "none" ]; then
-  REKOR_OPT="--rekor-url=$REKOR_HOST"
+    REKOR_OPT="--rekor-url=$REKOR_HOST"
 else
-  REKOR_OPT="--insecure-ignore-tlog"
+    REKOR_OPT="--insecure-ignore-tlog"
 fi
 
 # Check the image signature

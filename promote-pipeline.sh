@@ -1,5 +1,3 @@
-
-
 # Fill in template values and set run local
 # the env.template is copyed to the RHDH sample templates
 # into env.sh and is filled in by the template expansion
@@ -13,14 +11,14 @@ rhtap/verify-deps-exist "$REQUIRED_ENV" "$REQUIRED_BINARY"
 ERR=$?
 echo "Dependency Error $1 = $ERR"
 if [ $ERR != 0 ]; then
-	echo "Fatal Error code for $1 = $ERR"
-	exit $ERR
+    echo "Fatal Error code for $1 = $ERR"
+    exit $ERR
 fi
 
 # RHTAP gitops directory for local test
 cp -r rhtap $GITOPS/rhtap
 SETUP_ENV=$GITOPS/rhtap/env.sh
-cp rhtap/env.template.sh $SETUP_ENV 
+cp rhtap/env.template.sh $SETUP_ENV
 sed -i "s!\${{ values.image }}!quay.io/$MY_QUAY_USER/bootstrap!g" $SETUP_ENV
 sed -i "s!\${{ values.dockerfile }}!Dockerfile!g" $SETUP_ENV
 sed -i "s!\${{ values.buildContext }}!.!g" $SETUP_ENV
@@ -34,13 +32,12 @@ cat $SETUP_ENV
 SIGNING_SECRET_ENV=$GITOPS/rhtap/signing-secret-env.sh
 source $SIGNING_SECRET_ENV
 
-
 # switch to working gitops repo
 cd $GITOPS
 
 COUNT=0
 
-function run () {
+function run() {
     let "COUNT++"
     printf "\n"
     printf '=%.0s' {1..31}
@@ -69,7 +66,7 @@ function run () {
 rm -rf ./results
 
 # Do we need this?
-run  "rhtap/init.sh"
+run "rhtap/init.sh"
 
 # See templates/promote-pipeline-steps.sh.njk
 source rhtap/promote-pipeline-steps.sh

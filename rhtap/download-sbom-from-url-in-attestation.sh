@@ -25,7 +25,7 @@ set -o errexit -o nounset -o pipefail
 #     sboms-workspace/registry.example.org/namespace/foo:v1.0.0/sbom.json
 #     sboms-workspace/registry.example.org/namespace/bar@sha256:<checksum>/sbom.json
 
-SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
+SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
 # shellcheck source=rhtap/common.sh
 source "$SCRIPTDIR"/common.sh
 
@@ -56,16 +56,16 @@ cosign_verify_multiple_attestation_types() {
 
     while [[ $# -gt 0 ]]; do
         case $1 in
-            --type=*)
-                type_args+=("$1")
-                ;;
-            --type)
-                shift
-                type_args+=(--type="$1")
-                ;;
-            *)
-                cosign_args+=("$1")
-                ;;
+        --type=*)
+            type_args+=("$1")
+            ;;
+        --type)
+            shift
+            type_args+=(--type="$1")
+            ;;
+        *)
+            cosign_args+=("$1")
+            ;;
         esac
         shift
     done
@@ -79,10 +79,14 @@ cosign_verify_multiple_attestation_types() {
 
     for type_arg in "${type_args[@]}"; do
         cmd=(cosign verify-attestation "$type_arg" "${cosign_args[@]}")
-        { printf "\nCommand:"; printf " %q" "${cmd[@]}"; printf "\n\n"; } >>"$error_log"
+        {
+            printf "\nCommand:"
+            printf " %q" "${cmd[@]}"
+            printf "\n\n"
+        } >> "$error_log"
 
         # This cmd is what prints the main output of this function on success (the attestation)
-        "${cmd[@]}" 2>>"$error_log" && any_success=true
+        "${cmd[@]}" 2>> "$error_log" && any_success=true
     done
 
     if [[ $any_success = false ]]; then
@@ -204,13 +208,14 @@ download_blob() {
 
     echo "GET $blob_url" >&2
     local response_code
-    response_code=$(curl \
-        "${common_curl_opts[@]}" \
-        -L \
-        --write-out '%{response_code}' \
-        --output "$tmp_dest" \
-        --dump-header "$headers_file" \
-        "$blob_url"
+    response_code=$(
+        curl \
+            "${common_curl_opts[@]}" \
+            -L \
+            --write-out '%{response_code}' \
+            --output "$tmp_dest" \
+            --dump-header "$headers_file" \
+            "$blob_url"
     )
 
     if [[ "$response_code" -eq 200 ]]; then
@@ -226,8 +231,9 @@ download_blob() {
         realm=$(get_from_www_auth_header "$www_authenticate" realm)
         service=$(get_from_www_auth_header "$www_authenticate" service)
         scope=$(get_from_www_auth_header "$www_authenticate" scope)
-        token_url=$(jq -n -r --arg realm "$realm" --arg service "$service" --arg scope "$scope" \
-            '"\($realm)?service=\($service | @uri)&scope=\($scope | @uri)"'
+        token_url=$(
+            jq -n -r --arg realm "$realm" --arg service "$service" --arg scope "$scope" \
+                '"\($realm)?service=\($service | @uri)&scope=\($scope | @uri)"'
         )
 
         local basic_auth token_auth
@@ -239,11 +245,12 @@ download_blob() {
         fi
 
         echo "GET $token_url" >&2
-        token=$(curl \
-            "${common_curl_opts[@]}" \
-            "${token_auth[@]}" \
-            --fail \
-            "$token_url" | jq -r .token
+        token=$(
+            curl \
+                "${common_curl_opts[@]}" \
+                "${token_auth[@]}" \
+                --fail \
+                "$token_url" | jq -r .token
         )
 
         echo "GET $blob_url" >&2
@@ -265,7 +272,7 @@ download_blob() {
 find_blob_url() {
     local attestation_file=$1
 
-    jq -r --slurp < "$attestation_file" '
+    jq -r --slurp '
       map(
         .payload | @base64d | fromjson | .. |
           if .name? == "SBOM_BLOB_URL" then .value
@@ -278,7 +285,7 @@ find_blob_url() {
         first
       else
         error("Expected to find exactly one SBOM_BLOB_URL result, found \(length): \(.)")
-      end'
+      end' < "$attestation_file"
 }
 
 jq -r '.components[].containerImage' <<< "$IMAGES" | while read -r image; do

@@ -1,5 +1,5 @@
 #!/bin/bash
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
 
 TASK_DIR=$SCRIPTDIR/../../tssc-sample-pipelines/pac/tasks
 SCRIPTS_DIR=$SCRIPTDIR/../tasks
@@ -9,7 +9,7 @@ mkdir -p $SCRIPTS_DIR/json
 
 for task in $TASK_DIR/*; do
     echo $task
-    filename=$(basename $task )
+    filename=$(basename $task)
     scriptname=$(basename $filename .yaml)
     echo $filename
     echo $scriptname

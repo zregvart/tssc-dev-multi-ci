@@ -5,7 +5,7 @@
 # - https://slsa.dev/spec/v1.0/provenance
 # - https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/store-information-in-variables#default-environment-variables
 #
-yq -o=json -I=0 <<EOT
+yq -o=json -I=0 << EOT
 ---
 buildDefinition:
   buildType: "https://redhat.com/rhtap/slsa-build-types/${CI_TYPE}-build/v1"

@@ -1,12 +1,12 @@
 #!/bin/bash
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
 
-if [ $# -eq 1 ];  then
-  REPO=$1
-  DIR=$(mktemp -d)
-  pushd $DIR
-  git clone $1 set-vars
-  cd set-vars
+if [ $# -eq 1 ]; then
+    REPO=$1
+    DIR=$(mktemp -d)
+    pushd $DIR
+    git clone $1 set-vars
+    cd set-vars
 fi
 
 REPO=$(git config --get remote.origin.url)
@@ -15,23 +15,23 @@ function setVars() {
     NAME=$1
     VALUE=$2
     echo "setting Secret $NAME in $REPO"
-    gh secret set $NAME -b $VALUE  
+    gh secret set $NAME -b $VALUE
 }
 
-setVars  IMAGE_REGISTRY quay.io/$QUAY_IO_CREDS_USR
-setVars  IMAGE_REGISTRY_USER $QUAY_IO_CREDS_USR
-setVars  IMAGE_REGISTRY_PASSWORD  $QUAY_IO_CREDS_PSW
+setVars IMAGE_REGISTRY quay.io/$QUAY_IO_CREDS_USR
+setVars IMAGE_REGISTRY_USER $QUAY_IO_CREDS_USR
+setVars IMAGE_REGISTRY_PASSWORD $QUAY_IO_CREDS_PSW
 
-setVars  ROX_CENTRAL_ENDPOINT $ROX_CENTRAL_ENDPOINT
-setVars  ROX_API_TOKEN $ROX_API_TOKEN
+setVars ROX_CENTRAL_ENDPOINT $ROX_CENTRAL_ENDPOINT
+setVars ROX_API_TOKEN $ROX_API_TOKEN
 
-setVars  GITOPS_AUTH_PASSWORD $GITOPS_AUTH_PASSWORD
+setVars GITOPS_AUTH_PASSWORD $GITOPS_AUTH_PASSWORD
 
-setVars  QUAY_IO_CREDS_USR $QUAY_IO_CREDS_USR
-setVars  QUAY_IO_CREDS_PSW $QUAY_IO_CREDS_PSW
+setVars QUAY_IO_CREDS_USR $QUAY_IO_CREDS_USR
+setVars QUAY_IO_CREDS_PSW $QUAY_IO_CREDS_PSW
 
-setVars  COSIGN_SECRET_PASSWORD $COSIGN_SECRET_PASSWORD
-setVars  COSIGN_SECRET_KEY $COSIGN_SECRET_KEY
-setVars  COSIGN_PUBLIC_KEY $COSIGN_PUBLIC_KEY
+setVars COSIGN_SECRET_PASSWORD $COSIGN_SECRET_PASSWORD
+setVars COSIGN_SECRET_KEY $COSIGN_SECRET_KEY
+setVars COSIGN_PUBLIC_KEY $COSIGN_PUBLIC_KEY
 
 gh secret list
