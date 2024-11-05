@@ -14,11 +14,13 @@ jobs:
   generated-file-freshness:
     runs-on: ubuntu-latest
     steps:
-      - name: "Checkout source"
+      - name: Checkout source
         uses: actions/checkout@v4
 
-      - name: "Install node dependencies"
-        run: make install-deps
+      - name: Install node dependencies
+        run: |
+          make install-deps
 
-      - name: "Confirm file freshness"
-        run: make ensure-fresh
+      - name: Confirm file freshness
+        run: |
+          make ensure-fresh
