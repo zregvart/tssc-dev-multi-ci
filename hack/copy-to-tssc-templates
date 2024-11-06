@@ -34,32 +34,29 @@ fi
 # arg1   root-ci (pass source or gitops here)
 # arg2   ciType  - jenkins, gitlabci, githubactions
 # arg3   rhtap env.sh file -- allows different defaults if you want for local test
-# arg4   files-or-dir to copy to template dir (root-ci + ciType)
-# arg5   option rename for arg4  (ie Jenkinsfile.gitop -> Jenkinsfile)
+# arg4   files-or-dir to copy to template dir (root-ci + ciType) 
 # WARNING - this will WIPE the CI directory and copy the files there
 function update-tssc-templates() {
     ROOT_CI_LOCATION=$1
     CI_TYPE=$2
     RHTAP_ENV=$3
-    TEMPLATE_FILES=$4
-    DEST_FOLDER=$ROOT_CI_LOCATION/$CI_TYPE
-    echo "Updating $DEST_FOLDER"
+    TEMPLATE_FILES=$4 
+    SRC_FOLDER=$TEMPLATE_FILES/$CI_TYPE     # from generated folder CI_TYPE
+    DEST_FOLDER=$ROOT_CI_LOCATION/$CI_TYPE  # to template folder CI_TYPE 
+
+    echo "Updating $DEST_FOLDER from $SRC_FOLDER"
     rm -rf $DEST_FOLDER
     mkdir -p $DEST_FOLDER/rhtap
     cp $RHTAP_ENV $DEST_FOLDER/rhtap/env.sh
-    if [ -d $TEMPLATE_FILES ]; then
-        cp -r $TEMPLATE_FILES $DEST_FOLDER
-    else
-        cp $TEMPLATE_FILES $DEST_FOLDER/$5
-    fi
+    cp -r $SRC_FOLDER/. $DEST_FOLDER 
 }
 
 CI_ROOT_SRC=$TEMPLATES/skeleton/ci/source-repo
 CI_ROOT_GITOPS=$TEMPLATES/skeleton/ci/gitops-template
-# Jenkins templates
-update-tssc-templates $CI_ROOT_SRC jenkins rhtap/env.template.sh Jenkinsfile Jenkinsfile
-update-tssc-templates $CI_ROOT_GITOPS jenkins rhtap/env.template.sh Jenkinsfile.gitops Jenkinsfile
+GEN_SRC=generated/source-repo
+GEN_GITOPS=generated/gitops-template 
 
+# Jenkins   
 # shared lib for Jenkins
 # copy scripts and groovy files in to proper locations
 # delete extra files - We should move these outside of ./rhtap
@@ -72,13 +69,12 @@ cp rhtap.groovy $JENKINS_SHARED_LIB/vars
 rm -rf $JENKINS_SHARED_LIB/resources/env.template.sh
 rm -rf $JENKINS_SHARED_LIB/resources/signing-secret-env.sh
 
-# gitlab templates
-update-tssc-templates $CI_ROOT_SRC gitlabci rhtap/env.template.sh .gitlab-ci.yml .gitlab-ci.yml
-update-tssc-templates $CI_ROOT_GITOPS gitlabci rhtap/env.template.sh .gitlab-ci.gitops.yml .gitlab-ci.yml
-
-# github actions templates
-update-tssc-templates $CI_ROOT_SRC githubactions rhtap/env.template.sh generated/source-repo/githubactions/.github
-update-tssc-templates $CI_ROOT_GITOPS githubactions rhtap/env.template.sh generated/gitops-template/githubactions/.github
+# templates are copied 1-1
+for ciType in jenkins gitlabci githubactions 
+do 
+    update-tssc-templates $CI_ROOT_SRC $ciType rhtap/env.template.sh $GEN_SRC 
+    update-tssc-templates $CI_ROOT_GITOPS $ciType rhtap/env.template.sh $GEN_GITOPS 
+done   
 
 echo "You will have to manually commit any changes to template or jenkins files"
 echo "Validate the changes, and create a PR to update the templates and library files"
