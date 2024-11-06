@@ -21,6 +21,11 @@ def run_script (scriptname) {
       install_script ('merge_sboms.py')
     }
 
+    if (scriptname == 'cosign-sign-attest.sh') {
+      // Called from cosign-sign-attest.sh
+      install_script ('att-predicate-jenkins.sh')
+    }
+
     install_script (scriptname)
     sh "rhtap/${scriptname}"
 }
