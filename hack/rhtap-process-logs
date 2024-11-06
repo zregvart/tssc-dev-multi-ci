@@ -1,9 +1,10 @@
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+#!/bin/bash
+SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
 # script to take a log and extract the eyecatchers into local files
 
 rm -rf extracted
 mkdir -p extracted
-bash $SCRIPTDIR/util-eyecatcher $1 SBOM         >extracted/sbom.json
-bash $SCRIPTDIR/util-eyecatcher $1 ACS_DEPLOY   >extracted/acs-deploy.json
-bash $SCRIPTDIR/util-eyecatcher $1 ACS_IMAGE_CHECK  >extracted/acs-image-check.json
-bash $SCRIPTDIR/util-eyecatcher $1 ACS_IMAGE_SCAN   >extracted/acs-image-scan.json
+bash $SCRIPTDIR/util-eyecatcher $1 SBOM > extracted/sbom.json
+bash $SCRIPTDIR/util-eyecatcher $1 ACS_DEPLOY > extracted/acs-deploy.json
+bash $SCRIPTDIR/util-eyecatcher $1 ACS_IMAGE_CHECK > extracted/acs-image-check.json
+bash $SCRIPTDIR/util-eyecatcher $1 ACS_IMAGE_SCAN > extracted/acs-image-scan.json

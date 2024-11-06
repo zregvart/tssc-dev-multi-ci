@@ -1,18 +1,17 @@
 #!/bin/bash
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
 
 # Vars for scripts
 # Generated patterns to convert from Tekton.
 
-
 # exit 0, write Succeeded to STATUS result
-function exit_with_success_result () {
+function exit_with_success_result() {
     echo "Succeeded" > $RESULTS/STATUS
     exit 0
 }
 
 # exit 1, write Failed to STATUS result
-function exit_with_fail_result () {
+function exit_with_fail_result() {
     echo "Failed" > $RESULTS/STATUS
     exit 1
 }

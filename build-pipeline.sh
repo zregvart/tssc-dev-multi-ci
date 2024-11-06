@@ -1,5 +1,3 @@
-
-
 # Fill in template values and set run local
 # the env.template is copyed to the RHDH sample templates
 # into env.sh and is filled in by the template expansion
@@ -21,8 +19,8 @@ rhtap/verify-deps-exist "$REQUIRED_ENV" "$REQUIRED_BINARY"
 ERR=$?
 echo "Dependency Error $1 = $ERR"
 if [ $ERR != 0 ]; then
-	echo "Fatal Error code for $1 = $ERR"
-	exit $ERR
+    echo "Fatal Error code for $1 = $ERR"
+    exit $ERR
 fi
 
 # update the cloned repo with the contents it would have
@@ -42,12 +40,11 @@ source $SETUP_ENV
 
 SIGNING_SECRET_ENV=$BUILD/rhtap/signing-secret-env.sh
 if [ ! -f $SIGNING_SECRET_ENV ]; then
-  # If the signing secret file doesn't exist already then generate one
-  hack/create-signing-secret > $SIGNING_SECRET_ENV
+    # If the signing secret file doesn't exist already then generate one
+    hack/create-signing-secret > $SIGNING_SECRET_ENV
 fi
 # When running in Jenkins the secret values will be read from credentials
 source $SIGNING_SECRET_ENV
-
 
 # change into the cloned repository to continue this
 # assume rhtap and other assets have been copied into the repo
@@ -56,7 +53,7 @@ cd $BUILD
 
 COUNT=0
 
-function run () {
+function run() {
     let "COUNT++"
     printf "\n"
     printf '=%.0s' {1..31}
@@ -89,5 +86,5 @@ source rhtap/build-pipeline-steps.sh
 
 # cleanup
 rm -rf roxctl
-rm -rf roxctl_image_check_output.json  roxctl_image_scan_output.json
-rm -rf acs-deploy-check.json  acs-image-check.json  acs-image-scan.json
+rm -rf roxctl_image_check_output.json roxctl_image_scan_output.json
+rm -rf acs-deploy-check.json acs-image-check.json acs-image-scan.json

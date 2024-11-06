@@ -1,9 +1,10 @@
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+#!/bin/bash
+SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
 
-if [ $# -ne 1 ];  then
-  echo "Missing param, provide gitlab repo name"
-  echo "Note: This script uses MY_GITLAB_TOKEN and MY_GITLAB_USER env vars"
-  exit
+if [ $# -ne 1 ]; then
+    echo "Missing param, provide gitlab repo name"
+    echo "Note: This script uses MY_GITLAB_TOKEN and MY_GITLAB_USER env vars"
+    exit
 fi
 
 REPO=$1
@@ -15,22 +16,21 @@ function setVars() {
     NAME=$1
     VALUE=$2
     echo "setting $NAME in https://gitlab.com/$MY_GITLAB_USER/$REPO"
-    curl -s --request POST --header "PRIVATE-TOKEN: $MY_GITLAB_TOKEN"  \
-     "$URL/$PID/variables" --form "key=$NAME" --form "value=$VALUE" | jq
+    curl -s --request POST --header "PRIVATE-TOKEN: $MY_GITLAB_TOKEN" \
+        "$URL/$PID/variables" --form "key=$NAME" --form "value=$VALUE" | jq
 }
 
+setVars ROX_CENTRAL_ENDPOINT $ROX_CENTRAL_ENDPOINT
+setVars ROX_API_TOKEN $ROX_API_TOKEN
 
-setVars  ROX_CENTRAL_ENDPOINT $ROX_CENTRAL_ENDPOINT
-setVars  ROX_API_TOKEN $ROX_API_TOKEN
+setVars GITOPS_AUTH_PASSWORD $MY_GITLAB_TOKEN
+setVars GITOPS_AUTH_USERNAME $MY_GITLAB_USER
 
-setVars  GITOPS_AUTH_PASSWORD $MY_GITLAB_TOKEN
-setVars  GITOPS_AUTH_USERNAME $MY_GITLAB_USER
+setVars QUAY_IO_CREDS_USR $QUAY_IO_CREDS_USR
+setVars QUAY_IO_CREDS_PSW $QUAY_IO_CREDS_PSW
 
-setVars  QUAY_IO_CREDS_USR $QUAY_IO_CREDS_USR
-setVars  QUAY_IO_CREDS_PSW $QUAY_IO_CREDS_PSW
-
-setVars  COSIGN_SECRET_PASSWORD $COSIGN_SECRET_PASSWORD
-setVars  COSIGN_SECRET_KEY $COSIGN_SECRET_KEY
-setVars  COSIGN_PUBLIC_KEY $COSIGN_PUBLIC_KEY
+setVars COSIGN_SECRET_PASSWORD $COSIGN_SECRET_PASSWORD
+setVars COSIGN_SECRET_KEY $COSIGN_SECRET_KEY
+setVars COSIGN_PUBLIC_KEY $COSIGN_PUBLIC_KEY
 
 bash $SCRIPTDIR/glab-get-vars $1

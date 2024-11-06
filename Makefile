@@ -77,6 +77,47 @@ install-deps:
 
 #-----------------------------------------------------------------------------
 
+SHFMT_VER=v3.10.0
+SHFMT_URL=https://github.com/mvdan/sh/releases/download/$(SHFMT_VER)/shfmt_$(SHFMT_VER)_linux_amd64
+SHFMT=bin/shfmt
+SHFMT_OPTS=--indent 4 --space-redirects
+
+$(SHFMT):
+	@mkdir -p $$(dirname $(SHFMT))
+	curl -sLo $@ $(SHFMT_URL) && chmod 755 $@
+
+.PHONY: install-shfmt
+install-shfmt: $(SHFMT)
+
+# Need to skip env.template.sh files because the formatter
+# chokes on the ${{...}} Nunjucks delimiters
+define all_scripts
+	$$( \
+	  git ls-files *.sh && \
+	  git ls-files rhtap/*.sh | grep -v env.template.sh && \
+	  git grep -l '^#!/bin/bash' hack \
+	)
+endef
+
+# Format all bash scripts
+.PHONY: format
+format: $(SHFMT)
+	@$(SHFMT) $(SHFMT_OPTS) --write $(all_scripts)
+
+# Fails if any formatting diff is found
+.PHONY: ensure-formatted
+ensure-formatted: $(SHFMT)
+	@$(SHFMT) $(SHFMT_OPTS) --diff $(all_scripts)
+
+#-----------------------------------------------------------------------------
+
+# Run this locally before pushing your PR.
+# (See also .github/workflows/checks.yml)
+.PHONY: ci
+ci: ensure-fresh ensure-formatted
+
+#-----------------------------------------------------------------------------
+
 .PHONY: build-push-images
 build-push-images: build-images push-images
 

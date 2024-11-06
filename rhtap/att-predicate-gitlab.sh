@@ -5,7 +5,7 @@
 # - https://slsa.dev/spec/v1.0/provenance
 # - https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
 #
-yq -o=json -I=0 <<EOT
+yq -o=json -I=0 << EOT
 ---
 buildDefinition:
   buildType: "https://redhat.com/rhtap/slsa-build-types/${CI_TYPE}-build/v1"

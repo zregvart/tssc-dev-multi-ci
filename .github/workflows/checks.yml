@@ -24,3 +24,17 @@ jobs:
       - name: Confirm file freshness
         run: |
           make ensure-fresh
+
+  script-formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Install shfmt
+        run: |
+          make install-shfmt
+
+      - name: Confirm script formatting
+        run: |
+          make ensure-formatted

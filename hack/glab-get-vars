@@ -1,16 +1,15 @@
-SCRIPTDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+#!/bin/bash
+SCRIPTDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" > /dev/null 2>&1 && pwd)"
 
-if [ $# -ne 1 ];  then
-  echo "Missing param, provide gitlab repo name"
-  echo "Note: This script uses MY_GITLAB_TOKEN and MY_GITLAB_USER env vars"
-  exit
+if [ $# -ne 1 ]; then
+    echo "Missing param, provide gitlab repo name"
+    echo "Note: This script uses MY_GITLAB_TOKEN and MY_GITLAB_USER env vars"
+    exit
 fi
 
 REPO=$1
 PID=$(curl -s -L --header "PRIVATE-TOKEN: $MY_GITLAB_TOKEN" "https://gitlab.com/api/v4/projects/$MY_GITLAB_USER%2F$REPO" | jq ".id")
 URL=https://gitlab.com/api/v4/projects
 
-
 echo "Variables defined in https://gitlab.com/$MY_GITLAB_USER/$REPO"
-curl -s --header "PRIVATE-TOKEN: $MY_GITLAB_TOKEN" "$URL/$PID/variables"  | jq
-
+curl -s --header "PRIVATE-TOKEN: $MY_GITLAB_TOKEN" "$URL/$PID/variables" | jq

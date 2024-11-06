@@ -4,3 +4,4 @@ node_modules/
 rhtap/signing-secret-env.sh
 render/node_modules/
 .envrc
+bin/shfmt
