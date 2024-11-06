@@ -7,24 +7,24 @@ if [ $TEST_REPO_ORG == "redhat-appstudio" ]; then
     exit
 fi
 
-function  updateGitAndQuayRefs() { 
+function updateGitAndQuayRefs() {
     if [ -f $1 ]; then
         sed -i "s!quay.io/redhat-appstudio!quay.io/$MY_QUAY_USER!g" $1
-        sed -i "s!https://github.com/redhat-appstudio!https://github.com/$MY_GITHUB_USER!g" $1 
-    fi 
+        sed -i "s!https://github.com/redhat-appstudio!https://github.com/$MY_GITHUB_USER!g" $1
+    fi
 }
-#Jenkins 
-echo "Update Jenkins file in $BUILD and $GITOPS" 
-echo "Jenkins is able to reuse the same Github repo as github actions" 
+#Jenkins
+echo "Update Jenkins file in $BUILD and $GITOPS"
+echo "Jenkins is able to reuse the same Github repo as github actions"
 GEN_SRC=generated/source-repo
-GEN_GITOPS=generated/gitops-template   
+GEN_GITOPS=generated/gitops-template
 
-cp $GEN_SRC/jenkins/Jenkinsfile $BUILD/Jenkinsfile  
-cp $GEN_GITOPS/jenkins/Jenkinsfile $GITOPS/Jenkinsfile    
+cp $GEN_SRC/jenkins/Jenkinsfile $BUILD/Jenkinsfile
+cp $GEN_GITOPS/jenkins/Jenkinsfile $GITOPS/Jenkinsfile
 updateGitAndQuayRefs $BUILD/Jenkinsfile
 updateGitAndQuayRefs $GITOPS/Jenkinsfile
- 
-function updateBuild() { 
+
+function updateBuild() {
     REPO=$1
     GITOPS_REPO_UPDATE=$2
     mkdir -p $REPO/rhtap
@@ -48,20 +48,19 @@ updateBuild $GITOPS
 updateBuild $GITLAB_BUILD $TEST_GITOPS_GITLAB_REPO
 updateBuild $GITLAB_GITOPS
 
-# Gitlab CI  
-echo "Update .gitlab-ci.yml file in $GITLAB_BUILD and $GITLAB_GITOPS" 
+# Gitlab CI
+echo "Update .gitlab-ci.yml file in $GITLAB_BUILD and $GITLAB_GITOPS"
 cp $GEN_SRC/gitlabci/.gitlab-ci.yml $GITLAB_BUILD/.gitlab-ci.yml
-cp $GEN_GITOPS/gitlabci/.gitlab-ci.yml $GITLAB_GITOPS/.gitlab-ci.yml 
+cp $GEN_GITOPS/gitlabci/.gitlab-ci.yml $GITLAB_GITOPS/.gitlab-ci.yml
 updateGitAndQuayRefs $GITLAB_BUILD/.gitlab-ci.yml
 updateGitAndQuayRefs $GITLAB_GITOPS/.gitlab-ci.yml
 
-# Github Actions  
-echo "Update .github workflows in $BUILD and $GITOPS"   
-cp -r $GEN_SRC/githubactions/.github $BUILD  
-cp -r $GEN_GITOPS/githubactions/.github $GITOPS   
-for wf in $BUILD/.github/workflows/* $GITOPS/.github/workflows/*
-do 
-    updateGitAndQuayRefs $wf 
+# Github Actions
+echo "Update .github workflows in $BUILD and $GITOPS"
+cp -r $GEN_SRC/githubactions/.github $BUILD
+cp -r $GEN_GITOPS/githubactions/.github $GITOPS
+for wf in $BUILD/.github/workflows/* $GITOPS/.github/workflows/*; do
+    updateGitAndQuayRefs $wf
 done
 
 function updateRepos() {
