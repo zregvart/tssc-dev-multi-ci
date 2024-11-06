@@ -8,7 +8,7 @@ name: Build push images
 
     paths:
       # Only run if the images would change
-      - "Dockerfile.*"
+      - "Dockerfile"
       - "rhtap/**"
       - "copy-scripts.sh"
 
@@ -38,4 +38,4 @@ jobs:
           RUNNER_IMAGE_ORG: redhat-appstudio
           RUNNER_IMAGE_REPO: dance-bootstrap-app
         run: |
-          make build-push-images
+          make build-push-image

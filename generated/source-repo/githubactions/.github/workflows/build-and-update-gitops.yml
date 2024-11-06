@@ -86,9 +86,9 @@ jobs:
         fetch-depth: '2'
     - name: Pre-init
       run: | 
-        echo "Using  quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-github"
+        echo "Using quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner"
         mkdir -p out
-        docker run -v $(pwd)/out:/out quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-github bash /work/copy-scripts.sh
+        docker run -v $(pwd)/out:/out quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner bash /work/copy-scripts.sh
         tree out 
         sudo chmod +x out/binaries/*
         sudo mv out/binaries/* /usr/bin
