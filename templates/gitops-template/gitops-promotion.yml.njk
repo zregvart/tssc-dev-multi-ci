@@ -11,6 +11,8 @@ env:
   {#-
     Todo: Use the secret list in data/data.yaml here
   #}
+  CI_TYPE: github
+
   # 🖊️ EDIT to change the image registry settings.
   # Registries such as GHCR, Quay.io, and Docker Hub are supported.
   IMAGE_REGISTRY: ${{ "secrets.IMAGE_REGISTRY" | inCurlies }}
@@ -99,7 +101,6 @@ jobs:
         sudo chmod +x out/binaries/*
         sudo mv out/binaries/* /usr/bin
         cp out/rhtap/* rhtap
-        export CI_TYPE=github   
         cat  rhtap/env.sh 
         syft --version
         cosign version
