@@ -111,6 +111,13 @@ ensure-formatted: $(SHFMT)
 
 #-----------------------------------------------------------------------------
 
+# Run this locally before pushing your PR.
+# (See also .github/workflows/checks.yml)
+.PHONY: ci
+ci: ensure-fresh ensure-formatted
+
+#-----------------------------------------------------------------------------
+
 .PHONY: build-push-images
 build-push-images: build-images push-images
 
