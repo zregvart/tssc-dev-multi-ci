@@ -118,16 +118,8 @@ ci: ensure-fresh ensure-formatted
 
 #-----------------------------------------------------------------------------
 
-.PHONY: build-push-images
-build-push-images: build-images push-images
-
-# Let's not push the common base image
-.PHONY: push-images
-push-images: push-image-gitlab push-image-github
-	@echo https://quay.io/repository/$(RUNNER_IMAGE_ORG)/$(RUNNER_IMAGE_REPO)?tab=tags
-
-.PHONY: build-images
-build-images: build-image-base build-image-gitlab build-image-github
+.PHONY: build-push-image
+build-push-image: build-image push-image
 
 #
 # The default quay org is your current user, or MY_QUAY_USER if that is present.
@@ -151,24 +143,31 @@ RUNNER_IMAGE_REPO ?= dance-bootstrap-app
 TAG_PREFIX=rhtap-runner
 
 define floating-tag
-	quay.io/$(RUNNER_IMAGE_ORG)/$(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*
+	quay.io/$(RUNNER_IMAGE_ORG)/$(RUNNER_IMAGE_REPO):$(TAG_PREFIX)
 endef
 
 define unique-tag
-	quay.io/$(RUNNER_IMAGE_ORG)/$(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$*-$$(git rev-parse --short HEAD)
+	quay.io/$(RUNNER_IMAGE_ORG)/$(RUNNER_IMAGE_REPO):$(TAG_PREFIX)-$(shell git rev-parse --short HEAD)
 endef
 
 # Todo: Check for uncommited changes before pushing
-.PHONY: push-image-%
-push-image-%:
-	podman push $(floating-tag)
+.PHONY: push-image
+push-image:
 	podman push $(unique-tag)
+	# Two extra tags for backwards compability
+	podman push $(floating-tag)-gitlab
+	podman push $(floating-tag)-github
+	podman push $(floating-tag)
+	@echo Pushed to https://quay.io/repository/$(RUNNER_IMAGE_ORG)/$(RUNNER_IMAGE_REPO)?tab=tags
 
-.PHONY: build-image-%
-build-image-%:
-	podman build --build-arg QUAY_ORG=$(RUNNER_IMAGE_ORG) --build-arg QUAY_REPO=$(RUNNER_IMAGE_REPO) -f Dockerfile.$* -t $(floating-tag)
+.PHONY: build-image
+build-image:
+	podman build $(if $(NOCACHE),--no-cache) -f Dockerfile -t $(floating-tag)
 	podman tag $(floating-tag) $(unique-tag)
+	# Two extra tags for backwards compability
+	podman tag $(floating-tag) $(floating-tag)-gitlab
+	podman tag $(floating-tag) $(floating-tag)-github
 
-.PHONY: run-image-%
-run-image-%:
+.PHONY: run-image
+run-image:
 	podman run --rm -i -t $(floating-tag)

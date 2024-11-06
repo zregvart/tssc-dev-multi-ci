@@ -4,10 +4,6 @@
 
 FROM docker.io/redhat/ubi9-minimal:9.4
 
-# These are not used but naming them prevents a "build args not consumed" warning
-ARG QUAY_ORG
-ARG QUAY_REPO
-
 # Todo:
 # - Pin all the versions (maybe)
 # - Don't hard code the arch and platform in curl downloads
@@ -28,5 +24,11 @@ RUN \
 WORKDIR /work
 
 COPY ./rhtap ./rhtap/
+
+# This is for the GitHub pipeline where currently we're not actually
+# running in the container. Instead we copy the scripts and binaries
+# from the image and run them directly. (This may change in future.)
+COPY copy-scripts.sh /work/copy-scripts.sh
+RUN chmod 755 /work/copy-scripts.sh
 
 CMD ["/bin/bash"]

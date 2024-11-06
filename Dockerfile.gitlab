@@ -1,7 +1,0 @@
-# For more convenient hacking on the base image
-ARG QUAY_ORG=redhat-appstudio
-ARG QUAY_REPO=dance-bootstrap-app
-
-FROM quay.io/${QUAY_ORG}/${QUAY_REPO}:rhtap-runner-base
-
-ENV CI_TYPE=gitlab
