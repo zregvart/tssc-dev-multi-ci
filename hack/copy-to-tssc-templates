@@ -34,29 +34,29 @@ fi
 # arg1   root-ci (pass source or gitops here)
 # arg2   ciType  - jenkins, gitlabci, githubactions
 # arg3   rhtap env.sh file -- allows different defaults if you want for local test
-# arg4   files-or-dir to copy to template dir (root-ci + ciType) 
+# arg4   files-or-dir to copy to template dir (root-ci + ciType)
 # WARNING - this will WIPE the CI directory and copy the files there
 function update-tssc-templates() {
     ROOT_CI_LOCATION=$1
     CI_TYPE=$2
     RHTAP_ENV=$3
-    TEMPLATE_FILES=$4 
-    SRC_FOLDER=$TEMPLATE_FILES/$CI_TYPE     # from generated folder CI_TYPE
-    DEST_FOLDER=$ROOT_CI_LOCATION/$CI_TYPE  # to template folder CI_TYPE 
+    TEMPLATE_FILES=$4
+    SRC_FOLDER=$TEMPLATE_FILES/$CI_TYPE    # from generated folder CI_TYPE
+    DEST_FOLDER=$ROOT_CI_LOCATION/$CI_TYPE # to template folder CI_TYPE
 
     echo "Updating $DEST_FOLDER from $SRC_FOLDER"
     rm -rf $DEST_FOLDER
     mkdir -p $DEST_FOLDER/rhtap
     cp $RHTAP_ENV $DEST_FOLDER/rhtap/env.sh
-    cp -r $SRC_FOLDER/. $DEST_FOLDER 
+    cp -r $SRC_FOLDER/. $DEST_FOLDER
 }
 
 CI_ROOT_SRC=$TEMPLATES/skeleton/ci/source-repo
 CI_ROOT_GITOPS=$TEMPLATES/skeleton/ci/gitops-template
 GEN_SRC=generated/source-repo
-GEN_GITOPS=generated/gitops-template 
+GEN_GITOPS=generated/gitops-template
 
-# Jenkins   
+# Jenkins
 # shared lib for Jenkins
 # copy scripts and groovy files in to proper locations
 # delete extra files - We should move these outside of ./rhtap
@@ -70,11 +70,10 @@ rm -rf $JENKINS_SHARED_LIB/resources/env.template.sh
 rm -rf $JENKINS_SHARED_LIB/resources/signing-secret-env.sh
 
 # templates are copied 1-1
-for ciType in jenkins gitlabci githubactions 
-do 
-    update-tssc-templates $CI_ROOT_SRC $ciType rhtap/env.template.sh $GEN_SRC 
-    update-tssc-templates $CI_ROOT_GITOPS $ciType rhtap/env.template.sh $GEN_GITOPS 
-done   
+for ciType in jenkins gitlabci githubactions; do
+    update-tssc-templates $CI_ROOT_SRC $ciType rhtap/env.template.sh $GEN_SRC
+    update-tssc-templates $CI_ROOT_GITOPS $ciType rhtap/env.template.sh $GEN_GITOPS
+done
 
 echo "You will have to manually commit any changes to template or jenkins files"
 echo "Validate the changes, and create a PR to update the templates and library files"
