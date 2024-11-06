@@ -23,6 +23,12 @@ function get-images-per-env() {
         yaml_path=components/${component_name}/overlays/${env}/deployment-patch.yaml
         image=$(yq "$IMAGE_PATH" "$yaml_path")
 
+        # Workaround for RHTAPBUGS-1284
+        if [[ "$image" =~ quay.io/redhat-appstudio/dance-bootstrap-app ]]; then
+            # Don't check the dance-bootstrap-app image
+            continue
+        fi
+
         if [ -n "$TARGET_BRANCH" ]; then
             prev_image=$(git show "origin/$TARGET_BRANCH:$yaml_path" | yq "$IMAGE_PATH")
             if [ "$prev_image" = "$image" ]; then
