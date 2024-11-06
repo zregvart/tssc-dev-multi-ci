@@ -154,6 +154,9 @@ endef
 .PHONY: push-image
 push-image:
 	podman push $(unique-tag)
+	# Two extra tags for backwards compability
+	podman push $(floating-tag)-gitlab
+	podman push $(floating-tag)-github
 	podman push $(floating-tag)
 	@echo Pushed to https://quay.io/repository/$(RUNNER_IMAGE_ORG)/$(RUNNER_IMAGE_REPO)?tab=tags
 
@@ -161,6 +164,9 @@ push-image:
 build-image:
 	podman build $(if $(NOCACHE),--no-cache) -f Dockerfile -t $(floating-tag)
 	podman tag $(floating-tag) $(unique-tag)
+	# Two extra tags for backwards compability
+	podman tag $(floating-tag) $(floating-tag)-gitlab
+	podman tag $(floating-tag) $(floating-tag)-github
 
 .PHONY: run-image
 run-image:
