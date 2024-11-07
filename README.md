@@ -22,6 +22,38 @@ In development mode, the pipeline scripts can be tested using local shell script
 
 The local execution requires binaries to be installed in your cluster on your path. The shell scripts will print error message if any binaries are missing. 
 
+## RHTAP-integrated mode
+
+To test the pipelines in a real RHTAP environment:
+
+1. [Release the Templates](#releasing-to-templates-and-jenkins-library) to your forks
+2. [Deploy RHTAP](#deploying-rhtap-for-development) after changing the `DEVELOPER_HUB__CATALOG__URL` in your `.env`
+   (see [.env.template](.env.template)) to point to your fork
+3. Go to the Developer Hub url in your RHTAP instance, sign in and create a new component
+    - Select the CI type that you want to test (Tekton, Jenkins, GitHub actions, ...)
+4. Trigger the pipeline that you want to test (typically by creating or merging a PR)
+
+### Deploying RHTAP for development
+
+You'll need an OpenShift cluster for deploying RHTAP. Find the supported OpenShift versions in the
+Release notes for the [latest version of RHTAP][rhtap-docs] (in the `Compatibility and support matrix` section).
+If you have acess to the Red Hat Internal Slack workspace, a good way to provision a cluster can be
+to message `Cluster Bot`: `rosa create <version> 6h`.
+
+Once you have a cluster ready:
+
+1. Set up your `.env` file (or `.envrc` or whatever you prefer). Copy the [.env.template](.env.template)
+   file and fill in the values according to the inline instructions.
+2. `cd` to your local clone of the <https://github.com/redhat-appstudio/rhtap-cli> repo
+    - Compile the CLI with `make` if you haven't done so yet
+3. Source your `.env` file
+4. Run `integration-tests/scripts/install.sh`
+5. When finished, the script will print a Homepage URL, Webhook URL and Callback URL.
+   Go to the GitHub app that you used for RHTAP integration and set these urls in the settings.
+
+Note: once you've set up your `.env` for the first time, most of the variables will be re-usable
+for future deployments.
+
 ## Releasing to Templates and Jenkins Library 
 
 ### Jenkins 
@@ -122,4 +154,4 @@ TO DO
 TO DO 
 ## Configuring Actions
 
-
+[rhtap-docs]: https://docs.redhat.com/en/documentation/red_hat_trusted_application_pipeline
