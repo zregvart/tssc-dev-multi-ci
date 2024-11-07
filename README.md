@@ -32,6 +32,8 @@ To test the pipelines in a real RHTAP environment:
 3. Go to the Developer Hub url in your RHTAP instance, sign in and create a new component
     - Select the CI type that you want to test (Tekton, Jenkins, GitHub actions, ...)
 4. Trigger the pipeline that you want to test (typically by creating or merging a PR)
+    - Jenkins pipelines need some manual setup first, see [Configuring Jenkins](#configuring-jenkins)
+      and [Setting up Jenkins jobs](#setting-up-jenkins-jobs)
 
 ### Deploying RHTAP for development
 
@@ -92,13 +94,6 @@ export REKOR_HOST='' TUF_MIRROR=''
 
 Note that the MY_IMAGES_TO_VERIFY is a workaround so that the image being verified is the image that was just built. This is only for development purposes. If MY_IMAGES_TO_VERIFY is not set then the image list will be produced by the `gather-deploy-images` script as per usual.
 
-
-## Jenkins mode
-
-This repository is a Jenkins buildable repository. You manually create a `pipeline` project in Jenkins, and reference the Jenkinsfile in Jenkins.  You can then run a build.
-
-To test in Jenkins, `MY_QUAY_USER`, `REKOR_HOST`, `TUF_MIRROR` and `MY_IMAGES_TO_VERIFY` should be set as environment variables in Jenkins.
-
 ## Configuring Jenkins
 
 Binaries
@@ -145,6 +140,18 @@ You can also check the credentials view in your Jenkins instance.
 
 ![alt text](creds.png "Title")
 
+### Setting up Jenkins jobs
+
+When you create a Jenkins-based component through Developer Hub (see
+[RHTAP-integrated mode](#rhtap-integrated-mode)), you get a repository with a Jenkinsfile.
+Import the repository into your Jenkins instance as follows:
+
+1. In the Jenkins homepage, click `+ New Item`
+2. Create a project of type `Pipeline`. Give it the same name as the Developer Hub component name.
+3. In the next view, in the `Pipeline` section, select Definition: `Pipeline script from SCM`,
+   then select SCM: `Git`
+4. Fill in your Repository URL, fix the Branch Specifier, save the pipeline
+5. You can now run the pipeline manually
 
 ### Gitlab CI
 TO DO
