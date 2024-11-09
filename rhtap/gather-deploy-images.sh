@@ -10,13 +10,24 @@ function get-images-per-env() {
     #!/bin/bash
     set -euo pipefail
 
+    ENVIRONMENTS=("$@")
+    if [[ "${#ENVIRONMENTS[@]}" -eq 0 ]]; then
+        ENVIRONMENTS=(development stage prod)
+    fi
+
     IMAGE_PATH='.spec.template.spec.containers[0].image'
     IMAGES_FILE=$HOMEDIR/all-images.txt
     component_name=$(yq .metadata.name application.yaml)
 
-    for env in development stage prod; do
+    for env in "${ENVIRONMENTS[@]}"; do
         yaml_path=components/${component_name}/overlays/${env}/deployment-patch.yaml
         image=$(yq "$IMAGE_PATH" "$yaml_path")
+
+        # Workaround for RHTAPBUGS-1284
+        if [[ "$image" =~ quay.io/redhat-appstudio/dance-bootstrap-app ]]; then
+            # Don't check the dance-bootstrap-app image
+            continue
+        fi
 
         if [ -n "$TARGET_BRANCH" ]; then
             prev_image=$(git show "origin/$TARGET_BRANCH:$yaml_path" | yq "$IMAGE_PATH")
@@ -39,7 +50,8 @@ function get-images-per-env() {
 
     if [ ! -s "$IMAGES_FILE" ]; then
         echo "No images to verify"
-        touch $RESULTS/IMAGES_TO_VERIFY
+        # create or truncate the IMAGES_TO_VERIFY file
+        true > $RESULTS/IMAGES_TO_VERIFY
         exit 0
     fi
 
@@ -62,4 +74,4 @@ function get-images-per-env() {
 }
 
 # Task Steps
-get-images-per-env
+get-images-per-env "$@"

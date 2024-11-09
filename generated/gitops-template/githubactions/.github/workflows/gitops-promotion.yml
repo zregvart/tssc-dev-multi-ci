@@ -100,14 +100,16 @@ jobs:
         cosign version
         buildah --version
         ec version
-    - name: Compute Image Changes
-      run: |
-        echo "Compute Image Changes"
-        bash rhtap/gather-deploy-images.sh
     - name: Verify Ec
       run: |
         echo "Verify Ec"
+        bash rhtap/gather-deploy-images.sh
         bash rhtap/verify-enterprise-contract.sh
+    - name: Upload Sbom
+      run: |
+        echo "Upload Sbom"
+        bash rhtap/gather-images-to-upload-sbom.sh
+        bash rhtap/download-sbom-from-url-in-attestation.sh
     - name: Done
       run: |
         echo "Done"

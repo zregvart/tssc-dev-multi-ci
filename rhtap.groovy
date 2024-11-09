@@ -73,3 +73,11 @@ def gather_deploy_images( ) {
 def verify_enterprise_contract( ) {
     run_script ('verify-enterprise-contract.sh')
 }
+
+def gather_images_to_upload_sbom( ) {
+    run_script ('gather-images-to-upload-sbom.sh')
+}
+
+def download_sbom_from_url_in_attestation( ) {
+    run_script ('download-sbom-from-url-in-attestation.sh')
+}
