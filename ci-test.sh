@@ -1,5 +1,6 @@
 # get local test repos to patch
 source setup-local-dev-repos.sh
+source init-tas-vars.sh
 
 if [ $TEST_REPO_ORG == "redhat-appstudio" ]; then
     echo "Cannot do CI testing using the redhat-appstudio org"
@@ -13,6 +14,8 @@ function updateGitAndQuayRefs() {
         sed -i "s!https://github.com/redhat-appstudio!https://github.com/$MY_GITHUB_USER!g" $1
     fi
 }
+
+
 #Jenkins
 echo "Update Jenkins file in $BUILD and $GITOPS"
 echo "Jenkins is able to reuse the same Github repo as github actions"
@@ -33,13 +36,15 @@ function updateBuild() {
     sed -i "s!\${{ values.image }}!quay.io/$MY_QUAY_USER/bootstrap!g" $SETUP_ENV
     sed -i "s!\${{ values.dockerfile }}!Dockerfile!g" $SETUP_ENV
     sed -i "s!\${{ values.buildContext }}!.!g" $SETUP_ENV
-    sed -i "s!\${{ values.repoURL }}!$GITOPS_REPO_UPDATE!g" $SETUP_ENV
-    # Set MY_REKOR_HOST and MY_TUF_MIRROR to 'none' if these services are not available
-    sed -i 's!export REKOR_HOST=.*$!export REKOR_HOST="\${MY_REKOR_HOST:-http://rekor-server.rhtap.svc}"!' $SETUP_ENV
-    sed -i 's!export TUF_MIRROR=.*$!export TUF_MIRROR="\${MY_TUF_MIRROR:-http://tuf.rhtap.svc}"!' $SETUP_ENV
+    sed -i "s!\${{ values.repoURL }}!$GITOPS_REPO_UPDATE!g" $SETUP_ENV 
+    # Update REKOR_HOST and TUF_MIRROR values directly
+    sed -i '/export REKOR_HOST=/d' $SETUP_ENV  
+    sed -i '/export TUF_MIRROR=/d' $SETUP_ENV 
+    echo "export REKOR_HOST=$REKOR_HOST" >>  $SETUP_ENV 
+    echo "export TUF_MIRROR=$TUF_MIRROR" >>  $SETUP_ENV  
     echo "# Update forced CI test $(date)" >> $SETUP_ENV
     updateGitAndQuayRefs $SETUP_ENV
-    cat $SETUP_ENV
+    cat $SETUP_ENV 
 }
 # Repos on github and gitlab, github reused for Jenkins
 # source repos get the name of the corresponding GITOPS REPO
