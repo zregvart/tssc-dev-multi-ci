@@ -9,22 +9,28 @@ yq -o=json -I=0 << EOT
 ---
 buildDefinition:
   buildType: "https://redhat.com/rhtap/slsa-build-types/${CI_TYPE}-build/v1"
-  externalParameters: {}
-  internalParameters: {}
+  externalParameters:
+    pipeline:
+      ref: "${CI_COMMIT_REF_NAME}"
+      repository: "${CI_PROJECT_URL}"
+      path: "${CI_CONFIG_PATH}"
+  internalParameters:
+    gitlab:
+      pipeline_source: "${CI_PIPELINE_SOURCE}"
+      project_id: "${CI_PROJECT_ID}"
+      namespace_id: "${CI_PROJECT_NAMESPACE_ID}"
   resolvedDependencies:
-    - uri: "git+${GIT_URL}"
+    - uri: "git+${CI_PROJECT_URL}.git"
       digest:
-        gitCommit: "${GIT_COMMIT}"
+        gitCommit: "${CI_COMMIT_SHA}"
 
 runDetails:
   builder:
-    # Todo:
-    id: ~
-    builderDependencies: []
-    version: {}
+    id: "${CI_JOB_ID}"
 
   metadata:
-    startedOn: "$(cat $BASE_RESULTS/init/START_TIME)"
+    invocationId: "${CI_JOB_URL}"
+    startedOn: "${CI_PIPELINE_CREATED_AT}"
     # Inaccurate, but maybe close enough
     finishedOn: "$(timestamp)"
 
