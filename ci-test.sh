@@ -15,7 +15,6 @@ function updateGitAndQuayRefs() {
     fi
 }
 
-
 #Jenkins
 echo "Update Jenkins file in $BUILD and $GITOPS"
 echo "Jenkins is able to reuse the same Github repo as github actions"
@@ -36,15 +35,15 @@ function updateBuild() {
     sed -i "s!\${{ values.image }}!quay.io/$MY_QUAY_USER/bootstrap!g" $SETUP_ENV
     sed -i "s!\${{ values.dockerfile }}!Dockerfile!g" $SETUP_ENV
     sed -i "s!\${{ values.buildContext }}!.!g" $SETUP_ENV
-    sed -i "s!\${{ values.repoURL }}!$GITOPS_REPO_UPDATE!g" $SETUP_ENV 
+    sed -i "s!\${{ values.repoURL }}!$GITOPS_REPO_UPDATE!g" $SETUP_ENV
     # Update REKOR_HOST and TUF_MIRROR values directly
-    sed -i '/export REKOR_HOST=/d' $SETUP_ENV  
-    sed -i '/export TUF_MIRROR=/d' $SETUP_ENV 
-    echo "export REKOR_HOST=$REKOR_HOST" >>  $SETUP_ENV 
-    echo "export TUF_MIRROR=$TUF_MIRROR" >>  $SETUP_ENV  
+    sed -i '/export REKOR_HOST=/d' $SETUP_ENV
+    sed -i '/export TUF_MIRROR=/d' $SETUP_ENV
+    echo "export REKOR_HOST=$REKOR_HOST" >> $SETUP_ENV
+    echo "export TUF_MIRROR=$TUF_MIRROR" >> $SETUP_ENV
     echo "# Update forced CI test $(date)" >> $SETUP_ENV
     updateGitAndQuayRefs $SETUP_ENV
-    cat $SETUP_ENV 
+    cat $SETUP_ENV
 }
 # Repos on github and gitlab, github reused for Jenkins
 # source repos get the name of the corresponding GITOPS REPO
