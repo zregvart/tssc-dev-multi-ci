@@ -6,10 +6,12 @@ build_steps:
     substeps: [buildah-rhtap, cosign-sign-attest]
   - name: scan
     substeps: [acs-deploy-check, acs-image-check, acs-image-scan]
+    concurrent: true
   - name: deploy
     substeps: [update-deployment]
   - name: summary
     substeps: [show-sbom-rhdh, summary]
+    concurrent: true
 
 build_secrets:
   - name: ROX_API_TOKEN
