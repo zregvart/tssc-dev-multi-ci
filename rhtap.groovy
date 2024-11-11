@@ -26,6 +26,11 @@ def run_script (scriptname) {
       install_script ('att-predicate-jenkins.sh')
     }
 
+    if (scriptname == 'gather-images-to-upload-sbom.sh') {
+      // Called from gather-images-to-upload-sbom.sh
+      install_script ('gather-deploy-images.sh')
+    }
+
     install_script (scriptname)
     sh "rhtap/${scriptname}"
 }
