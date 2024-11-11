@@ -15,6 +15,13 @@ stages:
 
 {{ substep }}:
   stage: {{ step.name }}
+  {#- By default they run in parallel but these can't -#}
+  {#- Todo: This should probably be represented in data.yaml -#}
+  {%- if substep == "verify-enterprise-contract" %}
+  needs: [gather-deploy-images]
+  {%- elif substep == "download-sbom-from-url-in-attestation" %}
+  needs: [gather-images-to-upload-sbom]
+  {%- endif %}
   script:
     - echo "{{ substep }}"
     - bash /work/rhtap/{{ substep }}.sh
