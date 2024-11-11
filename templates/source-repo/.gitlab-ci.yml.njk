@@ -16,6 +16,7 @@ stages:
 {{ substep }}:
   stage: {{ step.name }}
   {#- By default they run in parallel but this one can't -#}
+  {#- Todo: This should probably be represented in data.yaml -#}
   {%- if substep == "cosign-sign-attest" %}
   needs: [buildah-rhtap]
   {%- endif %}
