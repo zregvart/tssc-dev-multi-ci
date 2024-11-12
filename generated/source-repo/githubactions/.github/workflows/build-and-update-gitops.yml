@@ -96,38 +96,34 @@ jobs:
         cosign version
         ec version
         git config --global --add safe.directory $(pwd)
+        cat rhtap/env.sh
     - name: Init
       run: |
-        echo "Init"
-        echo "init"
+        echo "• init"
         bash /work/rhtap/init.sh
     - name: Build
       run: |
-        echo "Build"
-        echo "buildah-rhtap"
+        echo "• buildah-rhtap"
         bash /work/rhtap/buildah-rhtap.sh
-        echo "cosign-sign-attest"
+        echo "• cosign-sign-attest"
         bash /work/rhtap/cosign-sign-attest.sh
     - name: Scan
       run: |
-        echo "Scan"
-        echo "acs-deploy-check"
+        echo "• acs-deploy-check"
         bash /work/rhtap/acs-deploy-check.sh
-        echo "acs-image-check"
+        echo "• acs-image-check"
         bash /work/rhtap/acs-image-check.sh
-        echo "acs-image-scan"
+        echo "• acs-image-scan"
         bash /work/rhtap/acs-image-scan.sh
     - name: Deploy
       run: |
-        echo "Deploy"
-        echo "update-deployment"
+        echo "• update-deployment"
         bash /work/rhtap/update-deployment.sh
     - name: Summary
       run: |
-        echo "Summary"
-        echo "show-sbom-rhdh"
+        echo "• show-sbom-rhdh"
         bash /work/rhtap/show-sbom-rhdh.sh
-        echo "summary"
+        echo "• summary"
         bash /work/rhtap/summary.sh
     - name: Done
       run: |

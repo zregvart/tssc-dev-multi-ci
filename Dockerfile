@@ -25,10 +25,4 @@ WORKDIR /work
 
 COPY ./rhtap ./rhtap/
 
-# This is for the GitHub pipeline where currently we're not actually
-# running in the container. Instead we copy the scripts and binaries
-# from the image and run them directly. (This may change in future.)
-COPY copy-scripts.sh /work/copy-scripts.sh
-RUN chmod 755 /work/copy-scripts.sh
-
 CMD ["/bin/bash"]
