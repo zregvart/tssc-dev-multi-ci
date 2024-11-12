@@ -96,6 +96,7 @@ jobs:
         cosign version
         ec version
         git config --global --add safe.directory $(pwd)
+        cat rhtap/env.sh
     - name: Init
       run: |
         echo "• init"

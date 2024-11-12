@@ -102,6 +102,7 @@ jobs:
         ec version
         {# So git doesn't throw "dubious ownership" errors -#}
         git config --global --add safe.directory $(pwd)
+        cat rhtap/env.sh
 
 {%- for step in gitops_steps %}
     - name: {{ step.name | title }}

@@ -95,6 +95,7 @@ jobs:
         cosign version
         ec version
         git config --global --add safe.directory $(pwd)
+        cat rhtap/env.sh
     - name: Verify Ec
       run: |
         echo "• gather-deploy-images"
