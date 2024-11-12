@@ -95,6 +95,7 @@ jobs:
         syft --version
         cosign version
         ec version
+        git config --global --add safe.directory $(pwd)
     - name: Init
       run: |
         echo "Init"
