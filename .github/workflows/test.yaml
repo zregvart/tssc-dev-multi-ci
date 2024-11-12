@@ -1,0 +1,133 @@
+# Generated from templates/source-repo/build-and-update-gitops.yml.njk. Do not edit directly.
+
+# 💁 The Gitops Starter workflow will:
+# - Checkout your repository
+# - Perform a TSSC container image build
+# - Push the built image to the users provided registry
+# - Update the deployment yaml
+
+name: TSSC-Build-Attest-Scan-Deploy
+env:
+  CI_TYPE: github
+  # 🖊️ EDIT to change the image registry settings.
+  # Registries such as GHCR, Quay.io, and Docker Hub are supported.
+  IMAGE_REGISTRY: ${{ secrets.IMAGE_REGISTRY }}
+  IMAGE_REGISTRY_USER: ${{ secrets.IMAGE_REGISTRY_USER }}
+  IMAGE_REGISTRY_PASSWORD: ${{ secrets.IMAGE_REGISTRY_PASSWORD }}
+
+  ROX_CENTRAL_ENDPOINT: ${{ secrets.ROX_CENTRAL_ENDPOINT }}
+  ROX_API_TOKEN: ${{ secrets.ROX_API_TOKEN }}
+
+  QUAY_IO_CREDS_USR: ${{ secrets.QUAY_IO_CREDS_USR }}
+  QUAY_IO_CREDS_PSW: ${{ secrets.QUAY_IO_CREDS_PSW }}
+  COSIGN_SECRET_PASSWORD: ${{ secrets.COSIGN_SECRET_PASSWORD }}
+  COSIGN_SECRET_KEY: ${{ secrets.COSIGN_SECRET_KEY }}
+  COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
+  GITOPS_AUTH_PASSWORD: ${{ secrets.GITOPS_AUTH_PASSWORD }}
+
+  # 🖊️ EDIT to specify custom tags for the container image, or default tags will be generated below.
+  IMAGE_TAGS: ""
+  IMAGE_TAG: ""
+  DEFAULT_UPDATE_VIA_PUSH: "true"
+  # 🖊️ EDIT to set a name for your OpenShift app, or a default one will be generated below.
+  APP_NAME: ""
+on: [push, workflow_dispatch]
+
+jobs:
+  tssc-ci-cd:
+    name: Build and send Image Update PR
+    # ubuntu-20.04 can also be used.
+    runs-on: ubuntu-24.04
+    container:
+      image: quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-github
+      options: --privileged
+    environment: production
+
+    steps:
+    - name: Check for required secrets
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const secrets = {
+            IMAGE_REGISTRY: `${{ secrets.IMAGE_REGISTRY }}`,
+            IMAGE_REGISTRY_USER: `${{ secrets.IMAGE_REGISTRY_USER }}`,
+            IMAGE_REGISTRY_PASSWORD: `${{ secrets.IMAGE_REGISTRY_PASSWORD }}`,
+
+            ROX_CENTRAL_ENDPOINT: `${{ secrets.ROX_CENTRAL_ENDPOINT }}`,
+            ROX_API_TOKEN: `${{ secrets.ROX_API_TOKEN }}`,
+
+            QUAY_IO_CREDS_USR: `${{ secrets.QUAY_IO_CREDS_USR }}`,
+            QUAY_IO_CREDS_PSW: `${{ secrets.QUAY_IO_CREDS_PSW }}`,
+
+            COSIGN_SECRET_PASSWORD: `${{ secrets.COSIGN_SECRET_PASSWORD }}`,
+            COSIGN_SECRET_KEY: `${{ secrets.COSIGN_SECRET_KEY }}`,
+            COSIGN_PUBLIC_KEY: `${{ secrets.COSIGN_PUBLIC_KEY }}`,
+
+            GITOPS_AUTH_PASSWORD: `${{ secrets.GITOPS_AUTH_PASSWORD }}`,
+
+          };
+          const missingSecrets = Object.entries(secrets).filter(([ name, value ]) => {
+            if (value.length === 0) {
+              core.error(`Secret "${name}" is not set`);
+              return true;
+            }
+            core.info(`✔️ Secret "${name}" is set`);
+            return false;
+          });
+          if (missingSecrets.length > 0) {
+            core.setFailed(`❌ At least one required secret is not set in the repository. \n` +
+              "You can add it using:\n" +
+              "GitHub UI: https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-a-repository \n" +
+              "GitHub CLI: https://cli.github.com/manual/gh_secret_set \n" +
+              "Also, refer to https://github.com/redhat-actions/oc-login#getting-started-with-the-action-or-see-example");
+          }
+          else {
+            core.info(`✅ All the required secrets are set`);
+          }
+    - name: Check out repository
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: '2'
+    - name: Pre-init
+      run: |
+        buildah --version
+        syft --version
+        cosign version
+        ec version
+        ls -lR
+    - name: Init
+      run: |
+        echo "Init"
+        echo "init"
+        bash /work/rhtap/init.sh
+    - name: Build
+      run: |
+        echo "Build"
+        echo "buildah-rhtap"
+        bash /work/rhtap/buildah-rhtap.sh
+        echo "cosign-sign-attest"
+        bash /work/rhtap/cosign-sign-attest.sh
+    - name: Scan
+      run: |
+        echo "Scan"
+        echo "acs-deploy-check"
+        bash /work/rhtap/acs-deploy-check.sh
+        echo "acs-image-check"
+        bash /work/rhtap/acs-image-check.sh
+        echo "acs-image-scan"
+        bash /work/rhtap/acs-image-scan.sh
+    - name: Deploy
+      run: |
+        echo "Deploy"
+        echo "update-deployment"
+        bash /work/rhtap/update-deployment.sh
+    - name: Summary
+      run: |
+        echo "Summary"
+        echo "show-sbom-rhdh"
+        bash /work/rhtap/show-sbom-rhdh.sh
+        echo "summary"
+        bash /work/rhtap/summary.sh
+    - name: Done
+      run: |
+        echo "Done"
