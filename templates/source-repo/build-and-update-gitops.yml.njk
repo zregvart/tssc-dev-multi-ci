@@ -107,9 +107,8 @@ jobs:
 {%- for step in build_steps %}
     - name: {{ step.name | title }}
       run: |
-        echo "{{ step.name | title }}"
 {%- for substep in step.substeps %}
-        echo "{{ substep }}"
+        echo "• {{ substep }}"
         bash /work/rhtap/{{ substep }}.sh
 {%- endfor -%}
 {%- endfor %}

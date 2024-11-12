@@ -97,17 +97,15 @@ jobs:
         git config --global --add safe.directory $(pwd)
     - name: Verify Ec
       run: |
-        echo "Verify Ec"
-        echo "gather-deploy-images"
+        echo "• gather-deploy-images"
         bash /work/rhtap/gather-deploy-images.sh
-        echo "verify-enterprise-contract"
+        echo "• verify-enterprise-contract"
         bash /work/rhtap/verify-enterprise-contract.sh
     - name: Upload Sbom
       run: |
-        echo "Upload Sbom"
-        echo "gather-images-to-upload-sbom"
+        echo "• gather-images-to-upload-sbom"
         bash /work/rhtap/gather-images-to-upload-sbom.sh
-        echo "download-sbom-from-url-in-attestation"
+        echo "• download-sbom-from-url-in-attestation"
         bash /work/rhtap/download-sbom-from-url-in-attestation.sh
     - name: Done
       run: |
