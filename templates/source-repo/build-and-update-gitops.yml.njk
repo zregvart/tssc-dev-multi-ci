@@ -8,11 +8,11 @@
 
 name: TSSC-Build-Attest-Scan-Deploy
 env:
+  CI_TYPE: github
+
   {#-
     Todo: Use the secret list in data/data.yaml here
   #}
-  CI_TYPE: github
-
   # 🖊️ EDIT to change the image registry settings.
   # Registries such as GHCR, Quay.io, and Docker Hub are supported.
   IMAGE_REGISTRY: ${{ "secrets.IMAGE_REGISTRY" | inCurlies }}
@@ -42,6 +42,9 @@ jobs:
     name: Build and send Image Update PR
     # ubuntu-20.04 can also be used.
     runs-on: ubuntu-24.04
+    container:
+      image: quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner-github
+      options: --privileged
     environment: production
 
     steps:
@@ -93,26 +96,19 @@ jobs:
       with:
         fetch-depth: '2'
     - name: Pre-init
-      run: | 
-        echo "Using quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner"
-        mkdir -p out
-        docker run -v $(pwd)/out:/out quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner bash /work/copy-scripts.sh
-        tree out 
-        sudo chmod +x out/binaries/*
-        sudo mv out/binaries/* /usr/bin
-        cp out/rhtap/* rhtap
-        cat  rhtap/env.sh 
+      run: |
+        buildah --version
         syft --version
         cosign version
-        buildah --version
-        ec version 
+        ec version
 
 {%- for step in build_steps %}
     - name: {{ step.name | title }}
       run: |
         echo "{{ step.name | title }}"
 {%- for substep in step.substeps %}
-        bash rhtap/{{ substep }}.sh
+        echo "{{ substep }}"
+        bash /work/rhtap/{{ substep }}.sh
 {%- endfor -%}
 {%- endfor %}
     - name: Done
