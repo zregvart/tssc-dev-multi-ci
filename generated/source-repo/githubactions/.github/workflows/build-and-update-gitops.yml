@@ -41,6 +41,7 @@ jobs:
     runs-on: ubuntu-24.04
     container:
       image: quay.io/redhat-appstudio/dance-bootstrap-app:rhtap-runner
+      options: --privileged
     environment: production
 
     steps:
